@@ -1,7 +1,10 @@
-import { CartService } from '../../services/cart/cart.service';
+import { STRIPE_API_KEY } from './../../shared/constants';
+import { HttpClient } from '@angular/common/http';
+import { CartService } from '../../services/Cart/Cart.service';
 import { Component, OnInit } from '@angular/core';
 import { Cart, CartItem } from 'src/app/models/cart.model';
 import { TitleStrategy } from '@angular/router';
+import { loadStripe } from '@stripe/stripe-js';
 
 @Component({
   selector: 'app-cart',
@@ -43,7 +46,7 @@ export class CartComponent implements OnInit {
     'total',
     'action',
   ];
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.dataSource = this.cart.items;
@@ -74,5 +77,17 @@ export class CartComponent implements OnInit {
     this.cartService.removeQuantity(item);
   }
 
-  onCheckout(): void {}
+  onCheckout(): void {
+    this.http
+      .post('http://localhost:4242/checkout', {
+        items: this.cart.items,
+      })
+      .subscribe(async (res: any) => {
+        console.dir(res);
+        let stripe = await loadStripe(STRIPE_API_KEY);
+        stripe?.redirectToCheckout({
+          sessionId: res.id,
+        });
+      });
+  }
 }

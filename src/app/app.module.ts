@@ -26,6 +26,9 @@ import { ProductsHeaderComponent } from './pages/home/components/products-header
 import { FiltersComponent } from './pages/home/components/filters/filters.component';
 import { ProductBoxComponent } from './pages/home/components/product-box/product-box.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { PhoneNavbarComponent } from './components/phone-navbar/phone-navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { LayoutComponent } from './components/layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { CartComponent } from './pages/cart/cart.component';
     FiltersComponent,
     ProductBoxComponent,
     CartComponent,
+    PhoneNavbarComponent,
+    FooterComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
