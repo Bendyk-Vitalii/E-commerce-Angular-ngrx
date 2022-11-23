@@ -1,4 +1,4 @@
-import { CartService } from '../../services/cart/cart.service';
+import { CartService } from '../../services/Cart/Cart.service';
 import { Cart, CartItem } from 'src/app/models/cart.model';
 import { Component, Input } from '@angular/core';
 

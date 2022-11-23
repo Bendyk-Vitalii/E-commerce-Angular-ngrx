@@ -1,5 +1,5 @@
 import { Observable, Subscription } from 'rxjs';
-import { StoreService } from './../../../../services/store/store.service';
+import { StoreService } from '../../../../services/store/Store.service';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { STORE_BASE_URL } from 'src/app/shared/constants';
-import { Product } from './../../models/product.model';
+import { Product } from '../../models/product.model';
 
 @Injectable({
   providedIn: 'root',
