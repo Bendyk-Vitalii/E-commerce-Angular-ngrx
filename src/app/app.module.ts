@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { AuthModule } from './pages/auth/auth.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -29,6 +29,8 @@ import { CartComponent } from './pages/cart/cart.component';
 import { PhoneNavbarComponent } from './components/phone-navbar/phone-navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { SharedModule } from './shared/shared.module';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { LayoutComponent } from './components/layout/layout.component';
     PhoneNavbarComponent,
     FooterComponent,
     LayoutComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,8 @@ import { LayoutComponent } from './components/layout/layout.component';
     MatTableModule,
     MatBadgeModule,
     MatSnackBarModule,
-    HttpClientModule,
+    SharedModule,
+    AuthModule,
     StoreModule.forRoot({}, {}),
     StoreModule.forRoot(reducers, {
       metaReducers,

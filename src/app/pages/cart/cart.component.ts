@@ -1,10 +1,9 @@
-import { STRIPE_API_KEY } from './../../shared/constants';
 import { HttpClient } from '@angular/common/http';
-import { CartService } from '../../services/Cart/Cart.service';
 import { Component, OnInit } from '@angular/core';
 import { Cart, CartItem } from 'src/app/models/cart.model';
-import { TitleStrategy } from '@angular/router';
 import { loadStripe } from '@stripe/stripe-js';
+import { STRIPE_API_KEY } from './../../shared/constants';
+import { CartService } from 'src/app/services/cart/Cart.service';
 
 @Component({
   selector: 'app-cart',

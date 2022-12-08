@@ -1,8 +1,9 @@
-import { StoreService } from '../../services/store/Store.service';
-import { Product } from './../../models/product.model';
-import { CartService } from '../../services/Cart/Cart.service';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { Product } from './../../models/product.model';
+import { CartService } from '../../services/cart/Cart.service';
+import { StoreService } from 'src/app/services/store/Store.service';
 
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 
