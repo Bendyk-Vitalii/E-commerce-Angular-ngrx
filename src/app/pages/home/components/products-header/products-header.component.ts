@@ -1,8 +1,15 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-products-header',
   templateUrl: './products-header.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductsHeaderComponent implements OnInit {
   @Output() columnsCountChange = new EventEmitter<number>();

@@ -1,12 +1,15 @@
 import { RouterModule, Routes } from '@angular/router';
-import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
-import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { LoginComponent } from './login-page/login.component';
-import { RegistrationComponent } from './registration-page/registration.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
+import { SharedModule } from '@shared';
+import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
+import { LoginComponent } from './login-page';
+import { RegistrationComponent } from './registration-page';
 
 const routes: Routes = [
   {
@@ -28,6 +31,8 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
     FormsModule,
     SharedModule,
     RouterModule.forChild(routes),

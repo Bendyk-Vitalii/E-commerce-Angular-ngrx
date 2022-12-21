@@ -19,3 +19,10 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+:host { 
+  ::ng-deep .mat-h2 {
+  margin-bottom: 0 !important;
+ }
+}
+

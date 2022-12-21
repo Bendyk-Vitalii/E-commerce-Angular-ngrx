@@ -1,7 +1,9 @@
-import { AuthModule } from './pages/auth/auth.module';
+import { ProductEffects } from './store/products/products.effects';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -14,33 +16,24 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { HomeModule } from './pages/home/home.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
-import { HeaderComponent } from './components/header/header.component';
-import { HomeComponent } from './pages/home/home.component';
-import { ProductsHeaderComponent } from './pages/home/components/products-header/products-header.component';
-import { FiltersComponent } from './pages/home/components/filters/filters.component';
-import { ProductBoxComponent } from './pages/home/components/product-box/product-box.component';
-import { CartComponent } from './pages/cart/cart.component';
-import { PhoneNavbarComponent } from './components/phone-navbar/phone-navbar.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { LayoutComponent } from './components/layout/layout.component';
-import { SharedModule } from './shared/shared.module';
-import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { HeaderComponent } from '@components/header';
+import { PageNotFoundComponent } from '@pages/page-not-found';
+import { LayoutComponent } from '@layout';
+import { FooterComponent } from '@components/footer';
+import { PhoneNavbarComponent } from '@components/phone-navbar';
+import { SharedModule } from '@shared';
+import { AuthModule } from '@pages/auth';
+import { productsReducer } from './store/products/products.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
-    ProductsHeaderComponent,
-    FiltersComponent,
-    ProductBoxComponent,
-    CartComponent,
     PhoneNavbarComponent,
     FooterComponent,
     LayoutComponent,
@@ -52,22 +45,23 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
     BrowserAnimationsModule,
     MatSidenavModule,
     MatGridListModule,
-    MatMenuModule,
     MatButtonModule,
-    MatCardModule,
-    MatIconModule,
     MatExpansionModule,
-    MatListModule,
     MatToolbarModule,
-    MatTableModule,
     MatBadgeModule,
     MatSnackBarModule,
+    MatIconModule,
+    MatMenuModule,
     SharedModule,
     AuthModule,
-    StoreModule.forRoot({}, {}),
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-    }),
+    HomeModule,
+    StoreModule.forRoot({ products: productsReducer }),
+    EffectsModule.forRoot([ProductEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+
+    // StoreModule.forRoot(reducers, {
+    //   metaReducers,
+    // }),
   ],
   providers: [],
   bootstrap: [AppComponent],

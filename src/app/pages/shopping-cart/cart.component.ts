@@ -1,41 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Cart, CartItem } from 'src/app/models/cart.model';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
-import { STRIPE_API_KEY } from './../../shared/constants';
-import { CartService } from 'src/app/services/cart/Cart.service';
+
+import { Cart, CartItem } from '@models';
+import { STRIPE_API_KEY } from '@shared';
+import { CartService } from '@services';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartComponent implements OnInit {
-  cart: Cart = {
-    items: [
-      {
-        product: 'https://via.placeholder.com/150',
-        name: 'test',
-        price: 1,
-        quantity: 2,
-        id: 3,
-      },
-      {
-        product: 'https://via.placeholder.com/150',
-        name: 'test',
-        price: 1,
-        quantity: 3,
-        id: 2,
-      },
-      {
-        product: 'https://via.placeholder.com/150',
-        name: 'test',
-        price: 1,
-        quantity: 5,
-        id: 1,
-      },
-    ],
-  };
+  cart: Cart | undefined;
   dataSource: Array<CartItem> = [];
   displayedColumns: Array<string> = [
     'product',
@@ -48,8 +26,6 @@ export class CartComponent implements OnInit {
   constructor(private cartService: CartService, private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.dataSource = this.cart.items;
-
     this.cartService.cart.subscribe((_cart: Cart) => {
       this.cart = _cart;
       this.dataSource = this.cart.items;
@@ -77,16 +53,20 @@ export class CartComponent implements OnInit {
   }
 
   onCheckout(): void {
-    this.http
-      .post('http://localhost:4242/checkout', {
-        items: this.cart.items,
-      })
-      .subscribe(async (res: any) => {
-        console.dir(res);
-        let stripe = await loadStripe(STRIPE_API_KEY);
-        stripe?.redirectToCheckout({
-          sessionId: res.id,
+    if (this.cart?.items) {
+      this.http
+        .post('http://localhost:4242/checkout', {
+          items: this.cart.items,
+        })
+        .subscribe(async (res: any) => {
+          console.dir(res);
+          let stripe = await loadStripe(STRIPE_API_KEY);
+          stripe?.redirectToCheckout({
+            sessionId: res.id,
+          });
         });
-      });
+    } else {
+      return;
+    }
   }
 }

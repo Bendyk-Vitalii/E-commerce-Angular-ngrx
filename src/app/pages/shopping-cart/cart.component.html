@@ -1,4 +1,4 @@
-<mat-card *ngIf="cart.items.length" class="max-w-7x1 mx-auto">
+<mat-card *ngIf="cart?.items?.length" class="max-w-7x1 mx-auto">
   <table mat-table [dataSource]="dataSource" class="mat-elevention-z8 w-full">
     <ng-container matColumnDef="product">
       <th mat-header-cell *matHeaderCellDef>Product</th>
@@ -63,7 +63,7 @@
       </td>
       <td mat-footer-cell *matFooterCellDef>
         <span class="font-bold py-5 block">
-          {{ getTotal(cart.items) | currency }}
+          {{ getTotal(cart!.items) | currency }}
         </span>
       </td>
     </ng-container>
@@ -91,6 +91,7 @@
       </td>
       <td mat-footer-cell *matFooterCellDef>
         <button
+          [disabled]="!cart?.items?.length"
           (click)="onCheckout()"
           mat-raised-button
           color="primary"
@@ -107,7 +108,7 @@
   </table>
 </mat-card>
 
-<mat-card *ngIf="!cart.items.length" class="max-w-7x1 mx-auto">
+<mat-card *ngIf="!cart?.items?.length" class="max-w-7x1 mx-auto">
   <span>
     You cart is empty.
     <button

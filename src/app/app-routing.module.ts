@@ -1,11 +1,9 @@
-import { RegistrationComponent } from './pages/auth/registration-page/registration.component';
-import { LoginComponent } from './pages/auth/login-page/login.component';
+import { HomeModule } from './pages/home/home.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { CartComponent } from './pages/cart/cart.component';
-import { HomeComponent } from './pages/home/home.component';
-import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './pages/page-not-found';
+import { CartComponent } from './pages/shopping-cart';
 
 const routes: Routes = [
   {
@@ -13,7 +11,8 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HomeComponent,
+        loadChildren: () =>
+          import('./pages/home/home.module').then((x) => x.HomeModule),
       },
       {
         path: 'cart',
@@ -28,8 +27,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () =>
-      import('./pages/auth/auth.module').then((x) => x.AuthModule),
+    loadChildren: () => import('./pages/auth').then((x) => x.AuthModule),
   },
   { path: '**', component: PageNotFoundComponent },
 ];

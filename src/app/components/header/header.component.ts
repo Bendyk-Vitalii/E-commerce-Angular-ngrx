@@ -1,11 +1,12 @@
-import { CartService } from '../../services/cart/Cart.service';
-import { Cart, CartItem } from 'src/app/models/cart.model';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Cart, CartItem } from '@models';
+import { CartService } from '@services';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
   private _cart: Cart = { items: [] };

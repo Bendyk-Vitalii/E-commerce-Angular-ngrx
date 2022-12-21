@@ -1,11 +1,12 @@
-import { CartService } from './services/cart/Cart.service';
-import { Component, OnInit } from '@angular/core';
+import { CartService } from './services/Cart.service';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Cart } from './models/cart.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
   title = 'amazing-shop';

@@ -1,27 +1,35 @@
 import { Observable, Subscription } from 'rxjs';
-import { StoreService } from '../../../../services/store/Store.service';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { ApiService } from '../../../../services/Api.service';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FiltersComponent implements OnInit {
   @Output() showCategory = new EventEmitter<string>();
   private categoriesSubscription: Subscription | undefined;
-  public categories: string[] | undefined;
+  public categories$!: Observable<string[]>;
 
-  constructor(private readonly storeService: StoreService) {}
+  constructor(private readonly apiService: ApiService) {}
 
   ngOnInit(): void {
     this.getCategories();
   }
 
   private getCategories(): void {
-    this.categoriesSubscription = this.storeService
+    this.categories$ = this.apiService
       .getAllCategories()
-      .subscribe((response) => {
-        this.categories = response;
+      .pipe((_categories) => {
+        return _categories;
       });
   }
 

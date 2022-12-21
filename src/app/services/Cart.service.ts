@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
 
-import { DEFAULT_DURATION } from '../../shared/constants';
-import { Cart, CartItem } from 'src/app/models/cart.model';
+import * as ProductsActions from '../store/products/products.actions';
+import { Cart, CartItem } from '../models/cart.model';
+import { DEFAULT_DURATION } from '@shared';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +13,13 @@ import { Cart, CartItem } from 'src/app/models/cart.model';
 export class CartService {
   public cart = new BehaviorSubject<Cart>({ items: [] });
 
-  constructor(private _snackBar: MatSnackBar) {}
+  constructor(
+    private _snackBar: MatSnackBar,
+    private store: Store<{ products: CartItem[] }>
+  ) {}
 
   addToCart(item: CartItem) {
-    const items = [...this.cart.value.items];
+    const items: CartItem[] = [...this.cart.value.items];
 
     const itemInCart = items.find((_item) => _item.id === item.id);
 
@@ -23,9 +28,9 @@ export class CartService {
     } else {
       items.push(item);
     }
+    //this.store.dispatch(new ProductsActions.AddProductToCart(items));
     this.cart.next({ items });
     this._snackBar.open('1 item added to cart', 'Ok', { duration: 3000 });
-    console.log(this.cart.value);
   }
 
   getTotal(items: Array<CartItem>): number {
