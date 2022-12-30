@@ -1,3 +1,4 @@
+import { CheckNullPipe } from './../../shared/pipes/check-null.pipe';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { CommonModule } from '@angular/common';
@@ -15,10 +16,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { ProductEffects } from './../../store/products/products.effects';
 import { SharedModule } from '@shared';
 import { RouterModule, Routes } from '@angular/router';
-// import { ProductsHeaderComponent } from './components/products-header/products-header.component';
 import { ProductBoxComponent } from './components/product-box/product-box.component';
 import { HomeComponent } from './home.component';
 
@@ -55,7 +54,6 @@ const routes: Routes = [
     MatBadgeModule,
     MatSnackBarModule,
     MatListModule,
-    EffectsModule.forFeature([ProductEffects]),
     RouterModule.forChild(routes),
   ],
 })

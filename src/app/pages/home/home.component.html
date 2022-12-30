@@ -4,6 +4,7 @@
 >
   <mat-drawer mode="side" opened class="p-6">
     <app-filters
+      [categories]="categories$ | async"
       (showCategory)="onShowCategory($event)"
       class="max-md:hidden"
     ></app-filters>
@@ -21,7 +22,7 @@
       [rowHeight]="rowHeight"
       class="col-sm-1"
     >
-      <mat-grid-tile *ngFor="let product of products$ | async">
+      <!-- <mat-grid-tile *ngFor="let product of products$ | async">
         <app-product-box
           [product]="product"
           trackBy:product.id
@@ -29,7 +30,7 @@
           class="w-full"
         >
         </app-product-box>
-      </mat-grid-tile>
+      </mat-grid-tile> -->
     </mat-grid-list>
   </mat-drawer-content>
 </mat-drawer-container>
