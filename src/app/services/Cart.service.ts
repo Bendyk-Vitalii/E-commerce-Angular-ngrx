@@ -3,7 +3,6 @@ import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 
-import * as ProductsActions from '../store/products/products.actions';
 import { Cart, CartItem } from '../models/cart.model';
 import { DEFAULT_DURATION } from '@shared';
 

@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   public category: string | undefined;
   public rowHeight = ROWS_HEIGHT[this.cols];
   public products$ = this.store.select(productsSelector);
-  public test: any;
+
   public sort = 'desc';
   public count = '12';
   public productsSubscription: Subscription | undefined;

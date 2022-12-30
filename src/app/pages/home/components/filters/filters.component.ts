@@ -1,13 +1,17 @@
-import { Observable, Subscription } from 'rxjs';
-import { ApiService } from '../../../../services/Api.service';
 import {
   Component,
   OnInit,
   Output,
   EventEmitter,
-  Input,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import { selectCategories } from './../../../../store/products/products.selectors';
+import { CategoriesApiActions } from './../../../../store/products/products.actions';
+import { ApiService } from '../../../../services/Api.service';
+
+import { AppStateInterface } from 'src/app/models/appState.model';
 
 @Component({
   selector: 'app-filters',
@@ -16,30 +20,32 @@ import {
 })
 export class FiltersComponent implements OnInit {
   @Output() showCategory = new EventEmitter<string>();
-  private categoriesSubscription: Subscription | undefined;
-  public categories$!: Observable<string[]>;
+  public categories$ = this.store.select(selectCategories);
 
-  constructor(private readonly apiService: ApiService) {}
+  constructor(
+    private readonly apiService: ApiService,
+    private store: Store<AppStateInterface>
+  ) {}
 
   ngOnInit(): void {
     this.getCategories();
+    this.store.dispatch({ type: '[Products API] Retrieved Categories List' });
+    this.store
+      .select(selectCategories)
+      .subscribe((payload) => console.dir(payload));
   }
 
   private getCategories(): void {
-    this.categories$ = this.apiService
+    this.apiService
       .getAllCategories()
-      .pipe((_categories) => {
-        return _categories;
-      });
+      .subscribe((categories) =>
+        this.store.dispatch(
+          CategoriesApiActions.retrievedCategoriesList({ categories })
+        )
+      );
   }
 
   onShowCategory(category: string): void {
     this.showCategory.emit(category);
-  }
-
-  ngOnDestroy(): void {
-    if (this.categoriesSubscription) {
-      this.categoriesSubscription.unsubscribe();
-    }
   }
 }

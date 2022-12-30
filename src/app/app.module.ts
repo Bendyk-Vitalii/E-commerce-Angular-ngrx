@@ -26,7 +26,10 @@ import { FooterComponent } from '@components/footer';
 import { PhoneNavbarComponent } from '@components/phone-navbar';
 import { SharedModule } from '@shared';
 import { AuthModule } from '@pages/auth';
-import { productsReducer } from './store/products/products.reducer';
+import {
+  productsReducer,
+  categoriesReducer,
+} from './store/products/products.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
@@ -55,9 +58,15 @@ import { environment } from '../environments/environment';
     SharedModule,
     AuthModule,
     HomeModule,
-    StoreModule.forRoot({ products: productsReducer }),
+    StoreModule.forRoot({
+      products: productsReducer,
+      categories: categoriesReducer,
+    }),
     EffectsModule.forRoot([ProductEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
 
     // StoreModule.forRoot(reducers, {
     //   metaReducers,
