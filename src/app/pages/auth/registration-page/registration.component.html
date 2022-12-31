@@ -1,0 +1,50 @@
+<h1 class="mat-h1 pt-16">Create account</h1>
+<p class="mt-2">
+  Already have an account?
+  <a class="text-cyan-500" [routerLink]="['/login']">Sign in</a>
+</p>
+<form mat-form class="flex-col mt-10">
+  <h4 class="mat-h4 font-bold">Your name</h4>
+  <mat-form-field class="min-w-full" appearance="fill">
+    <mat-label>Enter your first name</mat-label>
+    <input matInput placeholder="First name" [formControl]="name" required />
+    <mat-error *ngIf="name.invalid">{{ getErrorMessage() }}</mat-error>
+  </mat-form-field>
+
+  <h4 class="mat-h4 font-bold">Email</h4>
+  <mat-form-field class="min-w-full" appearance="fill">
+    <mat-label>Enter your email</mat-label>
+    <input
+      matInput
+      placeholder="pat@example.com"
+      [formControl]="email"
+      required
+    />
+    <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
+  </mat-form-field>
+
+  <h4 class="mat-h4 font-bold">Password</h4>
+  <mat-form-field class="min-w-full" appearance="fill">
+    <mat-label>Enter your password</mat-label>
+    <input
+      matInput
+      placeholder="At least 6 characters"
+      [formControl]="password"
+      required
+    />
+    <mat-error *ngIf="password.invalid">{{ getErrorMessage() }}</mat-error>
+  </mat-form-field>
+  <h4 class="mat-h4 font-bold">Re-enter password</h4>
+  <mat-form-field class="min-w-full" appearance="fill">
+    <mat-label>Enter your password again</mat-label>
+    <input matInput [formControl]="password" required />
+    <!-- <mat-error *ngIf="password.invalid">{{ getErrorMessage() }}</mat-error> -->
+  </mat-form-field>
+  <button
+    mat-button
+    class="bg-indigo-500 color-neutral-100 min-w-full text-center"
+    type="submit"
+  >
+    Continue
+  </button>
+</form>

@@ -1,47 +1,42 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { HomeModule } from './pages/home/home.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
-import { HeaderComponent } from './components/header/header.component';
-import { HomeComponent } from './pages/home/home.component';
-import { ProductsHeaderComponent } from './pages/home/components/products-header/products-header.component';
-import { FiltersComponent } from './pages/home/components/filters/filters.component';
-import { ProductBoxComponent } from './pages/home/components/product-box/product-box.component';
-import { CartComponent } from './pages/cart/cart.component';
-import { PhoneNavbarComponent } from './components/phone-navbar/phone-navbar.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { LayoutComponent } from './components/layout/layout.component';
+import { HeaderComponent } from '@components/header';
+import { PageNotFoundComponent } from '@pages/page-not-found';
+import { LayoutComponent } from '@layout';
+import { FooterComponent } from '@components/footer';
+import { PhoneNavbarComponent } from '@components/phone-navbar';
+import { AuthModule } from '@pages/auth';
+
+import { environment } from '../environments/environment';
+import { ProductEffects } from '@pages/home/store/products/products.effects';
+import { appReducer } from './store/app.reducer';
+import { CategoriesEffects } from '@pages/home/store/categories/categories.effects';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
-    ProductsHeaderComponent,
-    FiltersComponent,
-    ProductBoxComponent,
-    CartComponent,
     PhoneNavbarComponent,
     FooterComponent,
     LayoutComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,21 +44,25 @@ import { LayoutComponent } from './components/layout/layout.component';
     BrowserAnimationsModule,
     MatSidenavModule,
     MatGridListModule,
-    MatMenuModule,
     MatButtonModule,
-    MatCardModule,
-    MatIconModule,
     MatExpansionModule,
-    MatListModule,
     MatToolbarModule,
-    MatTableModule,
     MatBadgeModule,
     MatSnackBarModule,
-    HttpClientModule,
-    StoreModule.forRoot({}, {}),
-    StoreModule.forRoot(reducers, {
-      metaReducers,
+    MatIconModule,
+    MatMenuModule,
+    AuthModule,
+    HomeModule,
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot([ProductEffects, CategoriesEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
     }),
+
+    // StoreModule.forRoot(reducers, {
+    //   metaReducers,
+    // }),
   ],
   providers: [],
   bootstrap: [AppComponent],

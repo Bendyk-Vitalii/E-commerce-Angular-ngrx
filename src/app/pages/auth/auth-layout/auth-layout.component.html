@@ -1,0 +1,12 @@
+<div
+  class="grid gap-4 place-content-evenly"
+  [ngClass]="{ 'grid-cols-2': screenWidth > 800 }"
+>
+  <ng-container *ngIf="screenWidth > 800">
+    <section class="fullScreenSlider"></section>
+  </ng-container>
+
+  <section class="max-w-md">
+    <router-outlet></router-outlet>
+  </section>
+</div>

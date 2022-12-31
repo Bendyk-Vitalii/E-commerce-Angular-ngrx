@@ -1,23 +1,35 @@
+import { HomeModule } from './pages/home/home.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { CartComponent } from './pages/cart/cart.component';
-import { HomeComponent } from './pages/home/home.component';
+import { PageNotFoundComponent } from './pages/page-not-found';
+import { CartComponent } from './pages/shopping-cart';
 
 const routes: Routes = [
   {
-    path: 'home',
-    component: HomeComponent,
-  },
-  {
-    path: 'cart',
-    component: CartComponent,
+    path: '',
+    children: [
+      {
+        path: 'home',
+        loadChildren: () =>
+          import('./pages/home/home.module').then((x) => x.HomeModule),
+      },
+      {
+        path: 'cart',
+        component: CartComponent,
+      },
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    loadChildren: () => import('./pages/auth').then((x) => x.AuthModule),
   },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({

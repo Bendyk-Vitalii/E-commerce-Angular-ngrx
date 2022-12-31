@@ -1,15 +1,21 @@
-<mat-toolbar class="justify-between max-w-7xl mx-auto border-x">
+<mat-toolbar class="justify-between max-w-7xl mx-auto border-x bg-indigo-500">
   <a routerLink="home" class="mat-h2">toolbar</a>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon
-      matBadgeColor="warn"
-      [matBadge]="itemsQuantity"
-      [matBadgeHidden]="!itemsQuantity"
-    >
-      shopping_cart</mat-icon
-    >
-  </button>
-
+  <div>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon
+        matBadgeColor="warn"
+        [matBadge]="itemsQuantity"
+        [matBadgeHidden]="!itemsQuantity"
+      >
+        shopping_cart</mat-icon
+      >
+    </button>
+    <button mat-icon-button>
+      <a routerLink="login">
+        <mat-icon class="font-medium mt-3"> person__icon </mat-icon>
+      </a>
+    </button>
+  </div>
   <mat-menu #menu="matMenu">
     <div class="p-3 divide-y divide-solid">
       <div class="pb-3 flex justify-between">
@@ -48,7 +54,9 @@
             [matBadge]="itemsQuantity"
             [matBadgeHidden]="!itemsQuantity"
             matBadgeColor="warn"
-            >shopping_cart</mat-icon
+            class="mt-1"
+          >
+            shopping_cart</mat-icon
           >
         </button>
       </div>

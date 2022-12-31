@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-phone-navbar',
   templateUrl: './phone-navbar.component.html',
-  styleUrls: ['./phone-navbar.component.scss']
+  styleUrls: ['./phone-navbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhoneNavbarComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

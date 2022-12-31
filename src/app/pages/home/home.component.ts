@@ -1,8 +1,14 @@
-import { StoreService } from '../../services/store/Store.service';
-import { Product } from './../../models/product.model';
-import { CartService } from '../../services/Cart/Cart.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import { CartService } from '@services';
+import { Product } from '@models';
+import { ProductsApiActions } from './store/products/products.actions';
+import { productsSelector } from './store/products/products.selectors';
+import { selectCategories } from './store/categories/categories.selectors';
+import { retrieveCategories } from './store/categories/categories.action';
+import { AppState } from 'src/app/store/app.reducer';
 
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 
@@ -10,37 +16,51 @@ const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
+  private screenWidth!: number;
   public cols!: number;
-  public category: string | undefined;
+  public category?: string;
   public rowHeight = ROWS_HEIGHT[this.cols];
-  public products: Product[] | undefined;
+  public products$ = this.store
+    .select((store) => store.products.products)
+    .pipe((products) => products);
+  public categories$ = this.store
+    .select((store) => store.categories.categories)
+    .pipe((categories) => categories);
+
   public sort = 'desc';
   public count = '12';
-  public productsSubscription: Subscription | undefined;
+  public productsSubscription?: Subscription;
 
   constructor(
     private cartService: CartService,
-    private storeService: StoreService
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
     this.getProducts();
+    this.getCategories();
     this.onColumnsCountChange(3);
   }
 
-  getProducts(): void {
-    this.productsSubscription = this.storeService
-      .getAllProducts(this.count, this.sort, this.category)
-      .subscribe((_products) => {
-        this.products = _products;
-      });
+  private getProducts(): void {
+    this.store.dispatch(
+      ProductsApiActions.retrievedProductsList({
+        count: this.count,
+        sort: this.sort,
+      })
+    );
+  }
+
+  private getCategories(): void {
+    this.store.dispatch(retrieveCategories());
   }
 
   onColumnsCountChange(colsNumber: number) {
-    if (window.screen.width <= 360) {
-      // 768px portrait
+    if (this.screenWidth <= 700) {
       this.cols = 1;
       this.rowHeight = ROWS_HEIGHT[this.cols];
     } else {
@@ -72,13 +92,5 @@ export class HomeComponent implements OnInit {
       quantity: 1,
       id: product.id,
     });
-  }
-
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    if (this.productsSubscription) {
-      this.productsSubscription.unsubscribe();
-    }
   }
 }
