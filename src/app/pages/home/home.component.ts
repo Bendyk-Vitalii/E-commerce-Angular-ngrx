@@ -24,10 +24,10 @@ export class HomeComponent implements OnInit {
   public category?: string;
   public rowHeight = ROWS_HEIGHT[this.cols];
   public products$ = this.store
-    .select(productsSelector)
-    .subscribe((products) => console.dir(products));
+    .select((store) => store.products.products)
+    .pipe((products) => products);
   public categories$ = this.store
-    .select(selectCategories)
+    .select((store) => store.categories.categories)
     .pipe((categories) => categories);
 
   public sort = 'desc';
