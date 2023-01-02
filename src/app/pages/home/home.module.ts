@@ -1,20 +1,17 @@
-import { CheckNullPipe } from './../../shared/pipes/check-null.pipe';
+import { MatCardModule } from '@angular/material/card';
 import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
 import { CommonModule } from '@angular/common';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 import { SharedModule } from '@shared';
 import { RouterModule, Routes } from '@angular/router';
@@ -22,7 +19,6 @@ import { ProductBoxComponent } from './components/product-box/product-box.compon
 import { HomeComponent } from './home.component';
 
 import { FiltersComponent, ProductsHeaderComponent } from './components';
-import { CartComponent } from '@pages/shopping-cart';
 
 const routes: Routes = [
   {
@@ -34,7 +30,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     HomeComponent,
-    CartComponent,
     FiltersComponent,
     ProductBoxComponent,
     ProductsHeaderComponent,
@@ -42,16 +37,15 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
-    MatCardModule,
     MatSidenavModule,
-    MatIconModule,
     MatMenuModule,
-    MatTableModule,
     MatGridListModule,
     MatButtonModule,
     MatExpansionModule,
     MatToolbarModule,
+    MatIconModule,
     MatBadgeModule,
+    MatCardModule,
     MatSnackBarModule,
     MatListModule,
     RouterModule.forChild(routes),
