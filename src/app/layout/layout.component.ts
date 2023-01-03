@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
+import { Cart } from '../models/cart.model';
+import { CartService } from '../services/Cart.service';
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -7,7 +10,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-  constructor() {}
+  cart: Cart = { items: [] };
+  constructor(private cartService: CartService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cartService.cart.subscribe((_cart) => {
+      this.cart = _cart;
+    });
+  }
 }
