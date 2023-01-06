@@ -1,4 +1,4 @@
-<mat-card *ngIf="cart?.items?.length" class="max-w-7x1 mx-auto">
+<mat-card *ngIf="cart?.items?.length;else emptyCart" class="max-w-7x1 mx-auto">
   <table mat-table [dataSource]="dataSource" class="mat-elevention-z8 w-full">
     <ng-container matColumnDef="product">
       <th mat-header-cell *matHeaderCellDef>Product</th>
@@ -107,8 +107,8 @@
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
 </mat-card>
-
-<mat-card *ngIf="!cart?.items?.length" class="max-w-7x1 mx-auto">
+<ng-template #emptyCart>
+<mat-card class="max-w-7x1 mx-auto h-screen">
   <span>
     You cart is empty.
     <button
@@ -120,3 +120,4 @@
     </button>
   </span>
 </mat-card>
+</ng-template>

@@ -27,7 +27,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: '',
+    path: 'auth',
     loadChildren: () => import('./pages/auth').then((x) => x.AuthModule),
   },
   { path: '**', component: PageNotFoundComponent },

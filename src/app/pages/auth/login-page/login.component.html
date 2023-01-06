@@ -1,19 +1,30 @@
-<h1 class="mat-h1 pt-16">Sign in</h1>
+<h1 class="mat-h1">Sign in</h1>
 <p class="mt-2">
   Don't have an account?
-  <a class="text-cyan-500" [routerLink]="['/registration']">Sign up now</a>
+  <a class="text-cyan-500" [routerLink]="['/auth/registration']">Sign up now</a>
 </p>
-<form mat-form class="flex-col mt-10">
+<form mat-form class="flex-col mt-10" (ngSubmit)="submit()" [formGroup]="form">
   <h4 class="mat-h4 font-bold">Email</h4>
   <mat-form-field class="min-w-full" appearance="fill">
     <mat-label>Enter your email</mat-label>
     <input
       matInput
       placeholder="pat@example.com"
+      formControlName="email"
       [formControl]="email"
+      autocomplete
       required
     />
-    <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
+    <ng-container *ngFor="let validation of signInValidation.email">
+      <mat-error
+        *ngIf="
+          emailInput.hasError(validation.type) &&
+          (emailInput.dirty || emailInput.touched)
+        "
+      >
+        {{ validation.message }}</mat-error
+      >
+    </ng-container>
   </mat-form-field>
 
   <h4 class="mat-h4 font-bold">Password</h4>
@@ -25,7 +36,9 @@
       [formControl]="password"
       required
     />
-    <mat-error *ngIf="password.invalid">{{ getErrorMessage() }}</mat-error>
+    <ng-container *ngIf="password.invalid">
+      <mat-error>{{ getErrorMessage() }}</mat-error>
+    </ng-container>
   </mat-form-field>
   <button
     mat-button

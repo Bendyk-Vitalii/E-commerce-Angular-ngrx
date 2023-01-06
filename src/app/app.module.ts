@@ -21,7 +21,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from '@components/header';
 import { PageNotFoundComponent } from '@pages/page-not-found';
 import { LayoutComponent } from '@layout';
-import { FooterComponent } from '@components/footer';
 import { PhoneNavbarComponent } from '@components/phone-navbar';
 import { AuthModule } from '@pages/auth';
 
@@ -35,7 +34,6 @@ import { CategoriesEffects } from '@pages/home/store/categories/categories.effec
     AppComponent,
     HeaderComponent,
     PhoneNavbarComponent,
-    FooterComponent,
     LayoutComponent,
     PageNotFoundComponent,
   ],

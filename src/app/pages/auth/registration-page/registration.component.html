@@ -3,12 +3,28 @@
   Already have an account?
   <a class="text-cyan-500" [routerLink]="['/login']">Sign in</a>
 </p>
-<form mat-form class="flex-col mt-10">
+<form mat-form class="flex-col mt-10" [formGroup]="form" (ngSubmit)="submit()">
   <h4 class="mat-h4 font-bold">Your name</h4>
   <mat-form-field class="min-w-full" appearance="fill">
     <mat-label>Enter your first name</mat-label>
-    <input matInput placeholder="First name" [formControl]="name" required />
-    <mat-error *ngIf="name.invalid">{{ getErrorMessage() }}</mat-error>
+    <input
+      matInput
+      placeholder="First name"
+      [formControlName="userName"
+      ]
+      type="text"
+      required
+    />
+
+    <ng-container *ngFor="let validation of registrationValidation.userName">
+      <mat-error
+        *ngIf="
+          userName.hasError(validation.type) &&
+          (userName.dirty || userName.touched)
+        "
+        >{{ validation.message }}</mat-error
+      >
+    </ng-container>
   </mat-form-field>
 
   <h4 class="mat-h4 font-bold">Email</h4>
@@ -17,10 +33,13 @@
     <input
       matInput
       placeholder="pat@example.com"
-      [formControl]="email"
+      [formControlName="email"
+      ]
       required
     />
-    <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
+    <ng-container *ngFor="let validation of registrationValidation.email">
+      <mat-error *ngIf="email.invalid">{{ validation.message }}</mat-error>
+    </ng-container>
   </mat-form-field>
 
   <h4 class="mat-h4 font-bold">Password</h4>
@@ -29,16 +48,21 @@
     <input
       matInput
       placeholder="At least 6 characters"
-      [formControl]="password"
+      [formControlName="password"
+      ]
       required
     />
-    <mat-error *ngIf="password.invalid">{{ getErrorMessage() }}</mat-error>
+    <ng-container *ngFor="let validation of registrationValidation.email">
+      <mat-error *ngIf="password.invalid">{{ validation.message }}</mat-error>
+    </ng-container>
   </mat-form-field>
   <h4 class="mat-h4 font-bold">Re-enter password</h4>
   <mat-form-field class="min-w-full" appearance="fill">
     <mat-label>Enter your password again</mat-label>
-    <input matInput [formControl]="password" required />
-    <!-- <mat-error *ngIf="password.invalid">{{ getErrorMessage() }}</mat-error> -->
+    <input matInput [formControlName="confirmPassword" ] required />
+    <ng-container *ngFor="let validation of registrationValidation.email">
+      <mat-error *ngIf="password.invalid">{{ validation.message }}</mat-error>
+    </ng-container>
   </mat-form-field>
   <button
     mat-button
