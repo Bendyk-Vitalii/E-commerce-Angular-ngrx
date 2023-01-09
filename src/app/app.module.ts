@@ -1,4 +1,3 @@
-import { CartModule } from './pages/shopping-cart/cart.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,10 +18,10 @@ import { HomeModule } from './pages/home/home.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from '@components/header';
-import { PageNotFoundComponent } from '@pages/page-not-found';
 import { LayoutComponent } from '@layout';
 import { PhoneNavbarComponent } from '@components/phone-navbar';
 import { AuthModule } from '@pages/auth';
+import { CartModule } from './pages/shopping-cart/cart.module';
 
 import { environment } from '../environments/environment';
 import { ProductEffects } from '@pages/home/store/products/products.effects';
@@ -35,7 +34,6 @@ import { CategoriesEffects } from '@pages/home/store/categories/categories.effec
     HeaderComponent,
     PhoneNavbarComponent,
     LayoutComponent,
-    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,10 +57,6 @@ import { CategoriesEffects } from '@pages/home/store/categories/categories.effec
       maxAge: 25,
       logOnly: environment.production,
     }),
-
-    // StoreModule.forRoot(reducers, {
-    //   metaReducers,
-    // }),
   ],
   providers: [],
   bootstrap: [AppComponent],
