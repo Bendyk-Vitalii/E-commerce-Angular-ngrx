@@ -8,14 +8,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 import { SharedModule } from '@shared';
-import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { LoginComponent } from './login-page';
 import { RegistrationComponent } from './registration-page';
 
 const routes: Routes = [
   {
     path: '',
-    component: AuthLayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },
       {
@@ -27,7 +25,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegistrationComponent, AuthLayoutComponent],
+  declarations: [LoginComponent, RegistrationComponent],
   imports: [
     CommonModule,
     SharedModule,

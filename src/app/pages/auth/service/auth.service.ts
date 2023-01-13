@@ -10,6 +10,7 @@ import { catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserModel } from './user.model';
 import { AuthServerResponse } from './server.model';
+import { FormGroup } from '@angular/forms';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

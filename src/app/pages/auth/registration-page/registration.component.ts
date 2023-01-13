@@ -1,21 +1,30 @@
-import { registrationValidationTypes } from './../constants';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { forbiddenLoginValue, forbiddenPasswordRegExp } from '../constants';
+import {
+  forbiddenLoginValue,
+  forbiddenPasswordRegExp,
+  registrationValidationTypes,
+} from '../constants';
+import { confirmPasswordValidator } from '../helpers/confirm-password.directive';
 import { AuthService } from '../service/auth.service';
-import { forbiddenValueValidator } from '../service/custom-validators.directive';
+import { forbiddenValueValidator } from '../helpers/custom-validators.directive';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationComponent implements OnInit {
   public form!: FormGroup;
   public message: string | undefined;
-  public registrationValidation = registrationValidationTypes;
+  public screenWidth!: number;
+  public ValidationTypes = registrationValidationTypes;
   private isSuccessful = false;
   private isSignUpFailed = false;
 
@@ -26,33 +35,32 @@ export class RegistrationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      userName: [
-        '',
-        [
-          Validators.minLength(4),
-          Validators.required,
-          forbiddenValueValidator(forbiddenLoginValue),
+    this.screenWidth = window.innerWidth;
+    this.form = this.formBuilder.group(
+      {
+        userName: [
+          '',
+          [
+            Validators.minLength(4),
+            Validators.required,
+            forbiddenValueValidator(forbiddenLoginValue),
+          ],
         ],
-      ],
-      email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          forbiddenValueValidator(forbiddenPasswordRegExp),
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            forbiddenValueValidator(forbiddenPasswordRegExp),
+          ],
         ],
-      ],
-      confirmPassword: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          forbiddenValueValidator(forbiddenPasswordRegExp),
-        ],
-      ],
-    });
+        confirmPassword: ['', Validators.required],
+      },
+      {
+        validator: confirmPasswordValidator('password', 'confirmPassword'),
+      }
+    );
   }
 
   public submit(): void {
@@ -89,5 +97,10 @@ export class RegistrationComponent implements OnInit {
   }
   get confirmPassword() {
     return this.form.get('confirmPassword');
+  }
+  ngAfterContentChecked(): void {
+    //Called after every check of the component's or directive's content.
+    //Add 'implements AfterContentChecked' to the class.
+    console.dir(this.form);
   }
 }

@@ -1,15 +1,11 @@
+import { signInValidationTypes } from './../constants';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { forbiddenPasswordRegExp } from '../constants';
 import { AuthService } from '../service/auth.service';
-import { forbiddenValueValidator } from '../service/custom-validators.directive';
+import { forbiddenValueValidator } from '../helpers/custom-validators.directive';
 
 @Component({
   selector: 'app-login',
@@ -18,28 +14,10 @@ import { forbiddenValueValidator } from '../service/custom-validators.directive'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
+  public screenWidth!: number;
   public form!: FormGroup;
-  public email = new FormControl('', [Validators.required, Validators.email]);
-  public password = new FormControl('', [Validators.required]);
 
-  public signInValidation = {
-    email: [
-      { type: 'required', message: 'Email is required' },
-      { type: 'email', message: 'Please enter a valid email address' },
-    ],
-    password: [
-      { type: 'required', message: 'Password is required' },
-      {
-        type: 'minlength',
-        message: 'Password must be at least 6 characters long',
-      },
-      {
-        type: 'forbiddenValue',
-        message: `Password should have at least 1 uppercase letter, 1 lowercase letter,
-      1 number and at least one of symbols !@#$%^&*`,
-      },
-    ],
-  };
+  public signInValidation = signInValidationTypes;
 
   constructor(
     private authService: AuthService,
@@ -49,6 +27,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -62,27 +41,11 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get emailInput() {
-    return this.form.get('email')!;
-  }
-
-  get passwordInput() {
-    return this.form.get('password')!;
-  }
-
-  public getErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
-    }
-
-    return this.email.hasError('email') ? 'Not a valid email' : '';
-  }
-
   public submit(): void {
     this.authService
       .login({
-        email: this.emailInput.value,
-        password: this.passwordInput.value,
+        email: this.email.value,
+        password: this.password.value,
       })
       .subscribe({
         next: (authData) => {
@@ -93,5 +56,13 @@ export class LoginComponent implements OnInit {
           this._snackBar.open(errorMessage, 'Error', { duration: 3000 });
         },
       });
+  }
+
+  get email() {
+    return this.form.get('email')!;
+  }
+
+  get password() {
+    return this.form.get('password')!;
   }
 }
