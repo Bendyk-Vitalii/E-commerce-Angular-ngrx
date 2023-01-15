@@ -16,7 +16,8 @@ const routes: Routes = [
       },
       {
         path: 'cart',
-        component: CartComponent,
+        loadChildren: () =>
+          import('./pages/shopping-cart/cart.module').then((x) => x.CartModule),
       },
       {
         path: '',

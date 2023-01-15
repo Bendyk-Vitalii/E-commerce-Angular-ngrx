@@ -1,3 +1,4 @@
+import { CartModule } from './pages/shopping-cart/cart.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,6 +54,7 @@ import { CategoriesEffects } from '@pages/home/store/categories/categories.effec
     MatMenuModule,
     AuthModule,
     HomeModule,
+    CartModule,
     StoreModule.forRoot(appReducer),
     EffectsModule.forRoot([ProductEffects, CategoriesEffects]),
     StoreDevtoolsModule.instrument({

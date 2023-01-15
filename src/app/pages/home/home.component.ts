@@ -41,16 +41,21 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
-    this.getProducts();
+    this.getProducts(this.count, this.sort);
     this.getCategories();
     this.onColumnsCountChange(3);
   }
 
-  private getProducts(): void {
+  private getProducts(
+    count = this.count,
+    sortBy = this.sort,
+    category = this.category
+  ): void {
     this.store.dispatch(
       ProductsApiActions.retrievedProductsList({
-        count: this.count,
-        sort: this.sort,
+        count: count,
+        sort: sortBy,
+        category: category,
       })
     );
   }
