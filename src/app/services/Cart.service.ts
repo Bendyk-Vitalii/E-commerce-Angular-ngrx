@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 
-import { Cart, CartItem } from '../models/cart.model';
+import { Cart, CartItem } from '../pages/shopping-cart/cart.interface';
 import { DEFAULT_DURATION } from '@shared';
 
 @Injectable({
@@ -27,7 +27,6 @@ export class CartService {
     } else {
       items.push(item);
     }
-    //this.store.dispatch(new ProductsActions.AddProductToCart(items));
     this.cart.next({ items });
     this._snackBar.open('1 item added to cart', 'Ok', { duration: 3000 });
   }

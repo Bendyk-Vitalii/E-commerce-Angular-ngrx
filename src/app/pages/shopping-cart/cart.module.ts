@@ -6,9 +6,9 @@ import { MatTableModule } from '@angular/material/table';
 
 import { MatCardModule } from '@angular/material/card';
 import { CartComponent } from '@pages/shopping-cart';
-import { ErrorPageLayoutComponent } from '@components/error-page-layout/error-page-layout.component';
 
 import { SharedModule } from '@shared';
+import { ErrorPageLayoutComponent } from '@layouts';
 
 const routes: Routes = [
   {

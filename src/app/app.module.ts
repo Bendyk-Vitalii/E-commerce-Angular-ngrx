@@ -1,3 +1,4 @@
+import { AuthEffects } from './pages/auth/store/auth.effects';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,24 +18,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HomeModule } from './pages/home/home.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from '@components/header';
-import { LayoutComponent } from '@layout';
-import { PhoneNavbarComponent } from '@components/phone-navbar';
 import { AuthModule } from '@pages/auth';
 import { CartModule } from './pages/shopping-cart/cart.module';
-
+import { appReducer } from './core';
 import { environment } from '../environments/environment';
 import { ProductEffects } from '@pages/home/store/products/products.effects';
-import { appReducer } from './store/app.reducer';
 import { CategoriesEffects } from '@pages/home/store/categories/categories.effects';
+import { HeaderComponent, LayoutContainerComponent } from '@layouts';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    PhoneNavbarComponent,
-    LayoutComponent,
-  ],
+  declarations: [AppComponent, HeaderComponent, LayoutContainerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -52,7 +45,7 @@ import { CategoriesEffects } from '@pages/home/store/categories/categories.effec
     HomeModule,
     CartModule,
     StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([ProductEffects, CategoriesEffects]),
+    EffectsModule.forRoot([ProductEffects, CategoriesEffects, AuthEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

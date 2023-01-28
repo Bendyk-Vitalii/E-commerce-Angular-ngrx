@@ -1,0 +1,23 @@
+import { User } from "../auth.interface";
+
+export enum TokenStatus {
+    PENDING = 'PENDING',
+    VALIDATING = 'VALIDATING',
+    VALID = 'VALID',
+    INVALID = 'INVALID',
+  }
+
+  export interface State {
+    isLoggedIn: boolean;
+    user?: User;
+    accessTokenStatus: TokenStatus;
+    refreshTokenStatus: TokenStatus;
+    isLoadingLogin: boolean;
+    hasLoginError: boolean;
+  }
+
+  export interface AuthUser {
+    id: number;
+    firstName: string;
+    lastName: string;
+  }

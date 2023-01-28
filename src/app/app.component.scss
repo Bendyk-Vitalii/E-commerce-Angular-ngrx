@@ -1,4 +1,6 @@
 :host ::ng-deep .mat-list-item-content {
   padding: 0 !important;
-  cursor: default;
+  :disabled {
+    cursor: not-allowed !important;
+  }
 }

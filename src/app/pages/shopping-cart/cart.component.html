@@ -91,7 +91,6 @@
       </td>
       <td mat-footer-cell *matFooterCellDef>
         <button
-          [disabled]="!cart?.items?.length"
           (click)="onCheckout()"
           mat-raised-button
           color="primary"

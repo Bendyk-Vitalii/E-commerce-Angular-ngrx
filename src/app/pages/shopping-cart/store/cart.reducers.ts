@@ -1,4 +1,4 @@
-import { CartItem } from 'src/app/models/cart.model';
+import { CartItem } from '@pages/shopping-cart/cart.interface';
 
 export interface State {
   shoppingCartList: ReadonlyArray<CartItem>;

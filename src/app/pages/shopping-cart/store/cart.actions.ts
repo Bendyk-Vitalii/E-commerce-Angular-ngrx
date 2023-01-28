@@ -1,7 +1,7 @@
 import { createActionGroup, props } from '@ngrx/store';
 
-import { Product } from 'src/app/models/product.model';
-import { CartItem } from 'src/app/models/cart.model';
+import { Product } from '@shared/product.interface';
+import { CartItem } from '@pages/shopping-cart/cart.interface';
 
 export enum ProductsActionTypes {
   GetSHCart = '[Home&Cart Page] Get Shopping Cart',

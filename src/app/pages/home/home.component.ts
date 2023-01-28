@@ -3,10 +3,10 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { CartService } from '@services';
-import { Product } from '@models';
 import { ProductsApiActions } from './store/products/products.actions';
 import { retrieveCategories } from './store/categories/categories.action';
-import { AppState } from 'src/app/store/app.reducer';
+import { Product } from '@shared/product.interface';
+import { AppState } from 'src/app/core/store';
 
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 

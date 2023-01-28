@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
 
-import { Cart, CartItem } from '@models';
 import { STRIPE_API_KEY } from '@shared';
 import { CartService } from '@services';
+import { Cart, CartItem } from './cart.interface';
 
 @Component({
   selector: 'app-cart',
@@ -13,7 +13,7 @@ import { CartService } from '@services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartComponent implements OnInit {
-  cart: Cart | undefined;
+  cart!: Cart;
   dataSource: Array<CartItem> = [];
   displayedColumns: Array<string> = [
     'product',

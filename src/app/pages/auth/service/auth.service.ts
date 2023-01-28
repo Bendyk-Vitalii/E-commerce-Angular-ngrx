@@ -1,16 +1,13 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
-import { Observable, tap, throwError, BehaviorSubject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserModel } from './user.model';
-import { AuthServerResponse } from './server.model';
-import { FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { AppState } from '@core/store';
+import { User } from './../auth.interface';
+import { AuthSuccessResponseI } from './server.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -26,38 +23,30 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private jwtHelperService: JwtHelperService
+    private jwtHelperService: JwtHelperService,
+    private store: Store<AppState>
   ) {}
 
-  login(credentials: { email: string; password: string }) {
-    return this.http
-      .post<AuthServerResponse>(AUTH_API + 'login', credentials, httpOptions)
-      .pipe(
-        catchError(this.handleError),
-        tap((res: AuthServerResponse) =>
-          this.handleAuthentication(res.access_token)
-        )
-      );
-  }
-
-  register({ login, email, password }: any): Observable<any> {
-    return this.http.post(
-      AUTH_API + 'register',
-      {
-        login,
-        email,
-        password,
-      },
+  logIn(credentials: { email: string; password: string }):Observable<AuthSuccessResponseI> {
+    return this.http.post<AuthSuccessResponseI>(
+      AUTH_API + 'login',
+      credentials,
       httpOptions
     );
+  }
+
+  signUp(credentials: { email: string; password: string }):Observable<any> {
+    return this.http.post(AUTH_API + 'register', {
+    credentials,
+    httpOptions
+    });
   }
 
   public handleAuthentication(access_token: string) {
     const { email, exp, iat, id } =
       this.jwtHelperService.decodeToken(access_token);
-    const expirationDate = new Date(new Date().getTime() + exp);
-    const user = new UserModel(email, id, access_token, expirationDate, iat);
-    this.user.next(user);
+    //const expirationDate = new Date(new Date().getTime() + exp);
+    const user: User = { email, id, exp, iat, access_token };
     this.autoLogout(exp * 10000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
@@ -72,7 +61,7 @@ export class AuthService {
       id: string;
       _token: string;
       _tokenExpirationDate: string;
-    } = JSON.parse(userDataJson);
+    } = JSON.parse(userDataJson);1
 
     const loadedUser = new UserModel(
       userData.email,
@@ -88,6 +77,8 @@ export class AuthService {
   }
 
   public logout() {
+    localStorage.removeItem('user');
+    //this.store.
     this.user.next(null!);
     this.router.navigate(['login']);
     localStorage.removeItem('userData');
@@ -101,29 +92,5 @@ export class AuthService {
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);
-  }
-
-  private handleError(errorRes: HttpErrorResponse) {
-    let errorCount = 0;
-    let errorMessage = 'An unknown error occurred!';
-    if (!errorRes.error || !errorRes.error.error) {
-      return throwError(() => {
-        const error: any = new Error(`This is error number ${++errorCount}`);
-        error.timestamp = Date.now();
-        return error;
-      });
-    }
-    switch (errorRes.error.error.message) {
-      case 'CONFLICT':
-        errorMessage = 'This email exists already';
-        break;
-      case 'EMAIL_NOT_FOUND':
-        errorMessage = 'This email does not exist.';
-        break;
-      case 'INVALID_PASSWORD':
-        errorMessage = 'This password is not correct.';
-        break;
-    }
-    return throwError(() => errorMessage);
   }
 }

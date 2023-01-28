@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -68,15 +63,13 @@ export class RegistrationComponent implements OnInit {
       return;
     }
     const { userName, email, password } = this.form.value;
-
-    this.authService.register({ email, password, userName }).subscribe({
+    console.log(email, password, userName);
+    this.authService.signUp({ email, password }).subscribe({
       next: (data) => {
-        this.message = 'Registration successful';
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
+        console.log(data);
         this.router.navigate(['login']);
       },
-      error: (err) => {
+      error: (err: { message: string | undefined; }) => {
         this.message = err.message;
         this.isSignUpFailed = true;
       },
@@ -97,10 +90,5 @@ export class RegistrationComponent implements OnInit {
   }
   get confirmPassword() {
     return this.form.get('confirmPassword');
-  }
-  ngAfterContentChecked(): void {
-    //Called after every check of the component's or directive's content.
-    //Add 'implements AfterContentChecked' to the class.
-    console.dir(this.form);
   }
 }
