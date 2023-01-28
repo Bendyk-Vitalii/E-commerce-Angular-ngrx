@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Cart, CartItem } from '@models';
+
+import { Cart, CartItem } from '@pages/shopping-cart/cart.interface';
 import { CartService } from '@services';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
   private _cart: Cart = { items: [] };
+  public screenWidth!: number;
   itemsQuantity = 0;
 
   @Input()
@@ -26,6 +27,9 @@ export class HeaderComponent {
   }
 
   constructor(private cartService: CartService) {}
+  ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
+  }
 
   getTotal(items: Array<CartItem>): number {
     return this.cartService.getTotal(items);

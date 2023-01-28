@@ -11,6 +11,6 @@ export interface AuthData {
   exp: number;
 }
 
-export interface AuthServerResponse {
+export interface AuthSuccessResponseI {
   access_token: string;
 }

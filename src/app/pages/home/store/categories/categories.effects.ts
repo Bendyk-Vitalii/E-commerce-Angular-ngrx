@@ -9,11 +9,11 @@ import { CategoriesActions, CategoriesActionTypes } from './categories.action';
 export class CategoriesEffects {
   loadCategories$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CategoriesActionTypes.Load),
+      ofType(CategoriesActionTypes.LOAD),
       mergeMap(() =>
-        this.apiService.getAllCategories().pipe(
+        this.apiService.getCategories().pipe(
           map((categories) => CategoriesActions.loadedSuccess({ categories })),
-          catchError(() => of({ type: CategoriesActionTypes.LoadError }))
+          catchError(() => of({ type: CategoriesActionTypes.LOAD_ERROR }))
         )
       )
     )

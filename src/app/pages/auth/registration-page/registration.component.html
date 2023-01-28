@@ -1,9 +1,9 @@
 <div class="grid gap-4 min-h-full place-content-center">
-  <div class="container text-center">
-    <h1 class="mat-h1 pt-16">Create account</h1>
+  <div class="container text-center pt-10">
+    <h1 class="mat-h1 ">Create account</h1>
     <p class="mt-2">
       Already have an account?
-      <a class="text-cyan-500" [routerLink]="['/login']">Sign in</a>
+      <a class="text-cyan-500" [routerLink]="['/auth/login']">Sign in</a>
     </p>
     <form
       mat-form
@@ -78,8 +78,8 @@
         <mat-label>Enter your password again</mat-label>
         <input
           matInput
-          formControlName="confirmPassword"
           autocomplete
+          formControlName="confirmPassword"
           type="password"
           required
         />
@@ -91,7 +91,7 @@
       </mat-form-field>
       <button
         mat-button
-        class="bg-indigo-500 color-neutral-100 min-w-full text-center"
+        class="bg-slate-600 !text-slate-50 !min-w-full text-center disabled:bg-slate-400"
         type="submit"
         [disabled]="form.invalid"
       >

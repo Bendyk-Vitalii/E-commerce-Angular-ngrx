@@ -18,9 +18,12 @@ export class ProductsHeaderComponent implements OnInit {
 
   public sort = 'desc';
   public itemsShowCount = 12;
+  public screenWidth!: number;
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
+  }
 
   public onSortUpdated(newSort: string): void {
     this.sort = newSort;

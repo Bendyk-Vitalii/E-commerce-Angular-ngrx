@@ -1,5 +1,5 @@
-<div class="grid gap-4 min-h-full">
-  <div class="container place-content-center">
+<div class="grid gap-4 min-h-full place-content-center">
+  <div class="container text-center pt-10">
     <h1 class="mat-h1">Sign in</h1>
     <p class="mt-2">
       Don't have an account?
@@ -13,7 +13,7 @@
       (ngSubmit)="submit()"
       [formGroup]="form"
     >
-      <h4 class="mat-h4 font-bold">Email</h4>
+      <h4 class="mat-h3 font-bold">Email</h4>
       <mat-form-field class="min-w-full" appearance="fill">
         <mat-label>Enter your email</mat-label>
         <input
@@ -39,6 +39,8 @@
         <mat-label>Enter your password</mat-label>
         <input
           matInput
+          autocomplete
+          type="password"
           placeholder="minimum 8 symbols"
           formControlName="password"
           required
@@ -55,7 +57,7 @@
       </mat-form-field>
       <button
         mat-button
-        class="bg-indigo-500 color-neutral-100 min-w-full text-center"
+        class="bg-slate-600 !text-slate-50 !min-w-full text-center disabled:bg-slate-400"
         type="submit"
         (click)="submit()"
         [disabled]="form.invalid"

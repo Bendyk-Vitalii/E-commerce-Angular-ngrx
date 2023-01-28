@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ErrorPageLayoutComponent } from '@components/error-page-layout/error-page-layout.component';
 import { SharedModule } from '@shared';
-
+import { ErrorPageLayoutComponent } from '@layouts';
 @Component({
   standalone: true,
   selector: 'app-page-not-found',

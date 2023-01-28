@@ -1,12 +1,12 @@
 import { createAction, createActionGroup, props } from '@ngrx/store';
 
 export enum CategoriesActionTypes {
-  Load = '[Categories Api] Fetch',
-  LoadSuccess = '[Categories API] Loaded Success',
-  LoadError = '[Categories API] Loaded Error',
+  LOAD = '[Categories Api] Fetch',
+  LOAD_SUCCESS = '[Categories API] Loaded Success',
+  LOAD_ERROR = '[Categories API] Loaded Error',
 }
 
-export const retrieveCategories = createAction(CategoriesActionTypes.Load);
+export const retrieveCategories = createAction(CategoriesActionTypes.LOAD);
 
 export const CategoriesActions = createActionGroup({
   source: 'Categories API',

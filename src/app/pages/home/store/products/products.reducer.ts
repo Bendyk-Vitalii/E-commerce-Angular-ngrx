@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { Product } from '@models';
+import { Product } from '@shared/product.interface';
 import { ProductsApiActions } from './products.actions';
 
 export interface State {
@@ -13,9 +13,7 @@ const initialState: State = {
 
 export const productsReducer = createReducer(
   initialState,
-  on(ProductsApiActions.loadedSuccess, (state, { products }) => {
-    return {
-      products,
-    };
-  })
+  on(ProductsApiActions.loadedSuccess, (_state, { products }) => ({
+    products,
+  }))
 );
