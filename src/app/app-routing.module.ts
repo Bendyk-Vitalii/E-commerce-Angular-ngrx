@@ -1,9 +1,5 @@
-import { HomeModule } from './pages/home/home.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { PageNotFoundComponent } from './pages/page-not-found';
-import { CartComponent } from './pages/shopping-cart';
 
 const routes: Routes = [
   {
@@ -12,12 +8,14 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () =>
-          import('./pages/home/home.module').then((x) => x.HomeModule),
+          import('./pages/home/home.module').then((mod) => mod.HomeModule),
       },
       {
         path: 'cart',
         loadChildren: () =>
-          import('./pages/shopping-cart/cart.module').then((x) => x.CartModule),
+          import('./pages/shopping-cart/cart.module').then(
+            (mod) => mod.CartModule
+          ),
       },
       {
         path: '',
@@ -27,10 +25,16 @@ const routes: Routes = [
     ],
   },
   {
-    path: '',
-    loadChildren: () => import('./pages/auth').then((x) => x.AuthModule),
+    path: 'auth',
+    loadChildren: () => import('./pages/auth').then((mod) => mod.AuthModule),
   },
-  { path: '**', component: PageNotFoundComponent },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./pages/page-not-found/page-not-found.component').then(
+        (mod) => mod.PageNotFoundComponent
+      ),
+  },
 ];
 
 @NgModule({

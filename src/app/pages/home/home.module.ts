@@ -1,6 +1,6 @@
+import { ErrorPageLayoutComponent } from '@components/error-page-layout/error-page-layout.component';
 import { MatCardModule } from '@angular/material/card';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -35,7 +35,6 @@ const routes: Routes = [
     ProductsHeaderComponent,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     MatSidenavModule,
     MatMenuModule,

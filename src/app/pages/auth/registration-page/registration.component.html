@@ -1,50 +1,102 @@
-<h1 class="mat-h1 pt-16">Create account</h1>
-<p class="mt-2">
-  Already have an account?
-  <a class="text-cyan-500" [routerLink]="['/login']">Sign in</a>
-</p>
-<form mat-form class="flex-col mt-10">
-  <h4 class="mat-h4 font-bold">Your name</h4>
-  <mat-form-field class="min-w-full" appearance="fill">
-    <mat-label>Enter your first name</mat-label>
-    <input matInput placeholder="First name" [formControl]="name" required />
-    <mat-error *ngIf="name.invalid">{{ getErrorMessage() }}</mat-error>
-  </mat-form-field>
+<div class="grid gap-4 min-h-full place-content-center">
+  <div class="container text-center">
+    <h1 class="mat-h1 pt-16">Create account</h1>
+    <p class="mt-2">
+      Already have an account?
+      <a class="text-cyan-500" [routerLink]="['/login']">Sign in</a>
+    </p>
+    <form
+      mat-form
+      class="flex-col mt-10"
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+    >
+      <h4 class="mat-h3 font-bold">Your name</h4>
+      <mat-form-field class="min-w-full" appearance="fill">
+        <mat-label>Enter your first name</mat-label>
+        <input
+          matInput
+          placeholder="First name"
+          formControlName="userName"
+          type="text"
+          required
+        />
 
-  <h4 class="mat-h4 font-bold">Email</h4>
-  <mat-form-field class="min-w-full" appearance="fill">
-    <mat-label>Enter your email</mat-label>
-    <input
-      matInput
-      placeholder="pat@example.com"
-      [formControl]="email"
-      required
-    />
-    <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
-  </mat-form-field>
+        <ng-container *ngFor="let validation of ValidationTypes.userName">
+          <mat-error
+            *ngIf="
+              userName.hasError(validation.type) &&
+              (userName.dirty || userName.touched)
+            "
+            >{{ validation.message }}</mat-error
+          >
+        </ng-container>
+      </mat-form-field>
 
-  <h4 class="mat-h4 font-bold">Password</h4>
-  <mat-form-field class="min-w-full" appearance="fill">
-    <mat-label>Enter your password</mat-label>
-    <input
-      matInput
-      placeholder="At least 6 characters"
-      [formControl]="password"
-      required
-    />
-    <mat-error *ngIf="password.invalid">{{ getErrorMessage() }}</mat-error>
-  </mat-form-field>
-  <h4 class="mat-h4 font-bold">Re-enter password</h4>
-  <mat-form-field class="min-w-full" appearance="fill">
-    <mat-label>Enter your password again</mat-label>
-    <input matInput [formControl]="password" required />
-    <!-- <mat-error *ngIf="password.invalid">{{ getErrorMessage() }}</mat-error> -->
-  </mat-form-field>
-  <button
-    mat-button
-    class="bg-indigo-500 color-neutral-100 min-w-full text-center"
-    type="submit"
-  >
-    Continue
-  </button>
-</form>
+      <h4 class="mat-h3 font-bold">Email</h4>
+      <mat-form-field class="min-w-full" appearance="fill">
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          formControlName="email"
+          required
+        />
+        <ng-container *ngFor="let validation of ValidationTypes.email">
+          <mat-error
+            *ngIf="
+              email.hasError(validation.type) && (email.dirty || email.touched)
+            "
+            >{{ validation.message }}</mat-error
+          >
+        </ng-container>
+      </mat-form-field>
+
+      <h4 class="mat-h3 font-bold">Password</h4>
+      <mat-form-field class="min-w-full" appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input
+          matInput
+          placeholder="At least 6 characters"
+          formControlName="password"
+          autocomplete
+          type="password"
+          required
+        />
+        <ng-container *ngFor="let validation of ValidationTypes.password">
+          <mat-error
+            *ngIf="
+              password.hasError(validation.type) &&
+              (password.dirty || password.touched)
+            "
+            >{{ validation.message }}</mat-error
+          >
+        </ng-container>
+      </mat-form-field>
+      <h4 class="mat-h3 font-bold">Re-enter password</h4>
+      <mat-form-field class="min-w-full" appearance="fill">
+        <mat-label>Enter your password again</mat-label>
+        <input
+          matInput
+          formControlName="confirmPassword"
+          autocomplete
+          type="password"
+          required
+        />
+        <ng-container>
+          <mat-error *ngIf="confirmPassword?.touched && confirmPassword?.errors"
+            >Password and Confirm Password didn't match.</mat-error
+          >
+        </ng-container>
+      </mat-form-field>
+      <button
+        mat-button
+        class="bg-indigo-500 color-neutral-100 min-w-full text-center"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Continue
+      </button>
+    </form>
+  </div>
+</div>

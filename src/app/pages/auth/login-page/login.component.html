@@ -1,37 +1,67 @@
-<h1 class="mat-h1 pt-16">Sign in</h1>
-<p class="mt-2">
-  Don't have an account?
-  <a class="text-cyan-500" [routerLink]="['/registration']">Sign up now</a>
-</p>
-<form mat-form class="flex-col mt-10">
-  <h4 class="mat-h4 font-bold">Email</h4>
-  <mat-form-field class="min-w-full" appearance="fill">
-    <mat-label>Enter your email</mat-label>
-    <input
-      matInput
-      placeholder="pat@example.com"
-      [formControl]="email"
-      required
-    />
-    <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
-  </mat-form-field>
+<div class="grid gap-4 min-h-full">
+  <div class="container place-content-center">
+    <h1 class="mat-h1">Sign in</h1>
+    <p class="mt-2">
+      Don't have an account?
+      <a class="text-cyan-500" [routerLink]="['/auth/registration']"
+        >Sign up now</a
+      >
+    </p>
+    <form
+      mat-form
+      class="flex-col mt-10"
+      (ngSubmit)="submit()"
+      [formGroup]="form"
+    >
+      <h4 class="mat-h4 font-bold">Email</h4>
+      <mat-form-field class="min-w-full" appearance="fill">
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          formControlName="email"
+          autocomplete
+          required
+        />
+        <p *ngFor="let validation of signInValidation.email">
+          <mat-error
+            *ngIf="
+              email.hasError(validation.type) && (email.dirty || email.touched)
+            "
+          >
+            {{ validation.message }}</mat-error
+          >
+        </p>
+      </mat-form-field>
 
-  <h4 class="mat-h4 font-bold">Password</h4>
-  <mat-form-field class="min-w-full" appearance="fill">
-    <mat-label>Enter your password</mat-label>
-    <input
-      matInput
-      placeholder="minimum 8 symbols"
-      [formControl]="password"
-      required
-    />
-    <mat-error *ngIf="password.invalid">{{ getErrorMessage() }}</mat-error>
-  </mat-form-field>
-  <button
-    mat-button
-    class="bg-indigo-500 color-neutral-100 min-w-full text-center"
-    type="submit"
-  >
-    Sign in
-  </button>
-</form>
+      <h4 class="mat-h4 font-bold">Password</h4>
+      <mat-form-field class="min-w-full" appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input
+          matInput
+          placeholder="minimum 8 symbols"
+          formControlName="password"
+          required
+        />
+        <p *ngFor="let validation of signInValidation.password">
+          <mat-error
+            *ngIf="
+              password.hasError(validation.type) &&
+              (password.dirty || password.touched)
+            "
+            >{{ validation.message }}</mat-error
+          >
+        </p>
+      </mat-form-field>
+      <button
+        mat-button
+        class="bg-indigo-500 color-neutral-100 min-w-full text-center"
+        type="submit"
+        (click)="submit()"
+        [disabled]="form.invalid"
+      >
+        Sign in
+      </button>
+    </form>
+  </div>
+</div>

@@ -5,8 +5,6 @@ import { Store } from '@ngrx/store';
 import { CartService } from '@services';
 import { Product } from '@models';
 import { ProductsApiActions } from './store/products/products.actions';
-import { productsSelector } from './store/products/products.selectors';
-import { selectCategories } from './store/categories/categories.selectors';
 import { retrieveCategories } from './store/categories/categories.action';
 import { AppState } from 'src/app/store/app.reducer';
 
@@ -15,7 +13,6 @@ const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {

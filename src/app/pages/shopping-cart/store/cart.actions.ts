@@ -1,12 +1,15 @@
-import { Product } from 'src/app/models/product.model';
-import { Cart, CartItem } from 'src/app/models/cart.model';
 import { createActionGroup, props } from '@ngrx/store';
+
+import { Product } from 'src/app/models/product.model';
+import { CartItem } from 'src/app/models/cart.model';
 
 export enum ProductsActionTypes {
   GetSHCart = '[Home&Cart Page] Get Shopping Cart',
   AddToCart = '[Home&Cart Page] Add to Shopping Cart',
-  RemoveFromCart = '[Shopping Cart Page] Remove from Shopping Cart',
-  DeleteFromCart = '[Shopping Cart Page] Delete from Shopping Cart',
+  ClearSHCart = '[Shopping Cart Page] Clear Shopping Cart',
+  RemoveFromCart = '[Shopping Cart Page] Remove Product',
+  IncreaseQuantity = '[Shopping Cart Page] Increase Quantity',
+  DecreaseQuantity = '[Shopping Cart Page] Decrease Quantity',
 }
 
 export interface ISHCartList {
@@ -23,5 +26,10 @@ export const SHCartActions = createActionGroup({
 
 export const SHCartUpdateActions = createActionGroup({
   source: '[Shopping Cart Page]',
-  events: {},
+  events: {
+    'Clear Shopping Cart': props<any>(),
+    'Remove Product': props<CartItem>(),
+    'Increase Quantity': props<CartItem>(),
+    'Decrease Quantity': props<CartItem>(),
+  },
 });

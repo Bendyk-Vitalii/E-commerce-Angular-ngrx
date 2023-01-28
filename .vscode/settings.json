@@ -5,6 +5,7 @@
     "deeppurple",
     "devkit",
     "ngrx",
-    "tailwindcss"
+    "tailwindcss",
+    "typeorm"
   ]
 }
