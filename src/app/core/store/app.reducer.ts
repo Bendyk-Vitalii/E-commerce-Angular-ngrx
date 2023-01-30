@@ -8,11 +8,9 @@ import * as authState from '@pages/auth/store/auth.model';
 export interface AppState {
   products: fromProducts.State;
   categories: fromCategories.State;
-  auth: authState.State;
 }
 
 export const appReducer: ActionReducerMap<AppState> = {
   products: fromProducts.productsReducer,
   categories: fromCategories.categoriesReducer,
-  auth: fromAuth.authReducer,
 };

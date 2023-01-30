@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
-  static readonly APP_PREFIX = 'NG-AUTH-';
+  static readonly APP_PREFIX = 'AMAZ-SHOP-ACCESS-TOKEN';
 
   /**
    * Sets item in local storage
@@ -13,11 +13,11 @@ export class LocalStorageService {
   setItem(key: string, value: unknown) {
     try {
       localStorage.setItem(
-        `${LocalStorageService.APP_PREFIX}${key}`,
+        LocalStorageService.APP_PREFIX,
         JSON.stringify(value)
       );
     } catch (e) {
-      localStorage.setItem(`${LocalStorageService.APP_PREFIX}${key}`, value as string);
+      localStorage.setItem(LocalStorageService.APP_PREFIX, value as string);
     }
   }
 

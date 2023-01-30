@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as AuthActions from './auth.actions';
 import { LoginActions } from './auth.actions';
 import * as AuthSelectors from './auth.selectors';
 
@@ -16,14 +15,14 @@ export class AuthFacade {
   constructor(private store: Store) {}
 
   login(email: string, password: string) {
-    this.store.dispatch(AuthActions.LoginActions.logInRequest({ email, password }));
+    this.store.dispatch(LoginActions.logInRequest({ email, password }));
   }
 
   logout() {
-    this.store.dispatch(AuthActions.LoginActions.userLogout());
+    this.store.dispatch(LoginActions.userLogout());
   }
 
   getAuthUser() {
-    this.store.dispatch(AuthActions.LoginActions.getAuthUserRequest());
+    this.store.dispatch(LoginActions.getAuthUserRequest());
   }
 }

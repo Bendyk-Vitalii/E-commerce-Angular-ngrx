@@ -14,7 +14,6 @@ export class CartService {
 
   constructor(
     private _snackBar: MatSnackBar,
-    private store: Store<{ products: CartItem[] }>
   ) {}
 
   addToCart(item: CartItem) {

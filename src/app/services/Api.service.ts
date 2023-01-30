@@ -10,20 +10,6 @@ import { map, Observable } from 'rxjs';
 import { STORE_BASE_URL } from '@shared';
 import { Product } from '@shared/product.interface';
 
-interface HttpClientGetOptions {
-  headers?:
-    | HttpHeaders
-    | {
-        [header: string]: string | string[];
-      }
-    | undefined;
-  context?: HttpContext | undefined;
-  observe?: 'body' | undefined;
-  params?: HttpParams;
-  reportProgress?: boolean | undefined;
-  responseType?: 'json' | undefined;
-  withCredentials?: boolean | undefined;
-}
 
 @Injectable({
   providedIn: 'root',

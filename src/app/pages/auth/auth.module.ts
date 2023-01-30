@@ -10,6 +10,12 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { SharedModule } from '@shared';
 import { LoginComponent } from './login-page';
 import { RegistrationComponent } from './registration-page';
+import { StoreModule } from '@ngrx/store';
+import { authReducer, AUTH_FEATURE_KEY } from './store/auth.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './store/auth.effects';
+import { AuthFacade } from './store/auth.facade';
+import { AuthService } from './service/auth.service';
 
 const routes: Routes = [
   {
@@ -36,10 +42,14 @@ const routes: Routes = [
     FormsModule,
     SharedModule,
     RouterModule.forChild(routes),
+    StoreModule.forFeature(AUTH_FEATURE_KEY, authReducer),
+    EffectsModule.forFeature([AuthEffects]),
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
+    AuthFacade,
+    AuthService
   ],
 })
 export class AuthModule {}

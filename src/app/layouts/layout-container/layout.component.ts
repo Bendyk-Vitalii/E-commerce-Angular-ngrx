@@ -5,7 +5,6 @@ import { CartService } from '@services';
 @Component({
   selector: 'app-layout-container',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutContainerComponent implements OnInit {

@@ -1,22 +1,16 @@
-import { LoginActions } from './../store/auth.actions';
-import { Store } from '@ngrx/store';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
-import { noop } from 'rxjs';
+
 import { forbiddenPasswordRegExp } from '../constants';
-import { AuthService } from '../service/auth.service';
 import { forbiddenValueValidator } from '../helpers/custom-validators.directive';
 import { User } from './../auth.interface';
 import { signInValidationTypes } from './../constants';
-import { AppState } from '@core/store';
+import { AuthFacade } from '../store/auth.facade';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
@@ -26,15 +20,12 @@ export class LoginComponent implements OnInit {
   public signInValidation = signInValidationTypes;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
+    private authFacade: AuthFacade,
     private formBuilder: FormBuilder,
-    private store: Store<AppState>,
     private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.screenWidth = window.innerWidth;
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -49,7 +40,8 @@ export class LoginComponent implements OnInit {
   }
 
   public submit(): void {
-this.form.reset()
+    this.authFacade.login(this.email.value, this.password.value);
+    this.form.reset();
   }
 
   get email() {

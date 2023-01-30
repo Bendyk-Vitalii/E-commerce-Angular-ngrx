@@ -14,3 +14,10 @@ export interface AuthData {
 export interface AuthSuccessResponseI {
   access_token: string;
 }
+
+export interface SignUpSuccessResponseI {
+  name: null | string;
+  email: string;
+  lastLoginAt: null | Date;
+  id: number;
+}

@@ -1,6 +1,5 @@
 import { props, createActionGroup, emptyProps } from '@ngrx/store';
 
-import { User } from '../auth.interface';
 import { AuthSuccessResponseI } from '../service/server.model';
 
 export const LoginActions = createActionGroup({

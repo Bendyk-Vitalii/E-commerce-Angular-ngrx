@@ -9,6 +9,8 @@ import {
 import { confirmPasswordValidator } from '../helpers/confirm-password.directive';
 import { AuthService } from '../service/auth.service';
 import { forbiddenValueValidator } from '../helpers/custom-validators.directive';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DEFAULT_DURATION } from '@shared/constants';
 
 @Component({
   selector: 'app-registration',
@@ -18,19 +20,17 @@ import { forbiddenValueValidator } from '../helpers/custom-validators.directive'
 export class RegistrationComponent implements OnInit {
   public form!: FormGroup;
   public message: string | undefined;
-  public screenWidth!: number;
   public ValidationTypes = registrationValidationTypes;
-  private isSuccessful = false;
-  private isSignUpFailed = false;
 
   constructor(
-    private authService: AuthService,
+
     private router: Router,
-    private formBuilder: FormBuilder
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-    this.screenWidth = window.innerWidth;
     this.form = this.formBuilder.group(
       {
         userName: [
@@ -62,16 +62,13 @@ export class RegistrationComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const { userName, email, password } = this.form.value;
-    console.log(email, password, userName);
-    this.authService.signUp({ email, password }).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.router.navigate(['login']);
+    const { email, password, login  } = this.form.value;
+    this.authService.signUp({ email, password, login }).subscribe({
+      next: () => {
+        this.router.navigate(['auth/login']);
       },
       error: (err: { message: string | undefined; }) => {
-        this.message = err.message;
-        this.isSignUpFailed = true;
+      !!err.message?  this._snackBar.open(err.message, 'Ok', { duration: DEFAULT_DURATION }) : console.dir(err)
       },
     });
     this.form.reset();
