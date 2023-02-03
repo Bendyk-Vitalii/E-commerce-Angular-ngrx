@@ -3,9 +3,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
+
 import { MatCardModule } from '@angular/material/card';
-import { SharedModule } from '@shared';
 import { CartComponent } from '@pages/shopping-cart';
+
+import { SharedModule } from '@shared';
+import { ErrorPageLayoutComponent } from '@layouts';
+import { MatButtonModule } from '@angular/material/button';
 
 const routes: Routes = [
   {
@@ -21,7 +25,9 @@ const routes: Routes = [
     CommonModule,
     MatTableModule,
     MatCardModule,
+    MatButtonModule,
     MatIconModule,
+    ErrorPageLayoutComponent,
     RouterModule.forChild(routes),
   ],
 })

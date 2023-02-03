@@ -6,11 +6,10 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Product } from 'src/app/models/product.model';
+import { Product } from '@shared/product.interface';
 
 @Component({
   selector: 'app-product-box',
-  styleUrls: ['./product-box.component.scss'],
   templateUrl: './product-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

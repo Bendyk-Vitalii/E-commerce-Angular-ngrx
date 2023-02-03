@@ -1,6 +1,4 @@
-import { CartService } from './services/Cart.service';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Cart } from './models/cart.model';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +6,6 @@ import { Cart } from './models/cart.model';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'amazing-shop';
-  cart: Cart = { items: [] };
-  constructor(private cartService: CartService) {}
-
-  ngOnInit(): void {
-    this.cartService.cart.subscribe((_cart) => {
-      this.cart = _cart;
-    });
-  }
 }

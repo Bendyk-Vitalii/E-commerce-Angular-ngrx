@@ -20,9 +20,8 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-:host { 
+:host {
   ::ng-deep .mat-h2 {
-  margin-bottom: 0 !important;
- }
+    margin-bottom: 0 !important;
+  }
 }
-

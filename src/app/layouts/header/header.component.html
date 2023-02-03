@@ -1,0 +1,67 @@
+<mat-toolbar
+  class="justify-between max-w-100 mx-auto border-x !text-slate-50 bg-slate-600 text-col"
+>
+  <a routerLink="home" class="mat-h2">toolbar</a>
+  <div>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon
+        matBadgeColor="warn"
+        [matBadge]="itemsQuantity"
+        [matBadgeHidden]="!itemsQuantity"
+      >
+        shopping_cart</mat-icon
+      >
+    </button>
+    <button mat-icon-button>
+      <a routerLink="auth/login">
+        <mat-icon class="font-medium mt-3"> person__icon </mat-icon>
+      </a>
+    </button>
+  </div>
+  <mat-menu #menu="matMenu">
+    <div class="p-3 divide-y divide-solid">
+      <div class="pb-3 flex justify-between">
+        <span class="mr-16">{{ itemsQuantity }} items</span>
+        <a routerLink="cart">View Cart</a>
+      </div>
+      <div *ngIf="cart.items.length" class="py-3">
+        <div
+          class="flex justify-between font-light mb-2"
+          *ngFor="let item of cart.items"
+        >
+          {{ item.name }} x {{ item.quantity }}
+          <span class="font-bold not-italic">
+            {{ item.price | currency }}
+          </span>
+        </div>
+      </div>
+      <div class="flex justify-between py-3 font-light">
+        Total:
+        <span class="font-bold not-italic">
+          {{ getTotal(cart.items) | currency }}
+        </span>
+      </div>
+      <div class="pt-3 flex justify-between">
+        <button
+          (click)="onClearCart()"
+          class="bg-rose-600 text-white rounded-full w-9 h-9"
+        >
+          <mat-icon>remove_shopping_cart</mat-icon>
+        </button>
+        <button
+          routerLink="cart"
+          class="bg-green-600 text-white rounded-full w-9 h-9"
+        >
+          <mat-icon
+            [matBadge]="itemsQuantity"
+            [matBadgeHidden]="!itemsQuantity"
+            matBadgeColor="warn"
+            class="mt-1"
+          >
+            shopping_cart</mat-icon
+          >
+        </button>
+      </div>
+    </div>
+  </mat-menu>
+</mat-toolbar>

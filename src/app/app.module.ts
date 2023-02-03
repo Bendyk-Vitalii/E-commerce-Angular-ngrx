@@ -1,10 +1,6 @@
-import { CartModule } from './pages/shopping-cart/cart.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -15,30 +11,20 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { HomeModule } from './pages/home/home.module';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HeaderComponent } from '@components/header';
-import { PageNotFoundComponent } from '@pages/page-not-found';
-import { LayoutComponent } from '@layout';
-import { FooterComponent } from '@components/footer';
-import { PhoneNavbarComponent } from '@components/phone-navbar';
-import { AuthModule } from '@pages/auth';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
 
 import { environment } from '../environments/environment';
-import { ProductEffects } from '@pages/home/store/products/products.effects';
-import { appReducer } from './store/app.reducer';
-import { CategoriesEffects } from '@pages/home/store/categories/categories.effects';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AuthModule } from '@pages/auth';
+import { HomeModule } from '@pages/home/home.module';
+import { CartModule } from '@pages/shopping-cart/cart.module';
+import { HeaderComponent, LayoutContainerComponent } from '@layouts';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    PhoneNavbarComponent,
-    FooterComponent,
-    LayoutComponent,
-    PageNotFoundComponent,
-  ],
+  declarations: [AppComponent, HeaderComponent, LayoutContainerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -55,16 +41,12 @@ import { CategoriesEffects } from '@pages/home/store/categories/categories.effec
     AuthModule,
     HomeModule,
     CartModule,
-    StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([ProductEffects, CategoriesEffects]),
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-
-    // StoreModule.forRoot(reducers, {
-    //   metaReducers,
-    // }),
   ],
   providers: [],
   bootstrap: [AppComponent],

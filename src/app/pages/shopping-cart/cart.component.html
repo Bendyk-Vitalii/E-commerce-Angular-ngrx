@@ -1,4 +1,4 @@
-<mat-card *ngIf="cart?.items?.length" class="max-w-7x1 mx-auto">
+<mat-card *ngIf="cart?.items?.length; else emptyCart" class="max-w-7x1 mx-auto">
   <table mat-table [dataSource]="dataSource" class="mat-elevention-z8 w-full">
     <ng-container matColumnDef="product">
       <th mat-header-cell *matHeaderCellDef>Product</th>
@@ -91,11 +91,10 @@
       </td>
       <td mat-footer-cell *matFooterCellDef>
         <button
-          [disabled]="!cart?.items?.length"
           (click)="onCheckout()"
           mat-raised-button
           color="primary"
-          class="float-right"
+          class="float-right bg-slate-500"
         >
           Proceed to Checkout
         </button>
@@ -107,16 +106,6 @@
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
 </mat-card>
-
-<mat-card *ngIf="!cart?.items?.length" class="max-w-7x1 mx-auto">
-  <span>
-    You cart is empty.
-    <button
-      mat-raised-button
-      [routerLink]="['/home']"
-      routerLinkActive="router-link-active"
-    >
-      Return to shopping
-    </button>
-  </span>
-</mat-card>
+<ng-template #emptyCart>
+  <app-error-page-layout [page]="'cart-empty'"></app-error-page-layout>
+</ng-template>

@@ -1,32 +1,91 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-// const registration = new FormGroup({
-//   name: new FormControl('', { nonNullable: true }),
-//   email: new FormControl('', { nonNullable: true }),
-//   password: new FormControl('', { nonNullable: true }),
-// });
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import {
+  forbiddenLoginValue,
+  forbiddenPasswordRegExp,
+  registrationValidationTypes,
+} from '../constants';
+import { confirmPasswordValidator } from '../helpers/confirm-password.directive';
+import { AuthService } from '../service/auth.service';
+import { forbiddenValueValidator } from '../helpers/custom-validators.directive';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DEFAULT_DURATION } from '@shared/constants';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationComponent implements OnInit {
-  public name = new FormControl('', [Validators.required]);
-  public email = new FormControl('', [Validators.required, Validators.email]);
-  public password = new FormControl('', [Validators.required]);
+  public form!: FormGroup;
+  public message: string | undefined;
+  public ValidationTypes = registrationValidationTypes;
 
-  constructor() {}
+  constructor(
 
-  ngOnInit(): void {}
+    private router: Router,
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+  ) {}
 
-  public getErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
+  ngOnInit(): void {
+    this.form = this.formBuilder.group(
+      {
+        userName: [
+          '',
+          [
+            Validators.minLength(4),
+            Validators.required,
+            forbiddenValueValidator(forbiddenLoginValue),
+          ],
+        ],
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            forbiddenValueValidator(forbiddenPasswordRegExp),
+          ],
+        ],
+        confirmPassword: ['', Validators.required],
+      },
+      {
+        validator: confirmPasswordValidator('password', 'confirmPassword'),
+      }
+    );
+  }
+
+  public submit(): void {
+    if (this.form.invalid) {
+      return;
     }
+    const { email, password, login  } = this.form.value;
+    this.authService.signUp({ email, password, login }).subscribe({
+      next: () => {
+        this.router.navigate(['auth/login']);
+      },
+      error: (err: { message: string | undefined; }) => {
+      !!err.message?  this._snackBar.open(err.message, 'Ok', { duration: DEFAULT_DURATION }) : console.dir(err)
+      },
+    });
+    this.form.reset();
+  }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+  get userName() {
+    return this.form.get('userName')!;
+  }
+
+  get email() {
+    return this.form.get('email')!;
+  }
+
+  get password() {
+    return this.form.get('password')!;
+  }
+  get confirmPassword() {
+    return this.form.get('confirmPassword');
   }
 }

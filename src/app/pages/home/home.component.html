@@ -1,6 +1,6 @@
 <mat-drawer-container
   [autosize]="true"
-  class="min-h-full max-w-7x1 mx-auto border-x max-md:hidden"
+  class="min-h-full max-w-7x1 mx-auto border-x max"
 >
   <mat-drawer mode="side" opened class="p-6" class="max-md:hidden">
     <app-filters
@@ -15,9 +15,10 @@
       (sortChange)="onSortChange($event)"
     >
     </app-products-header>
+
     <mat-grid-list
       gutterSize="16"
-      cols="cols"
+      [cols]="cols"
       [rowHeight]="rowHeight"
       class="col-sm-1"
     >
@@ -33,3 +34,4 @@
     </mat-grid-list>
   </mat-drawer-content>
 </mat-drawer-container>
+
