@@ -10,7 +10,6 @@ import { Product } from '@shared/product.interface';
 
 @Component({
   selector: 'app-product-box',
-  styleUrls: ['./product-box.component.scss'],
   templateUrl: './product-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

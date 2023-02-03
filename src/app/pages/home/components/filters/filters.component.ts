@@ -5,8 +5,6 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/store';
 
 @Component({
   selector: 'app-filters',
@@ -16,8 +14,7 @@ import { AppState } from 'src/app/core/store';
 export class FiltersComponent {
   @Output() showCategory = new EventEmitter<string>();
   @Input() categories!: ReadonlyArray<string> | null;
-  //public categories$ = this.store.select(selectCategories);
-  constructor(private store: Store<AppState>) {}
+  constructor() {}
 
   onShowCategory(category: string): void {
     this.showCategory.emit(category);

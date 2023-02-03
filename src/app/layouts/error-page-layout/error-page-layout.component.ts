@@ -4,7 +4,8 @@ import {
   Input,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Location, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-error-page-layout',
@@ -15,11 +16,9 @@ import { Location, CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorPageLayoutComponent {
-  public yAxis = '-50%';
-  public xAxis = '-45%';
   public errorMessage = '';
   public buttonInnerText = '';
-  constructor(private location: Location) {}
+  constructor(private router: Router) {}
   @Input() page!: string;
 
   ngOnInit(): void {
@@ -34,17 +33,7 @@ export class ErrorPageLayoutComponent {
     }
   }
 
-  @HostListener('mousemove', ['$event'])
-  onMove(event: MouseEvent) {
-    const innerWidth = window.innerWidth;
-    const innerHeight = window.innerHeight;
-    const mouseY = event.clientY;
-    const mouseX = event.clientX / -innerWidth;
-    this.yAxis = (((innerWidth / 2 - mouseY) / innerHeight) * 300).toString();
-    this.xAxis = (-mouseX * 100 - 100).toString();
-  }
-
   back(): void {
-    this.location.back();
+    this.router.navigateByUrl('/home')
   }
 }

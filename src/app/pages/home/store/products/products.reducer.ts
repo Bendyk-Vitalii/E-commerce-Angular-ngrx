@@ -11,7 +11,7 @@ export interface ProductsPartialState {
 
 export interface State {
   products: ReadonlyArray<Product>;
-}
+};
 
 const initialState: State = {
   products: [],

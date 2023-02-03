@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, exhaustMap } from 'rxjs/operators';
+import { map, exhaustMap, catchError, tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { LoginActions } from './auth.actions';
+import {
+  CommonAuthActions,
+  LoginActions,
+  RefreshTokenActions,
+} from './auth.actions';
 import { AuthService } from '../service/auth.service';
-import { User } from '../auth.interface';
 import { TokenStorageService } from '../service/token-storage.service';
 
 @Injectable()
@@ -15,10 +18,9 @@ export class AuthEffects {
       ofType(LoginActions.logInRequest),
       exhaustMap(({ email, password }) =>
         this.authService.logIn({ email, password }).pipe(
-          map(({ access_token }) => {
-            this.tokenStorageService.saveTokens(access_token);
-            this.authService.handleAuthentication(access_token);
-            return LoginActions.logInSuccess()
+          map(({access_token}) => {
+            this.tokenStorageService.saveAccessToken(access_token)
+            return LoginActions.logInSuccess({access_token});
           })
         )
       )
@@ -28,33 +30,28 @@ export class AuthEffects {
   onLoginSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LoginActions.logInSuccess),
-      map(() => {
+      map((access_token) => {
+        this.authService.tokenHandler(access_token)
         // redirect to return url or home
         this.router.navigateByUrl(
-          this.activatedRoute.snapshot.queryParams['returnUrl'] || '/'
+          this.activatedRoute.snapshot.queryParams['returnUrl'] || '/home'
         );
-        return LoginActions.getAuthUserRequest();
+        return CommonAuthActions.getAuthUserRequest();
       })
     );
   });
 
-
-  // loginComplete$ = createEffect(
-  //   () => {}
-  // )
-
-  // logout$ = createEffect(
-  //   (isAuthenticated: boolean) =>
-  //     this.actions$.pipe(
-  //       ofType(LoginActions.userLogout),
-  //       tap(() => {
-  //         this.authService.logout()
-
-  //         this.router.navigateByUrl('/login');
-  //         return isAuthenticated = false
-  //       })
-  //     ),
-  // );
+  onLoginOrRefreshTokenFailure$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(LoginActions.logInFailure, RefreshTokenActions.failure),
+        tap(() => {
+          this.tokenStorageService.removeTokens();
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   constructor(
     private router: Router,

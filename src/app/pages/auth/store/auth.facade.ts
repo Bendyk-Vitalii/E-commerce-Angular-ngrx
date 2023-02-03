@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { LoginActions } from './auth.actions';
+import { CommonAuthActions, LoginActions } from './auth.actions';
 import * as AuthSelectors from './auth.selectors';
 
 @Injectable()
@@ -19,10 +19,10 @@ export class AuthFacade {
   }
 
   logout() {
-    this.store.dispatch(LoginActions.userLogout());
+    this.store.dispatch(CommonAuthActions.userLogout());
   }
 
   getAuthUser() {
-    this.store.dispatch(LoginActions.getAuthUserRequest());
+    this.store.dispatch(CommonAuthActions.getAuthUserRequest());
   }
 }

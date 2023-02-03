@@ -1,11 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { LoginActions } from './auth.actions';
-import { State, TokenStatus } from './auth.model';
+import { CommonAuthActions, LoginActions, RefreshTokenActions } from './auth.actions';
+import { AuthState, TokenStatus } from './auth.model';
 
 export const AUTH_FEATURE_KEY = 'auth';
 
-export const initialState: State = {
+export const initialState: AuthState = {
   isLoggedIn: false,
   user: undefined,
   accessTokenStatus: TokenStatus.PENDING,
@@ -16,20 +16,32 @@ export const initialState: State = {
 
 const reducer = createReducer(
   initialState,
-  on(LoginActions.logInRequest, (state): State => {
+  on(LoginActions.logInRequest, (state): AuthState => {
     return {
       ...state,
-      accessTokenStatus: TokenStatus.VALIDATING,
-      isLoadingLogin: true,
-      hasLoginError: false,
+      isLoggedIn: true,
+      isLoadingLogin: false,
+      accessTokenStatus: TokenStatus.VALID,
+      refreshTokenStatus: TokenStatus.VALID,
     };
   }),
-  on(LoginActions.userLogout, (): State => ({
+  on(
+    LoginActions.logInFailure,
+    RefreshTokenActions.failure,
+    (state, action): AuthState => ({
+      ...state,
+      isLoadingLogin: false,
+      accessTokenStatus: TokenStatus.INVALID,
+      refreshTokenStatus: TokenStatus.INVALID,
+      hasLoginError: action.type === "[Log In Page] Log In Failure" && !!action.error,
+    })
+  ),
+  on(CommonAuthActions.userLogout, (): AuthState => ({
     ...initialState,
   }))
 );
 
-export function authReducer(state: State | undefined, action: Action): State {
+export function authReducer(state: AuthState | undefined, action: Action): AuthState {
   return reducer(state, action);
 }
 

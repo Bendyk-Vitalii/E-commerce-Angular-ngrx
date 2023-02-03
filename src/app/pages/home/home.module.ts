@@ -22,6 +22,7 @@ import { FiltersComponent, ProductsHeaderComponent } from './components';
 import { productsReducer, PRODUCTS_FEATURE_KEY } from './store/products/products.reducer';
 import { ProductEffects } from './store/products/products.effects';
 import { CategoriesEffects } from './store/categories/categories.effects';
+import { categoriesReducer, CATEGORIES_FEATURE_KEY } from './store/categories/categories.reducer';
 
 const routes: Routes = [
   {
@@ -52,6 +53,7 @@ const routes: Routes = [
     MatListModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature(PRODUCTS_FEATURE_KEY, productsReducer),
+    StoreModule.forFeature(CATEGORIES_FEATURE_KEY, categoriesReducer),
     EffectsModule.forFeature([ProductEffects, CategoriesEffects])
   ],
 })

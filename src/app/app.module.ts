@@ -1,10 +1,6 @@
-import { AuthEffects } from './pages/auth/store/auth.effects';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -15,15 +11,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { HomeModule } from './pages/home/home.module';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from '@pages/auth';
-import { CartModule } from './pages/shopping-cart/cart.module';
-import { appReducer } from './core';
-import { environment } from '../environments/environment';
-import { ProductEffects } from '@pages/home/store/products/products.effects';
-import { CategoriesEffects } from '@pages/home/store/categories/categories.effects';
+import { HomeModule } from '@pages/home/home.module';
+import { CartModule } from '@pages/shopping-cart/cart.module';
 import { HeaderComponent, LayoutContainerComponent } from '@layouts';
 
 @NgModule({
@@ -44,8 +41,8 @@ import { HeaderComponent, LayoutContainerComponent } from '@layouts';
     AuthModule,
     HomeModule,
     CartModule,
-    StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([ProductEffects, CategoriesEffects, AuthEffects]),
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

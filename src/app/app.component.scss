@@ -1,9 +1,12 @@
 :host ::ng-deep {
 cursor: default;
-} 
+}
 .mat-list-item-content {
   padding: 0 !important;
   :disabled {
     cursor: not-allowed !important;
+  }
+  img .img {
+    max-width: 40% !important;
   }
 }

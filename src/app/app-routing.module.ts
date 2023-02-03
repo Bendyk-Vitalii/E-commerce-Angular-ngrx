@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from '@pages/auth/guards';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
       },
       {
         path: 'cart',
+        canActivate: [AuthGuardService],
         loadChildren: () =>
           import('./pages/shopping-cart/cart.module').then(
             (mod) => mod.CartModule
@@ -38,7 +40,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    scrollPositionRestoration: 'enabled',
+    preloadingStrategy: PreloadAllModules,
+
+  })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

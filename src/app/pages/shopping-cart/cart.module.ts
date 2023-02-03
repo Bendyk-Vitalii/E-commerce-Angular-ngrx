@@ -9,6 +9,7 @@ import { CartComponent } from '@pages/shopping-cart';
 
 import { SharedModule } from '@shared';
 import { ErrorPageLayoutComponent } from '@layouts';
+import { MatButtonModule } from '@angular/material/button';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
     CommonModule,
     MatTableModule,
     MatCardModule,
+    MatButtonModule,
     MatIconModule,
     ErrorPageLayoutComponent,
     RouterModule.forChild(routes),
