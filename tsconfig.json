@@ -23,15 +23,18 @@
       "dom"
     ],
     "paths": {
-      // "@components": ["./src/app/components"],
-      // "@components/*": ["./src/app/components/*"],
       "@layouts": ["./src/app/layouts"],
       "@layouts/": ["./src/app/layouts/*"],
-      "@pages": ["./src/app/pages"],
-      "@pages/*": ["./src/app/pages/*"],
+      "@auth": ["./src/app/auth"],
+      "@auth/*": ["./src/app/auth/*"],
+      "@home": ["./src/app/home"],
+      "@home/*": ["./src/app/home/*"],
+      "@shopping-cart": ["./src/app/shopping-cart"],
+      "@shopping-cart/*": ["./src/app/shopping-cart/*"],
+      "@page-not-found": ["./src/app/page-not-found"],
       "@shared": ["./src/app/shared"],
       "@shared/*": ["./src/app/shared/*"],
-      "@services": ["./src/app/services"],
+      "@services": ["src/app/shared/services"],
       "@core/*": ["./src/app/core/*"],
       "@core": ["./src/app/core"],
     }

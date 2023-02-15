@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Cart, CartItem } from '@shopping-cart/interface/cart.interface';
+import { CartService } from '@shopping-cart/service/Cart.service';
 
-import { Cart, CartItem } from '@pages/shopping-cart/cart.interface';
-import { CartService } from '@services';
+
 
 @Component({
   selector: 'app-header',

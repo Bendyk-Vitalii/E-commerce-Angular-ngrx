@@ -18,9 +18,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from '@pages/auth';
-import { HomeModule } from '@pages/home/home.module';
-import { CartModule } from '@pages/shopping-cart/cart.module';
+
+import { AuthModule } from '@auth/auth.module';
+import { CartModule } from '@shopping-cart/page/cart.module';
+import { HomeModule } from '@home/page/home.module';
 import { HeaderComponent, LayoutContainerComponent } from '@layouts';
 
 @NgModule({

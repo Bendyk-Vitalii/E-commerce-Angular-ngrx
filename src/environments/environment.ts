@@ -9,6 +9,8 @@ export const environment = {
   appVersion: `${version}-dev`,
   authApiUrl: 'http://localhost:3000/api/auth/',
   fakeStoreApiUrl: 'https://fakestoreapi.com',
+  checkoutUrl: 'http://localhost:4242/checkout',
+  stripeApiKey: 'pk_test_51M69gQF9QwAxJD1i6qvyd5egsbkxaQbwr1qDQljh0VkYg0yHDZYsZpbBvsNXO3fRQDdWPIRbQg3It11p52AjypZI00ZW0jHdyI',
   settings: {
     auth: {
       // Auth credentials
