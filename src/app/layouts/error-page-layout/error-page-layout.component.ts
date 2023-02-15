@@ -1,6 +1,5 @@
 import {
   Component,
-  HostListener,
   Input,
   ChangeDetectionStrategy,
 } from '@angular/core';

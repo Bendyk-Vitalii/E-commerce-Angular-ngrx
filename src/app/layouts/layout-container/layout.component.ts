@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Cart } from '@pages/shopping-cart/cart.interface';
-import { CartService } from '@services';
+
+import { Cart } from '@shopping-cart/interface/cart.interface';
+import { CartService } from '@shopping-cart/service/Cart.service';
+
 
 @Component({
   selector: 'app-layout-container',

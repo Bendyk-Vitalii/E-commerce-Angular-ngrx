@@ -1,39 +1,42 @@
-import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuardService } from '@pages/auth/guards';
+import { NgModule } from '@angular/core';
+
+
+import { AppRouteEnum } from '@shared/enums/router-enum';
+import { AuthGuardService } from './auth/guard';
 
 const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: 'home',
+        path: AppRouteEnum.home,
         loadChildren: () =>
-          import('./pages/home/home.module').then((mod) => mod.HomeModule),
+          import('./home/page/home.module').then((mod) => mod.HomeModule),
       },
       {
-        path: 'cart',
+        path: AppRouteEnum.cart,
         canActivate: [AuthGuardService],
         loadChildren: () =>
-          import('./pages/shopping-cart/cart.module').then(
+          import('./shopping-cart/page/cart.module').then(
             (mod) => mod.CartModule
           ),
       },
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: AppRouteEnum.home,
         pathMatch: 'full',
       },
     ],
   },
   {
-    path: 'auth',
-    loadChildren: () => import('./pages/auth').then((mod) => mod.AuthModule),
+    path: AppRouteEnum.auth,
+    loadChildren: () => import('./auth/auth.module').then((mod) => mod.AuthModule),
   },
   {
     path: '**',
     loadComponent: () =>
-      import('./pages/page-not-found/page-not-found.component').then(
+      import('./page-not-found/page-not-found.component').then(
         (mod) => mod.PageNotFoundComponent
       ),
   },
