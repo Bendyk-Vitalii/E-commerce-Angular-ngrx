@@ -1,26 +1,28 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { Product } from '@shared/interface/product.interface';
-import { CartItem } from '@pages/shopping-cart/cart.interface';
+import { CartItem } from '@shopping-cart/interface/cart.interface';
 
-export interface ISHCartList {
-  items: ReadonlyArray<CartItem>;
-}
-
-export const SHCartActions = createActionGroup({
-  source: '[Home Page]',
+export const ShoppingCartCommonActions = createActionGroup({
+  source: 'Home Page',
   events: {
-    'Get Shopping Cart': props<ISHCartList>(),
-    'Select a Product': props<Product>(),
+    'Get Shopping Cart': emptyProps,
+    'Set Shopping Cart': props<{ shoppingCartList: ReadonlyArray<CartItem> }>(),
+    'Calculate Total Price': emptyProps,
+    'Calculate Total Quantity': emptyProps,
+    'Clear Shopping Cart': emptyProps,
   },
 });
 
-export const SHCartUpdateActions = createActionGroup({
-  source: '[Shopping Cart Page]',
+export const ShoppingCartActions = createActionGroup({
+  source: 'Shopping Cart',
   events: {
-    'Clear Shopping Cart': emptyProps,
-    'Remove Product': props<CartItem>(),
-    'Increase Quantity': props<CartItem>(),
+    'Add Product': props<{ item: CartItem }>(),
+    'Remove Product': props<{ id: number }>(),
+    'Update Quantity':  props<{ id: number, changeInQuantity: number }>(),
+    'Increase Quantity': props<{  id: number }>(),
     'Decrease Quantity': props<CartItem>(),
+    'Load Colection Success': props<{items: CartItem[]}>(),
+    'Success': props<CartItem>(),
+    'Failure': props<{ error: any }>(),
   },
 });

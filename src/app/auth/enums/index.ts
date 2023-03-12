@@ -1,1 +1,1 @@
-export * from './AuthRouteEnum'
+export * from './auth-route.enum'

@@ -10,7 +10,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
@@ -23,6 +22,7 @@ import { AuthModule } from '@auth/auth.module';
 import { CartModule } from '@shopping-cart/page/cart.module';
 import { HomeModule } from '@home/page/home.module';
 import { HeaderComponent, LayoutContainerComponent } from '@layouts';
+import { CartFacade } from '@shopping-cart/store/cart.facade';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, LayoutContainerComponent],
@@ -49,7 +49,7 @@ import { HeaderComponent, LayoutContainerComponent } from '@layouts';
       logOnly: environment.production,
     }),
   ],
-  providers: [],
+  providers: [CartFacade],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

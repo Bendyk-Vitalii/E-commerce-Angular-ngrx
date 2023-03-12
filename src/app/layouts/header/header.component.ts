@@ -1,42 +1,49 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Cart, CartItem } from '@shopping-cart/interface/cart.interface';
-import { CartService } from '@shopping-cart/service/Cart.service';
-
-
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { CartFacade } from '@shopping-cart/store/cart.facade';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {
-  private _cart: Cart = { items: [] };
+export class HeaderComponent implements OnInit {
   public screenWidth!: number;
-  itemsQuantity = 0;
+  public cart$ = this.cartFacade.cartItems$;
+  public totalQuantity$ = this.cartFacade.totalQuantity$;
+  public totalPrice$ = this.cartFacade.totalPrice$;
+  public itemsQuantity = 0;
+  constructor(private cartFacade: CartFacade) {}
 
-  @Input()
-  get cart(): Cart {
-    return this._cart;
+
+  ngOnInit() {
+    this.totalQuantity$ = this.cartFacade.totalQuantity$;
+    this.totalQuantity$.subscribe(quantity => this.itemsQuantity = quantity);
   }
 
-  set cart(cart: Cart) {
-    this._cart = cart;
 
-    this.itemsQuantity = cart.items
-      .map((item) => item.quantity)
-      .reduce((prev, current) => prev + current, 0);
-  }
+  // @Input()
+  // get cart(): ShoppingCartState {
+  //   return this._cart;
+  // }
 
-  constructor(private cartService: CartService) {}
-  ngOnInit(): void {
-    this.screenWidth = window.innerWidth;
-  }
+  // set cart(cart: ShoppingCartState) {
+  //   this._cart = cart;
 
-  getTotal(items: Array<CartItem>): number {
-    return this.cartService.getTotal(items);
-  }
+  //   this.itemsQuantity = cart.shoppingCartList
+  //     .map((item) => item.quantity)
+  //     .reduce((prev, current) => prev + current, 0);
+  // }
+
+  // constructor(private cartService: CartService) {}
+  // ngOnInit(): void {
+  //   this.screenWidth = window.innerWidth;
+  // }
+
+  // getTotal(items: ReadonlyArray<CartItem>): number {
+  //   return this.cartService.getTotal(items);
+  // }
 
   onClearCart() {
-    this.cartService.clearCart();
+    this.cartFacade.clearCart();
   }
 }

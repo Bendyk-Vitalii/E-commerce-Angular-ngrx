@@ -8,8 +8,8 @@ import {
   LoginActions,
   RefreshTokenActions,
 } from './auth.actions';
-import { AuthService } from '@auth/service/auth.service';
-import { TokenStorageService } from '@auth/service/token-storage.service';
+import { AuthService } from '@auth/services/auth.service';
+import { TokenStorageService } from '@auth/services/token-storage.service';
 
 @Injectable()
 export class AuthEffects {
