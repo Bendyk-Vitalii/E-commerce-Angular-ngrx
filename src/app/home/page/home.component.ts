@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Product } from '@shared/interface/product.interface';
-import { CartService } from '@shopping-cart/service/Cart.service';
-
 import { ProductsFacade } from '@home/store/products/products.facade';
 import { CategoriesFacade } from '@home/store/categories/categories.facade';
+import { CartFacade } from '@shopping-cart/store/cart.facade';
+import { CartService } from '@shopping-cart/service/Cart.service';
 
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 
@@ -27,9 +27,9 @@ export class HomeComponent implements OnInit {
   public productsSubscription?: Subscription;
 
   constructor(
-    private cartService: CartService,
     private productsFacade: ProductsFacade,
-    private categoriesFacade: CategoriesFacade
+    private categoriesFacade: CategoriesFacade,
+    private cartFacade: CartFacade
   ) {}
 
   ngOnInit(): void {
@@ -74,12 +74,15 @@ export class HomeComponent implements OnInit {
   }
 
   onAddToCart(product: Product): void {
-    this.cartService.addToCart({
+    const cartItem = {
       product: product.image,
       name: product.title,
       price: product.price,
       quantity: 1,
       id: product.id,
-    });
+    }
+
+    this.cartFacade.addItemToCart(cartItem)
+
   }
 }

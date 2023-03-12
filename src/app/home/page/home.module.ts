@@ -26,6 +26,7 @@ import { CategoriesEffects } from '@home/store/categories/categories.effects';
 import { ProductEffects } from '@home/store/products/products.effects';
 import { ProductsFacade } from '@home/store/products/products.facade';
 import { CategoriesFacade } from '@home/store/categories/categories.facade';
+import { CartFacade } from '@shopping-cart/store/cart.facade';
 
 
 const routes: Routes = [
@@ -62,7 +63,8 @@ const routes: Routes = [
   ],
   providers: [
     ProductsFacade,
-    CategoriesFacade
+    CategoriesFacade,
+    CartFacade
   ]
 })
 export class HomeModule {}

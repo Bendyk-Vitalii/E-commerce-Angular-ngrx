@@ -1,21 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-
-import { Cart } from '@shopping-cart/interface/cart.interface';
-import { CartService } from '@shopping-cart/service/Cart.service';
-
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CartFacade } from '@shopping-cart/store/cart.facade';
 
 @Component({
   selector: 'app-layout-container',
   templateUrl: './layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutContainerComponent implements OnInit {
-  cart: Cart = { items: [] };
-  constructor(private cartService: CartService) {}
+export class LayoutContainerComponent {
+  public cart$ = this.cartFacade.cartItems$;
 
-  ngOnInit(): void {
-    this.cartService.cart.subscribe((_cart: Cart) => {
-      this.cart = _cart;
-    });
-  }
+  constructor(private cartFacade: CartFacade) {}
 }

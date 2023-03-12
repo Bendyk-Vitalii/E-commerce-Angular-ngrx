@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { loadStripe } from '@stripe/stripe-js';
+import { Dictionary } from '@ngrx/entity';
 
-import { Cart, CartItem } from '../interface/cart.interface';
-import { environment } from 'src/environments/environment';
+import { CartFacade } from '@shopping-cart/store/cart.facade';
+import { CartItem } from '../interface/cart.interface';
 import { CartService } from '../service/Cart.service';
 import { ShoppingCartApiService } from '../service/CartApi.service';
 
@@ -13,8 +12,9 @@ import { ShoppingCartApiService } from '../service/CartApi.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartComponent implements OnInit {
-  cart!: Cart;
-  dataSource: Array<CartItem> = [];
+  public cart$ = this.cartFacade.cartItems$;
+  public totalPrice$ = this.cartFacade.totalPrice$
+  dataSource!: Dictionary<CartItem> | null;
   displayedColumns: Array<string> = [
     'product',
     'name',
@@ -23,40 +23,47 @@ export class CartComponent implements OnInit {
     'total',
     'action',
   ];
-  constructor(private cartService: CartService, private shoppingCartApiService: ShoppingCartApiService) {}
+  constructor(
+    private cartService: CartService,
+    private cartFacade: CartFacade,
+    private shoppingCartApiService: ShoppingCartApiService
+  ) {}
 
   ngOnInit(): void {
-    this.cartService.cart.subscribe((_cart: Cart) => {
-      this.cart = _cart;
-      this.dataSource = this.cart.items;
-    });
+    // this.cartService.cart.subscribe((_cart: ShoppingCartState) => {
+    //   this.cart = _cart;
+    //   this.dataSource = this.cart.shoppingCartList;
+    // });
   }
 
-  getTotal(items: Array<CartItem>): number {
-    return this.cartService.getTotal(items);
+  getTotal(items: ReadonlyArray<CartItem>): number {
+    //return this.cartService.getTotal(items);
+    return 1;
   }
 
   onClearCart(): void {
-    this.cartService.clearCart();
+    this.cartFacade.clearCart();
+    //this.cartService.clearCart();
   }
 
   onRemoveFromCart(item: CartItem): void {
-    this.cartService.removeFromCart(item);
+    this.cartFacade.removeItemFromCart(item.id);
+    // this.cartService.removeFromCart(item);
   }
 
   onAddQuantity(item: CartItem): void {
-    this.cartService.addToCart(item);
+    //this.cartService.addToCart(item);
   }
 
   onRemoveQuantity(item: CartItem): void {
-    this.cartService.removeQuantity(item);
+    //this.cartService.removeQuantity(item);
   }
 
   onCheckout(): void {
-    if (this.cart?.items) {
-      this.shoppingCartApiService.Checkout(this.cart?.items)
-    } else {
-      return;
-    }
+    // if (this.cart?.shoppingCartList) {
+    //  // this.shoppingCartApiService.Checkout(this.cart?.shoppingCartList)
+    // } else {
+    //   return;
+    // }
   }
 }

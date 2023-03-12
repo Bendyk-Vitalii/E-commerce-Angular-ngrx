@@ -5,10 +5,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { forbiddenPasswordRegExp, signInValidationTypes } from '@auth/constants';
 import { AuthFacade } from '@auth/store';
 import { forbiddenValueValidator } from '@auth/utils/custom-validator/custom-validators.directive';
-
 import { DEFAULT_DURATION } from '@shared/constants';
 
 @Component({
@@ -21,7 +21,7 @@ export class LoginComponent {
   private message!: string;
   private showLoginError$ = this.authFacade.hasLoginError$;
   public signInValidation = signInValidationTypes;
-  readonly form: FormGroup = this.formBuilder.group({
+  public readonly form: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: [
       '',

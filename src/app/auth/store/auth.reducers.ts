@@ -1,7 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { CommonAuthActions, LoginActions, RefreshTokenActions } from './auth.actions';
-import { AuthState, TokenStatus } from '../interface/authStore.model';
+import {
+  CommonAuthActions,
+  LoginActions,
+  RefreshTokenActions,
+} from './auth.actions';
+import { AuthState, TokenStatus } from '../interface/auth-store.interface';
 
 export const AUTH_FEATURE_KEY = 'auth';
 
@@ -30,15 +34,21 @@ const reducer = createReducer(
       ...state,
       accessTokenStatus: TokenStatus.INVALID,
       refreshTokenStatus: TokenStatus.INVALID,
-      hasLoginError: action.type === "[Log In Page] Log In Failure" && !!action.error,
+      hasLoginError:
+        action.type === '[Log In Page] Log In Failure' && !!action.error,
     })
   ),
-  on(CommonAuthActions.userLogout, (): AuthState => ({
-    ...initialState,
-  }))
+  on(
+    CommonAuthActions.userLogout,
+    (): AuthState => ({
+      ...initialState,
+    })
+  )
 );
 
-export function authReducer(state: AuthState | undefined, action: Action): AuthState {
+export function authReducer(
+  state: AuthState | undefined,
+  action: Action
+): AuthState {
   return reducer(state, action);
 }
-

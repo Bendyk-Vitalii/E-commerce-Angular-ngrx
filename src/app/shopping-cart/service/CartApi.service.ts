@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
 
 import { environment } from 'src/environments/environment';
-import { CartItem } from '../interface/cart.interface';
+import { CartItem } from '@shopping-cart/interface/cart.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ import { CartItem } from '../interface/cart.interface';
 export class ShoppingCartApiService {
   constructor(private http: HttpClient) {}
 
-  public Checkout(items: CartItem[]): void {
+  public Checkout(items: ReadonlyArray<CartItem>): void {
     this.http
       .post(environment.checkoutUrl, {
         items: items,

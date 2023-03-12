@@ -5,19 +5,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 import { SharedModule } from '@shared';
-import { AuthService } from './service/auth.service';
+import { AuthService } from './services/auth.service';
 import { LoginComponent } from './pages/log-in-page';
 import { SignupComponent } from './pages/sign-up-page';
 import { authReducer, AUTH_FEATURE_KEY } from './store/auth.reducers';
 import { AuthEffects } from './store/auth.effects';
 import { AuthFacade } from './store/auth.facade';
-import { AuthRouteEnum } from './enums/AuthRouteEnum';
+import { AuthRouteEnum } from './enums';
 
 const routes: Routes = [
   {
@@ -51,7 +50,7 @@ const routes: Routes = [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
     AuthFacade,
-    AuthService
+    AuthService,
   ],
 })
 export class AuthModule {}
