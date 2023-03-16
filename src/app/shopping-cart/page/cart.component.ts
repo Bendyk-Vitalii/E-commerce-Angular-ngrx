@@ -14,6 +14,7 @@ import { ShoppingCartApiService } from '../service/CartApi.service';
 export class CartComponent implements OnInit {
   public cart$ = this.cartFacade.cartItems$;
   public totalPrice$ = this.cartFacade.totalPrice$
+  public totalQuantity$ = this.cartFacade.totalQuantity$
   dataSource!: Dictionary<CartItem> | null;
   displayedColumns: Array<string> = [
     'product',
@@ -47,15 +48,15 @@ export class CartComponent implements OnInit {
   }
 
   onRemoveFromCart(item: CartItem): void {
-    this.cartFacade.removeItemFromCart(item.id);
+    this.cartFacade.removeItem(item.id);
     // this.cartService.removeFromCart(item);
   }
 
-  onAddQuantity(item: CartItem): void {
-    //this.cartService.addToCart(item);
+  onIncreaseQuantity(item: CartItem): void {
+    this.cartFacade.addItem(item)
   }
 
-  onRemoveQuantity(item: CartItem): void {
+  onDecreaseQuantity(item: CartItem): void {
     //this.cartService.removeQuantity(item);
   }
 
