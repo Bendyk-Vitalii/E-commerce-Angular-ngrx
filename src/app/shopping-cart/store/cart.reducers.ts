@@ -25,7 +25,7 @@ export interface ShoppingCartState extends EntityState<CartItem> {
   totalQuantity: number;
 }
 
-const selectShoppingCartState = createFeatureSelector<ShoppingCartState>(CART_FEATURE_KEY);
+export const selectShoppingCartState = createFeatureSelector<ShoppingCartState>(CART_FEATURE_KEY);
 
 // export const selectCartItem = (id: number) =>
 //   createSelector(

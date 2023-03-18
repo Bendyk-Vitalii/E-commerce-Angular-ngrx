@@ -22,9 +22,8 @@ import { AuthModule } from '@auth/auth.module';
 import { CartModule } from '@shopping-cart/page/cart.module';
 import { HomeModule } from '@home/page/home.module';
 import { HeaderComponent, LayoutContainerComponent } from '@layouts';
-import { CartFacade } from '@shopping-cart/store/cart.facade';
 import { cartReducer, CART_FEATURE_KEY } from '@shopping-cart/store/cart.reducers';
-import { CartEffects } from '@shopping-cart/store/cart.effects';
+import { CartFacade } from '@shopping-cart/store/cart.facade';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, LayoutContainerComponent],
@@ -51,7 +50,9 @@ import { CartEffects } from '@shopping-cart/store/cart.effects';
       logOnly: environment.production,
     }),
   ],
- providers: [CartFacade],
+  providers: [
+    CartFacade
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

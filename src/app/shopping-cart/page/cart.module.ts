@@ -14,7 +14,6 @@ import { CartComponent } from './cart.component';
 import { ErrorPageLayoutComponent } from '@layouts';
 import { CartEffects } from '@shopping-cart/store/cart.effects';
 import { cartReducer, CART_FEATURE_KEY } from '@shopping-cart/store/cart.reducers';
-import { CartFacade } from '@shopping-cart/store/cart.facade';
 
 
 const routes: Routes = [
