@@ -32,7 +32,6 @@ export class CartService {
     const existingItemIndex = this.cartItems.findIndex(cartItem => cartItem.id === id);
     if (existingItemIndex > -1) {
       this.cartItems[existingItemIndex].quantity += changeInQuantity;
-      // Remove item from cart if quantity becomes zero
       if (this.cartItems[existingItemIndex].quantity <= 0) {
         this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== id);
       }
@@ -50,6 +49,4 @@ export class CartService {
     localStorage.removeItem('cartItems');
     return of();
   }
-
-  constructor() { }
 }

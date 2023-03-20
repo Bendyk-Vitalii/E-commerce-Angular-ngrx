@@ -47,7 +47,6 @@ export class HomeComponent implements OnInit {
     this.productsFacade.getProducts(count, sortBy, category);
   }
 
-
   onColumnsCountChange(colsNumber: number) {
     if (this.screenWidth <= 700) {
       this.cols = 1;
@@ -80,9 +79,7 @@ export class HomeComponent implements OnInit {
       price: product.price,
       quantity: 1,
       id: product.id,
-    }
-
-    this.cartFacade.addItemToCart(cartItem)
-
+    };
+    this.cartFacade.addItem(cartItem);
   }
 }

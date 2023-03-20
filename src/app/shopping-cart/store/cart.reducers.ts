@@ -16,22 +16,22 @@ import { ShoppingCartActions, ShoppingCartCommonActions } from './cart.actions';
 
 export const CART_FEATURE_KEY = 'shoppingCart';
 
-export interface ShoppingCartPartialState {
-  readonly [CART_FEATURE_KEY]: ShoppingCartState;
-}
+// export interface ShoppingCartPartialState {
+//   readonly [CART_FEATURE_KEY]: ShoppingCartState;
+// }
 
 export interface ShoppingCartState extends EntityState<CartItem> {
   totalPrice: number;
-  totalQuantity: number
+  totalQuantity: number;
 }
 
-const getCartState = createFeatureSelector<ShoppingCartState>(CART_FEATURE_KEY);
+export const selectShoppingCartState = createFeatureSelector<ShoppingCartState>(CART_FEATURE_KEY);
 
-export const selectCartItem = (id: number) =>
-  createSelector(
-    selectCartEntities,
-    (entities: Dictionary<CartItem>) => entities[id]
-  );
+// export const selectCartItem = (id: number) =>
+//   createSelector(
+//     selectCartEntities,
+//     (entities: Dictionary<CartItem>) => entities[id]
+//   );
 
 export const cartAdapter: EntityAdapter<CartItem> =
   createEntityAdapter<CartItem>({
@@ -39,12 +39,12 @@ export const cartAdapter: EntityAdapter<CartItem> =
     sortComparer: false,
   });
 
-export const { selectEntities: selectCartEntities } =
-  cartAdapter.getSelectors(getCartState);
+// export const { selectEntities: selectCartEntities } =
+//   cartAdapter.getSelectors(getCartState);
 
 const initialState: ShoppingCartState = cartAdapter.getInitialState({
   totalPrice: 0,
-  totalQuantity: 0
+  totalQuantity: 0,
 });
 
 export const cartReducer = createReducer(
@@ -101,3 +101,7 @@ export const cartReducer = createReducer(
     return { ...state, totalQuantity: totalQuantity };
   })
 );
+
+export const {
+  selectAll: selectCartItems
+} = cartAdapter.getSelectors(selectShoppingCartState);

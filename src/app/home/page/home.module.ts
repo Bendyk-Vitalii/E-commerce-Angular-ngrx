@@ -1,5 +1,8 @@
 import { MatCardModule } from '@angular/material/card';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -11,9 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule, Routes } from '@angular/router';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+
 
 import { SharedModule } from '@shared';
 import { HomeComponent } from './home.component';
@@ -26,8 +27,8 @@ import { CategoriesEffects } from '@home/store/categories/categories.effects';
 import { ProductEffects } from '@home/store/products/products.effects';
 import { ProductsFacade } from '@home/store/products/products.facade';
 import { CategoriesFacade } from '@home/store/categories/categories.facade';
-import { CartFacade } from '@shopping-cart/store/cart.facade';
-
+import { cartReducer, CART_FEATURE_KEY } from '@shopping-cart/store/cart.reducers';
+import { CartEffects } from '@shopping-cart/store/cart.effects';
 
 const routes: Routes = [
   {
@@ -64,7 +65,6 @@ const routes: Routes = [
   providers: [
     ProductsFacade,
     CategoriesFacade,
-    CartFacade
   ]
 })
 export class HomeModule {}

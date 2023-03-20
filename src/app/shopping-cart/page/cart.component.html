@@ -1,111 +1,124 @@
-<mat-card *ngIf="cart$ | async as cart; else emptyCart" class="max-w-7x1 mx-auto">
-  <table mat-table [dataSource]="cart" class="mat-elevention-z8 w-full">
-    <ng-container matColumnDef="product">
-      <th mat-header-cell *matHeaderCellDef>Product</th>
-      <td mat-cell *matCellDef="let element">
-        <img
-          src="{{ element.product }}"
-          alt="element.name"
-          class="w-[100px] my-5"
-        />
-      </td>
-      <td mat-footer-cell *matFooterCellDef>
-        <button
-          mat-raised-button
-          [routerLink]="['/home']"
-          routerLinkActive="router-link-active"
-        >
-          Back to the shopping
-        </button>
-      </td>
-    </ng-container>
+<div
+  *ngIf="totalQuantity$ | async; else emptyCart"
+  class="relative overflow-x-auto shadow-md sm:rounded-lg"
+>
+  <table
+    class="min-h-[80vh] w-full text-sm text-left text-gray-500 dark:text-gray-400"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          <span class="sr-only">Image</span>
+        </th>
+        <th scope="col" class="px-6 py-3">Product</th>
+        <th scope="col" class="px-6 py-3">Qty</th>
+        <th scope="col" class="px-6 py-3">Price</th>
+        <th scope="col" class="px-6 py-3">Action</th>
+      </tr>
+    </thead>
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">
-        <span class="truncate max-w-xs block">
+    <tbody
+      class="tracking-wide"
+      *ngFor="let element of cart$ | async as cart; index as i"
+      trackByFn:element.id
+    >
+      <tr
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+      >
+        <!-- IMAGE -->
+        <td class="w-32 p-4">
+          <img src="{{ element.product }}" alt="element.name" />
+        </td>
+        <!-- ITEM NAME -->
+        <td class="px-6 py-4 text-xs font-medium text-gray-900 dark:text-white">
           {{ element.name }}
-        </span>
-      </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef>Price</th>
-      <td mat-cell *matCellDef="let element">
-        <span class="truncate max-w-xs"> {{ element.price | currency }} </span>
-      </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef>Quantity</th>
-      <td mat-cell *matCellDef="let element" class="min-w-20">
-        <button mat-icon-button (click)="onRemoveQuantity(element)">
-          <mat-icon>remove</mat-icon>
-        </button>
-        <span class="truncate max-w-xs">
-          {{ element.quantity }}
-        </span>
-        <button mat-icon-button (click)="onAddQuantity(element)">
-          <mat-icon>add</mat-icon>
-        </button>
-      </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef>Total</th>
-      <td mat-cell *matCellDef="let element">
-        <span class="truncate max-w-xs">
-          {{ element.quantity * element.price | currency }}
-        </span>
-      </td>
-      <td mat-footer-cell *matFooterCellDef>
-        <span class="font-bold py-5 block">
-          {{ totalPrice$ | async | currency }}
-      </span>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>
+        </td>
+        <!-- QTY -->
+        <td class="px-6 py-4">
+          <div class="flex items-center space-x-3">
+            <button
+              (click)="onDecreaseQuantity(element)"
+              class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              type="button"
+            >
+              <span class="sr-only">Quantity button</span>
+              <svg
+                class="w-4 h-4"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+            <div>
+              <input
+                type="number"
+                id="first_product"
+                class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="{{ element.quantity }}"
+                required
+              />
+            </div>
+            <button
+              (click)="onIncreaseQuantity(element)"
+              class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              type="button"
+            >
+              <span class="sr-only">Quantity button</span>
+              <svg
+                class="w-4 h-4"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+        <!-- PRICE -->
+        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+          {{ element.price | currency }}
+        </td>
+        <!-- ACTIONS -->
+        <td class="px-6 py-4">
+          <a
+            href="#"
+            class="font-medium text-red-600 dark:text-red-500 hover:underline"
+            >Remove</a
+          >
+        </td>
+      </tr>
+    </tbody>
+    <tfoot class="tracking-wider">
+      <tr class="font-semibold text-gray-900 dark:text-white dark:bg-gray-700">
+        <th scope="row" class="px-6 py-3 text-base">Total</th>
+        <td class="px-6 py-3">{{ totalQuantity$ | async }}</td>
+        <th scope="row" class="px-6 py-3 text-base">Price</th>
+        <td class="px-6 py-3">{{ totalPrice$ | async | currency }}</td>
         <button
-          mat-raised-button
-          color="warn"
-          class="float-right"
-          (click)="onClearCart()"
+          type="button"
+          class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-0.5 mt-1"
         >
-          Clear all
+          Checkout
         </button>
-      </th>
-      <td mat-cell *matCellDef="let element">
-        <button
-          (click)="onRemoveFromCart(element)"
-          mat-mini-fab
-          color="warn"
-          class="float-right"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </td>
-      <td mat-footer-cell *matFooterCellDef>
-        <button
-          (click)="onCheckout()"
-          mat-raised-button
-          color="primary"
-          class="float-right bg-slate-500"
-        >
-          Proceed to Checkout
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
- </table>
-</mat-card>
+      </tr>
+    </tfoot>
+  </table>
+</div>
 <ng-template #emptyCart>
   <app-error-page-layout [page]="'cart-empty'"></app-error-page-layout>
 </ng-template>

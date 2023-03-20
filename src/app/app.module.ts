@@ -22,6 +22,8 @@ import { AuthModule } from '@auth/auth.module';
 import { CartModule } from '@shopping-cart/page/cart.module';
 import { HomeModule } from '@home/page/home.module';
 import { HeaderComponent, LayoutContainerComponent } from '@layouts';
+import { cartReducer, CART_FEATURE_KEY } from '@shopping-cart/store/cart.reducers';
+import { CartFacade } from '@shopping-cart/store/cart.facade';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, LayoutContainerComponent],
@@ -41,12 +43,15 @@ import { HeaderComponent, LayoutContainerComponent } from '@layouts';
     AuthModule,
     HomeModule,
     CartModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ [CART_FEATURE_KEY]: cartReducer }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
+  ],
+  providers: [
+    CartFacade
   ],
   bootstrap: [AppComponent],
 })

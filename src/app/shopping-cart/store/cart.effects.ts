@@ -17,7 +17,7 @@ export class CartEffects {
           .pipe(
             map(() => ShoppingCartActions.increaseQuantity({ id: item.id }))
           )
-      )
+      ),
     )
   );
 
@@ -32,7 +32,7 @@ export class CartEffects {
               ShoppingCartActions.updateQuantity({ id, changeInQuantity: 1 })
             )
           )
-      )
+      ),
     )
   );
 
@@ -47,7 +47,7 @@ export class CartEffects {
               ShoppingCartActions.updateQuantity({ id, changeInQuantity: -1 })
             )
           )
-      )
+      ),
     )
   );
 
@@ -58,9 +58,12 @@ export class CartEffects {
         this.cartService
           .removeCartItem(id)
           .pipe(map(() => ShoppingCartActions.removeProduct({ id })))
-      )
+      ),
     )
   );
 
-  constructor(private actions$: Actions, private cartService: CartService) {}
+  constructor(
+    private actions$: Actions,
+    private cartService: CartService,
+  ) {}
 }

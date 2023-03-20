@@ -1,69 +1,44 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Dictionary } from '@ngrx/entity';
+import { ShoppingCartApiService } from '@shopping-cart/service/CartApi.service';
 
 import { CartFacade } from '@shopping-cart/store/cart.facade';
 import { CartItem } from '../interface/cart.interface';
-import { CartService } from '../service/Cart.service';
-import { ShoppingCartApiService } from '../service/CartApi.service';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartComponent implements OnInit {
+export class CartComponent {
   public cart$ = this.cartFacade.cartItems$;
-  public totalPrice$ = this.cartFacade.totalPrice$
+  public totalPrice$ = this.cartFacade.totalPrice$;
+  public totalQuantity$ = this.cartFacade.totalQuantity$;
+
   dataSource!: Dictionary<CartItem> | null;
-  displayedColumns: Array<string> = [
-    'product',
-    'name',
-    'price',
-    'quantity',
-    'total',
-    'action',
-  ];
+
   constructor(
-    private cartService: CartService,
     private cartFacade: CartFacade,
-    private shoppingCartApiService: ShoppingCartApiService
+    private apiService: ShoppingCartApiService
   ) {}
 
-  ngOnInit(): void {
-    // this.cartService.cart.subscribe((_cart: ShoppingCartState) => {
-    //   this.cart = _cart;
-    //   this.dataSource = this.cart.shoppingCartList;
-    // });
+  public trackByFn(id: number): number {
+    return id;
   }
 
-  getTotal(items: ReadonlyArray<CartItem>): number {
-    //return this.cartService.getTotal(items);
-    return 1;
-  }
-
-  onClearCart(): void {
+  public onClearCart(): void {
     this.cartFacade.clearCart();
-    //this.cartService.clearCart();
   }
 
-  onRemoveFromCart(item: CartItem): void {
-    this.cartFacade.removeItemFromCart(item.id);
-    // this.cartService.removeFromCart(item);
+  public onIncreaseQuantity(item: CartItem): void {
+    this.cartFacade.addItem(item);
   }
 
-  onAddQuantity(item: CartItem): void {
-    //this.cartService.addToCart(item);
+  public onDecreaseQuantity(item: CartItem): void {
+    this.cartFacade.removeItem(item.id);
   }
 
-  onRemoveQuantity(item: CartItem): void {
-    //this.cartService.removeQuantity(item);
-  }
-
-  onCheckout(): void {
-    // if (this.cart?.shoppingCartList) {
-    //  // this.shoppingCartApiService.Checkout(this.cart?.shoppingCartList)
-    // } else {
-    //   return;
-    // }
+  public onCheckout(cartItems: CartItem[]): void {
+    cartItems ? this.apiService.Checkout(cartItems) : null;
   }
 }
