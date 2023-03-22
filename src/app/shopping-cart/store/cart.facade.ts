@@ -11,7 +11,6 @@ import { selectCartItems } from './cart.reducers';
 @Injectable()
 export class CartFacade {
   cartItems$: Observable<CartItem[]> = this.store.select(selectCartItems);
-
   totalPrice$: Observable<number> = this.store.pipe(select(totalPriceSelector));
   totalQuantity$: Observable<number> = this.store.pipe(
     select(totalQuantitySelector)
@@ -21,29 +20,32 @@ export class CartFacade {
 
   async addItem(item: CartItem): Promise<void> {
     await this.store.dispatch(ShoppingCartActions.addProduct({ item }));
-    await this.updateTotal()
+    await this.updateTotal();
+  }
+
+  async decreaseQuantity(item: CartItem): Promise<void> {
+    await this.store.dispatch(ShoppingCartActions.decreaseQuantity({ item }));
+    await this.updateTotal();
+  }
+
+  async removeItem(id: number): Promise<void> {
+    await this.store.dispatch(ShoppingCartActions.removeProduct({ id }));
+    await this.updateTotal();
+  }
+
+  async updateItemQuantity(
+    id: number,
+    changeInQuantity: number
+  ): Promise<void> {
+    await this.store.dispatch(
+      ShoppingCartActions.updateQuantity({ id, changeInQuantity })
+    );
+    await this.updateTotal();
   }
 
   updateTotal(): void {
     this.store.dispatch(ShoppingCartCommonActions.calculateTotalQuantity());
     this.store.dispatch(ShoppingCartCommonActions.calculateTotalPrice());
-  }
-
-  async removeItem(id: number): Promise<void> {
-    await this.store.dispatch(ShoppingCartActions.removeProduct({ id }));
-    await this.updateTotal()
-  }
-
- async updateItemQuantity(id: number, changeInQuantity: number): Promise<void> {
-  await  this.store.dispatch(
-      ShoppingCartActions.updateQuantity({ id, changeInQuantity })
-    );
-    await this.updateTotal()
-
-  }
-
-  clearCart(): void {
-    this.store.dispatch(ShoppingCartCommonActions.clearShoppingCart());
   }
 
   isItemInCart(id: number): Observable<boolean> {
@@ -52,5 +54,9 @@ export class CartFacade {
         (items) => Array.isArray(items) && items.some((item) => item.id === id)
       )
     );
+  }
+
+  clearCart(): void {
+    this.store.dispatch(ShoppingCartCommonActions.clearShoppingCart());
   }
 }

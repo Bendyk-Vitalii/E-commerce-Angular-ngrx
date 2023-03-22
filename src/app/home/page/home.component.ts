@@ -5,7 +5,6 @@ import { Product } from '@shared/interface/product.interface';
 import { ProductsFacade } from '@home/store/products/products.facade';
 import { CategoriesFacade } from '@home/store/categories/categories.facade';
 import { CartFacade } from '@shopping-cart/store/cart.facade';
-import { CartService } from '@shopping-cart/service/Cart.service';
 
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 
@@ -21,7 +20,6 @@ export class HomeComponent implements OnInit {
   public rowHeight = ROWS_HEIGHT[this.cols];
   public products$ = this.productsFacade.products$;
   public categories$ = this.categoriesFacade.categories$;
-
   public sort = 'desc';
   public count = '12';
   public productsSubscription?: Subscription;
@@ -33,9 +31,19 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.products$.subscribe((products) => {
+      if (!products.length) {
+        this.productsFacade.getProducts(this.count, this.sort);
+      }
+    });
+
+    this.categories$.subscribe((categories) => {
+      if (!categories.length) {
+        this.categoriesFacade.getCategories();
+      }
+    });
+
     this.screenWidth = window.innerWidth;
-    this.productsFacade.getProducts(this.count, this.sort);
-    this.categoriesFacade.getCategories();
     this.onColumnsCountChange(3);
   }
 

@@ -20,7 +20,7 @@ export const ShoppingCartActions = createActionGroup({
     'Remove Product': props<{ id: number }>(),
     'Update Quantity':  props<{ id: number, changeInQuantity: number }>(),
     'Increase Quantity': props<{  id: number }>(),
-    'Decrease Quantity': props<CartItem>(),
+    'Decrease Quantity': props<{ item: CartItem }>(),
     'Load Colection Success': props<{items: CartItem[]}>(),
     'Success': props<CartItem>(),
     'Failure': props<{ error: any }>(),
