@@ -27,8 +27,6 @@ import { CategoriesEffects } from '@home/store/categories/categories.effects';
 import { ProductEffects } from '@home/store/products/products.effects';
 import { ProductsFacade } from '@home/store/products/products.facade';
 import { CategoriesFacade } from '@home/store/categories/categories.facade';
-import { cartReducer, CART_FEATURE_KEY } from '@shopping-cart/store/cart.reducers';
-import { CartEffects } from '@shopping-cart/store/cart.effects';
 
 const routes: Routes = [
   {

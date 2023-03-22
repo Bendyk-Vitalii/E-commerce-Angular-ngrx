@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { ProductsApiActions } from './products.actions';
 import * as ProductsSelectors from './products.selectors';
 
 @Injectable()
 export class ProductsFacade {
-  products$ = this.store.select(ProductsSelectors.productsSelector);
+   products$ = this.store.select(ProductsSelectors.productsSelector);
 
   constructor(private store: Store) {}
 

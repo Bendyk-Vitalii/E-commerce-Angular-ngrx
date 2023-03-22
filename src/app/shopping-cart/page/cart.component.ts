@@ -30,12 +30,16 @@ export class CartComponent {
     this.cartFacade.clearCart();
   }
 
+  public onRemoveItem(item: CartItem): void {
+    this.cartFacade.removeItem(item.id)
+  }
+
   public onIncreaseQuantity(item: CartItem): void {
     this.cartFacade.addItem(item);
   }
 
   public onDecreaseQuantity(item: CartItem): void {
-    this.cartFacade.removeItem(item.id);
+    this.cartFacade.decreaseQuantity(item)
   }
 
   public onCheckout(cartItems: CartItem[]): void {

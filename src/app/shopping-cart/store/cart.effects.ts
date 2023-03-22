@@ -39,12 +39,12 @@ export class CartEffects {
   decreaseQuantity$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ShoppingCartActions.decreaseQuantity),
-      mergeMap(({ id }: { id: number }) =>
+      mergeMap(({ item }: { item: CartItem }) =>
         this.cartService
-          .updateCartItemQuantity(id, -1)
+          .updateCartItemQuantity(item.id, -1)
           .pipe(
             map(() =>
-              ShoppingCartActions.updateQuantity({ id, changeInQuantity: -1 })
+              ShoppingCartActions.updateQuantity({ id: item.id, changeInQuantity: -1 })
             )
           )
       ),

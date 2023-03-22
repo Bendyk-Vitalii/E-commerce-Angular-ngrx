@@ -1,13 +1,11 @@
 import {
   createEntityAdapter,
-  Dictionary,
   EntityAdapter,
   EntityState,
 } from '@ngrx/entity';
 import {
   createFeatureSelector,
   createReducer,
-  createSelector,
   on,
 } from '@ngrx/store';
 
@@ -16,10 +14,6 @@ import { ShoppingCartActions, ShoppingCartCommonActions } from './cart.actions';
 
 export const CART_FEATURE_KEY = 'shoppingCart';
 
-// export interface ShoppingCartPartialState {
-//   readonly [CART_FEATURE_KEY]: ShoppingCartState;
-// }
-
 export interface ShoppingCartState extends EntityState<CartItem> {
   totalPrice: number;
   totalQuantity: number;
@@ -27,20 +21,11 @@ export interface ShoppingCartState extends EntityState<CartItem> {
 
 export const selectShoppingCartState = createFeatureSelector<ShoppingCartState>(CART_FEATURE_KEY);
 
-// export const selectCartItem = (id: number) =>
-//   createSelector(
-//     selectCartEntities,
-//     (entities: Dictionary<CartItem>) => entities[id]
-//   );
-
 export const cartAdapter: EntityAdapter<CartItem> =
   createEntityAdapter<CartItem>({
     selectId: (item: CartItem) => item.id.toString(),
     sortComparer: false,
   });
-
-// export const { selectEntities: selectCartEntities } =
-//   cartAdapter.getSelectors(getCartState);
 
 const initialState: ShoppingCartState = cartAdapter.getInitialState({
   totalPrice: 0,
@@ -85,9 +70,7 @@ export const cartReducer = createReducer(
       return state;
     }
   }),
-  on(ShoppingCartCommonActions.clearShoppingCart, (state) => {
-    return cartAdapter.removeAll({ ...state, totalPrice: 0 });
-  }),
+
   on(ShoppingCartCommonActions.calculateTotalPrice, (state) => {
     let totalPrice = Object.values(state.entities).reduce((acc, item) => {
       return acc + item!.price * item!.quantity;
@@ -99,7 +82,10 @@ export const cartReducer = createReducer(
       return acc + item!.quantity;
     }, 0);
     return { ...state, totalQuantity: totalQuantity };
-  })
+  }),
+  on(ShoppingCartCommonActions.clearShoppingCart, (state) => {
+    return cartAdapter.removeAll({ ...state, totalPrice: 0 });
+  }),
 );
 
 export const {
