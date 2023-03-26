@@ -24,6 +24,8 @@ import { HomeModule } from '@home/page/home.module';
 import { HeaderComponent, LayoutContainerComponent } from '@layouts';
 import { cartReducer, CART_FEATURE_KEY } from '@shopping-cart/store/cart.reducers';
 import { CartFacade } from '@shopping-cart/store/cart.facade';
+import { SpinnerInterceptor } from '@core/load-interceptor/load-overlay.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, LayoutContainerComponent],
@@ -51,7 +53,12 @@ import { CartFacade } from '@shopping-cart/store/cart.facade';
     }),
   ],
   providers: [
-    CartFacade
+    CartFacade,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
