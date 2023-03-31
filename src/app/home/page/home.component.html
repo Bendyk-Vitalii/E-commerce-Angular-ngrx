@@ -1,27 +1,32 @@
-<mat-drawer-container
-  [autosize]="true"
-  class="min-h-full max-w-7x1 mx-auto border-x max"
->
-  <mat-drawer mode="side" opened class="p-6" class="hidden! sm:hidden md:hidden">
-    <app-filters
-      [categories]="categories$ | async"
-      (showCategory)="onShowCategory($event)"
-    ></app-filters>
-  </mat-drawer>
-  <mat-drawer-content class="pb-6 ml-0">
-    <app-products-header
-      (columnsCountChange)="onColumnsCountChange($event)"
-      (itemsCountChange)="onItemsCountChange($event)"
-      (sortChange)="onSortChange($event)"
-    >
-    </app-products-header>
+<div class="bg-gray-100">
+  <div class="container mx-auto py-8">
+    <div class="flex mx-auto w-1/2">
+      <form class="flex min-w-full">
+        <input
+          class="min-w-[70%] px-2"
+          mat-input
+          type="text"
+          placeholder="Search..."
+        />
+        <button class="bg-slate-500 text-gray-100 min-w-[30%]" mat-button>
+          Search
+        </button>
+      </form>
+    </div>
+    <div class="flex justify-between mt-4 mx-5">
+      <app-filters
+        [categories]="categories$ | async"
+        (showCategory)="onShowCategory($event)"
+      ></app-filters>
 
-    <mat-grid-list
-      gutterSize="16"
-      [cols]="cols"
-      [rowHeight]="rowHeight"
-      class="col-sm-1"
-    >
+      <app-products-header
+        (columnsCountChange)="onColumnsCountChange($event)"
+        (itemsCountChange)="onItemsCountChange($event)"
+        (sortChange)="onSortChange($event)"
+      >
+      </app-products-header>
+    </div>
+    <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
       <mat-grid-tile *ngFor="let product of products$ | async">
         <app-product-box
           [product]="product"
@@ -32,5 +37,5 @@
         </app-product-box>
       </mat-grid-tile>
     </mat-grid-list>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </div>
+</div>

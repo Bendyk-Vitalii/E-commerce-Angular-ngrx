@@ -1,10 +1,18 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+  AfterViewInit,
+} from '@angular/core';
+import { distinctUntilChanged, map, Observable, of, tap } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
-import { Product } from '@shared/interface/product.interface';
 import { ProductsFacade } from '@home/store/products/products.facade';
 import { CategoriesFacade } from '@home/store/categories/categories.facade';
 import { CartFacade } from '@shopping-cart/store/cart.facade';
+import { Product } from '@shared/interface';
 
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 
@@ -14,20 +22,22 @@ const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  private screenWidth!: number;
-  public cols!: number;
-  public category?: string;
+  public cols: number = 3;
   public rowHeight = ROWS_HEIGHT[this.cols];
+
+  public isSmallScreen$: Observable<boolean> = of(false);
+  public category?: string;
   public products$ = this.productsFacade.products$;
   public categories$ = this.categoriesFacade.categories$;
   public sort = 'desc';
   public count = '12';
-  public productsSubscription?: Subscription;
 
   constructor(
     private productsFacade: ProductsFacade,
     private categoriesFacade: CategoriesFacade,
-    private cartFacade: CartFacade
+    private cartFacade: CartFacade,
+    private breakpointObserver$: BreakpointObserver,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -42,9 +52,15 @@ export class HomeComponent implements OnInit {
         this.categoriesFacade.getCategories();
       }
     });
+  }
 
-    this.screenWidth = window.innerWidth;
-    this.onColumnsCountChange(3);
+  @HostListener('window:resize')
+  onResize() {
+    this.breakpointObserver$.observe(Breakpoints.XSmall).subscribe((result) => {
+      result.matches
+        ? this.onColumnsCountChange(1)
+        : this.onColumnsCountChange(3);
+    });
   }
 
   private getProducts(
@@ -56,13 +72,8 @@ export class HomeComponent implements OnInit {
   }
 
   onColumnsCountChange(colsNumber: number) {
-    if (this.screenWidth <= 700) {
-      this.cols = 1;
-      this.rowHeight = ROWS_HEIGHT[this.cols];
-    } else {
-      this.cols = colsNumber;
-      this.rowHeight = ROWS_HEIGHT[this.cols];
-    }
+    this.cols = colsNumber;
+    this.rowHeight = ROWS_HEIGHT[this.cols];
   }
 
   onItemsCountChange(newCount: number): void {
