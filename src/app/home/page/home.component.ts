@@ -6,7 +6,7 @@ import {
   OnInit,
   AfterViewInit,
 } from '@angular/core';
-import { distinctUntilChanged, map, Observable, of, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, Observable, of, Subscription, tap } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 import { ProductsFacade } from '@home/store/products/products.facade';
@@ -24,8 +24,7 @@ const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 export class HomeComponent implements OnInit {
   public cols: number = 3;
   public rowHeight = ROWS_HEIGHT[this.cols];
-
-  public isSmallScreen$: Observable<boolean> = of(false);
+  private resizeSubscription!: Subscription;
   public category?: string;
   public products$ = this.productsFacade.products$;
   public categories$ = this.categoriesFacade.categories$;
@@ -56,7 +55,10 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:resize')
   onResize() {
-    this.breakpointObserver$.observe(Breakpoints.XSmall).subscribe((result) => {
+    this.resizeSubscription =   this.breakpointObserver$
+    .observe(Breakpoints.XSmall)
+    .pipe(debounceTime(100))
+    .subscribe((result) => {
       result.matches
         ? this.onColumnsCountChange(1)
         : this.onColumnsCountChange(3);
@@ -100,5 +102,12 @@ export class HomeComponent implements OnInit {
       id: product.id,
     };
     this.cartFacade.addItem(cartItem);
+  }
+
+
+  ngOnDestroy() {
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
+    }
   }
 }
