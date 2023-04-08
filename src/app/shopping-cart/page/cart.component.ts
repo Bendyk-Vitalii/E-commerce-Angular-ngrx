@@ -15,8 +15,6 @@ export class CartComponent {
   public totalPrice$ = this.cartFacade.totalPrice$;
   public totalQuantity$ = this.cartFacade.totalQuantity$;
 
-  dataSource!: Dictionary<CartItem> | null;
-
   constructor(
     private cartFacade: CartFacade,
     private apiService: ShoppingCartApiService
@@ -31,7 +29,7 @@ export class CartComponent {
   }
 
   public onRemoveItem(item: CartItem): void {
-    this.cartFacade.removeItem(item.id)
+    this.cartFacade.removeItem(item.id);
   }
 
   public onIncreaseQuantity(item: CartItem): void {
@@ -39,7 +37,7 @@ export class CartComponent {
   }
 
   public onDecreaseQuantity(item: CartItem): void {
-    this.cartFacade.decreaseQuantity(item)
+    this.cartFacade.decreaseQuantity(item);
   }
 
   public onCheckout(cartItems: CartItem[]): void {

@@ -58,5 +58,6 @@ export class CartFacade {
 
   clearCart(): void {
     this.store.dispatch(ShoppingCartCommonActions.clearShoppingCart());
+    this.updateTotal()
   }
 }
