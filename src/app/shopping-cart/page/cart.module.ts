@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -27,7 +26,6 @@ const routes: Routes = [
   declarations: [CartComponent],
   imports: [
     SharedModule,
-    CommonModule,
     MatTableModule,
     MatCardModule,
     MatButtonModule,
