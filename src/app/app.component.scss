@@ -1,5 +1,5 @@
 :host ::ng-deep {
-cursor: default;
+  outline: none;
 }
 .mat-list-item-content {
   padding: 0 !important;
@@ -10,3 +10,8 @@ cursor: default;
     max-width: 40% !important;
   }
 }
+
+::ng-deep {.mat-menu-content .ng-tns-c53-1 {
+  min-width: 100%;
+  text-align: center;
+}}
