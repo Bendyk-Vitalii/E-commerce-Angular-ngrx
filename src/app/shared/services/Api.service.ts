@@ -1,12 +1,9 @@
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { Product } from '@shared/interface/product.interface';
-
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +15,7 @@ export class ApiService {
     limit = '12',
     sort = 'desc',
     category?: string
-  ): Observable<Array<Product>> {
+  ): Observable<ReadonlyArray<Product>> {
     return this.httpClient
       .get<Product[]>(
         `${environment.fakeStoreApiUrl}/products${
