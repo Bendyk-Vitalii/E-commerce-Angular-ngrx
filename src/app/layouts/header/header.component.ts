@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
 
+import { MenuService } from '@shared/services/open-menu.service';
 import { CartFacade } from '@shopping-cart/store/cart.facade';
 
 
@@ -14,12 +16,17 @@ export class HeaderComponent implements OnInit {
   public totalPrice$ = this.cartFacade.totalPrice$;
   public itemsQuantity = 0;
   public cart$ = this.cartFacade.cartItems$;
+  @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
 
-  constructor(private cartFacade: CartFacade) {}
+  constructor(private cartFacade: CartFacade, private menuService: MenuService) {}
 
 
   ngOnInit() {
     this.totalQuantity$.subscribe((quantity: number) => this.itemsQuantity = quantity);
+  }
+
+  ngAfterViewInit() {
+    this.menuService.setMenuTrigger(this.menuTrigger);
   }
 
   onClearCart() {

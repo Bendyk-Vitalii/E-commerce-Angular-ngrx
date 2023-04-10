@@ -14,9 +14,8 @@ import {
 export class FiltersComponent {
   @Output() showCategory = new EventEmitter<string>();
   @Input() categories!: ReadonlyArray<string> | null;
-  constructor() {}
 
-  onShowCategory(category: string): void {
+  public onShowCategory(category: string): void {
     this.showCategory.emit(category);
   }
 }

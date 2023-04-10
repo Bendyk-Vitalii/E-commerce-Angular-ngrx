@@ -1,14 +1,23 @@
 <div class="bg-gray-100">
   <div class="container mx-auto py-8">
     <div class="flex mx-auto w-1/2">
-      <form class="flex min-w-full">
+      <form
+        class="flex min-w-full"
+        [formGroup]="searchForm"
+        (ngSubmit)="onSearch()"
+      >
         <input
           class="min-w-[70%] px-2"
           mat-input
           type="text"
+          formControlName="search"
           placeholder="Search..."
         />
-        <button class="bg-slate-500 text-gray-100 min-w-[30%]" mat-button>
+        <button
+          class="bg-slate-500 text-gray-100 min-w-[30%]"
+          mat-button
+          (click)="onSearch()"
+        >
           Search
         </button>
       </form>
@@ -22,6 +31,7 @@
       <app-products-header
         (columnsCountChange)="onColumnsCountChange($event)"
         (itemsCountChange)="onItemsCountChange($event)"
+        (sortByPrice)="onSortByPrice($event)"
         (sortChange)="onSortChange($event)"
       >
       </app-products-header>

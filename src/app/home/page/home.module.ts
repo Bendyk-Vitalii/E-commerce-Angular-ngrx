@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +15,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import { SharedModule } from '@shared';
 import { HomeComponent } from './home.component';
@@ -44,7 +45,8 @@ const routes: Routes = [
   ],
   imports: [
     SharedModule,
-    MatSidenavModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatMenuModule,
     MatGridListModule,
     MatButtonModule,
@@ -55,6 +57,7 @@ const routes: Routes = [
     MatCardModule,
     MatSnackBarModule,
     MatListModule,
+    MatButtonToggleModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature(PRODUCTS_FEATURE_KEY, productsReducer),
     StoreModule.forFeature(CATEGORIES_FEATURE_KEY, categoriesReducer),
