@@ -1,28 +1,40 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnInit,
   Output,
 } from '@angular/core';
+import { map, Observable } from 'rxjs';
+
+
+export enum selectedSortOption {
+LowHigh = 'price-low-high',
+HighLow = 'price-high-low'
+}
 
 @Component({
   selector: 'app-products-header',
   templateUrl: './products-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductsHeaderComponent implements OnInit {
+export class ProductsHeaderComponent {
   @Output() columnsCountChange = new EventEmitter<number>();
   @Output() itemsCountChange = new EventEmitter<number>();
   @Output() sortChange = new EventEmitter<string>();
+  @Output() sortByPrice = new EventEmitter<string>();
 
+  public selectedSortOptions!: selectedSortOption;
   public sort = 'desc';
   public itemsShowCount = 12;
-  public screenWidth!: number;
-  constructor() {}
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
-  ngOnInit(): void {
-    this.screenWidth = window.innerWidth;
+  isSmallScreen$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Large)
+    .pipe(map((result) => result.matches));
+
+  public onSortByPrice(sortBy: string) {
+    this.sortByPrice.emit(sortBy);
   }
 
   public onSortUpdated(newSort: string): void {

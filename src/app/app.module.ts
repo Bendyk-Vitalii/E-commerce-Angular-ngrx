@@ -13,6 +13,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,12 +22,12 @@ import { AppComponent } from './app.component';
 
 import { AuthModule } from '@auth/auth.module';
 import { CartModule } from '@shopping-cart/page/cart.module';
-import { HomeModule } from '@home/page/home.module';
-import { HeaderComponent, LayoutContainerComponent } from '@layouts';
 import { cartReducer, CART_FEATURE_KEY } from '@shopping-cart/store/cart.reducers';
 import { CartFacade } from '@shopping-cart/store/cart.facade';
+import { HomeModule } from '@home/page/home.module';
+import { HeaderComponent, LayoutContainerComponent } from '@layouts';
 import { SpinnerInterceptor } from '@core/load-interceptor/load-overlay.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MenuService } from '@shared/services/open-menu.service';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, LayoutContainerComponent],
@@ -54,6 +56,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
   ],
   providers: [
     CartFacade,
+    MenuService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SpinnerInterceptor,
