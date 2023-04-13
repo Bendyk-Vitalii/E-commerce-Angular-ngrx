@@ -5,16 +5,17 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from 'jsonwebtoken';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '@/api/user/user.entity';
 import * as bcrypt from 'bcryptjs';
+import { User } from '../user.entity';
 
 @Injectable()
 export class AuthHelper {
   @InjectRepository(User)
   private readonly repository: Repository<User>;
-
+  private readonly secretKey: string = process.env.JWT_KEY;
   private readonly jwt: JwtService;
 
   constructor(jwt: JwtService) {
@@ -32,8 +33,10 @@ export class AuthHelper {
   }
 
   // Generate JWT Token
-  public generateToken(user: User): string {
-    return this.jwt.sign({ id: user.id, email: user.email });
+  public generateToken(user: User, type: 'access' | 'refresh'): string {
+    const payload: JwtPayload = { sub: user.id + '' };
+    const expiresIn = type === 'access' ? '15m' : '7d'; // change the expiration time based on the token type
+    return this.jwt.sign(payload, { expiresIn, secret: this.secretKey });
   }
 
   // Validate User's password
@@ -59,6 +62,20 @@ export class AuthHelper {
     const user: User = await this.validateUser(decoded);
 
     if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    return true;
+  }
+
+  public async validateRefreshToken(refreshToken: string, user: User): Promise<boolean | never> {
+    const decoded: unknown = this.jwt.verify(refreshToken);
+
+    if (!decoded) {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+
+    if (user.refreshToken !== refreshToken) {
       throw new UnauthorizedException();
     }
 

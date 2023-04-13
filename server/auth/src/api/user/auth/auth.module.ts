@@ -2,12 +2,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '@/api/user/user.entity';
 import { AuthController } from './auth.controller';
 import { ConfigService } from '@nestjs/config';
-import { AuthHelper } from '@/api/user/auth/auth.helper';
-import { JwtStrategy } from '@/api/user/auth/auth.strategy';
 import { AuthService } from './auth.service';
+import { User } from '../user.entity';
+import { JwtStrategy } from './auth.strategy';
+import { AuthHelper } from './auth.helper';
 
 @Module({
   imports: [

@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '@/api/user/user.entity';
 import { Repository } from 'typeorm';
-import { RegisterDto, LoginDto } from './auth.dto';
+import { RegisterDto, LoginDto, RefreshTokenDto } from './auth.dto';
 import { AuthHelper } from './auth.helper';
+import { User } from '../user.entity';
 
 interface responseT {
   access_token: string;
@@ -52,13 +52,30 @@ export class AuthService {
 
     this.repository.update(user.id, { lastLoginAt: new Date() });
     return {
-      access_token: this.helper.generateToken(user),
+      access_token: this.helper.generateToken(user, "access"),
     };
   }
 
-  public async refresh(user: User): Promise<string> {
+  // public refresh(user: User): string {
+  //   this.repository.update(user.id, { lastLoginAt: new Date() });
+
+  //   return this.helper.generateToken(user, 'refresh');
+  // }
+  public async refresh(refreshDto: RefreshTokenDto): Promise<string> {
+    const user: User = await this.repository.findOne({
+      where: { id: refreshDto.userId }
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.helper.validateRefreshToken(refreshDto.refreshToken, user);
+
     this.repository.update(user.id, { lastLoginAt: new Date() });
 
-    return this.helper.generateToken(user);
+    return this.helper.generateToken(user, 'refresh');
   }
+
+
 }
