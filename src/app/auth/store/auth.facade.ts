@@ -5,7 +5,7 @@ import { CommonAuthActions, LoginActions } from './auth.actions';
 import * as AuthSelectors from './auth.selectors';
 import { AuthModule } from '@auth/auth.module';
 
-@Injectable({providedIn: AuthModule})
+@Injectable({providedIn: 'root'})
 export class AuthFacade {
   auth$ = this.store.select(AuthSelectors.selectAuth);
   user$ = this.store.select(AuthSelectors.selectAuthUser);
