@@ -10,9 +10,9 @@ import {
 } from '@nestjs/common';
 import { User } from '@/api/user/user.entity';
 import { Request } from 'express';
-import { LoginDto, RegisterDto } from '@/api/user/auth/auth.dto';
-import { JwtAuthGuard } from '@/api/user/auth/auth.guard';
-import { AuthService } from './auth.service';
+import { LoginDto, RefreshTokenDto, RegisterDto } from '../auth/auth.dto';
+import { JwtAuthGuard } from '../auth/auth.guard';
+import { AuthService } from './auth.service'
 
 interface responseT {
   access_token: string;
@@ -37,6 +37,6 @@ export class AuthController {
   @Post('refresh')
   @UseGuards(JwtAuthGuard)
   private refresh(@Req() { user }: Request): Promise<string | never> {
-    return this.service.refresh(<User>user);
+    return this.service.refresh(<RefreshTokenDto>user);
   }
 }

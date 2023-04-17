@@ -1,9 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '@/api/user/user.entity';
 import { Repository } from 'typeorm';
-import { RegisterDto, LoginDto } from './auth.dto';
+
+import { RegisterDto, LoginDto, RefreshTokenDto } from './auth.dto';
 import { AuthHelper } from './auth.helper';
+import { User } from '../user.entity';
 
 interface responseT {
   access_token: string;
@@ -52,13 +53,30 @@ export class AuthService {
 
     this.repository.update(user.id, { lastLoginAt: new Date() });
     return {
-      access_token: this.helper.generateToken(user),
+      access_token: this.helper.generateToken(user, 'access')
     };
   }
 
-  public async refresh(user: User): Promise<string> {
-    this.repository.update(user.id, { lastLoginAt: new Date() });
+  public async refresh(refreshTokenDto: RefreshTokenDto): Promise<string> {
+    const refreshToken = refreshTokenDto.refreshToken;
+    const userId = refreshTokenDto.userId;
 
-    return this.helper.generateToken(user);
+    // check if the refresh token is valid and get the corresponding user
+    const user = await this.helper.validate(refreshToken);
+
+    // check if the user ID matches the ID in the refresh token
+    if (user.id !== userId) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    // generate new access and refresh tokens
+    const accessToken = this.helper.generateToken(user, 'access');
+    const newRefreshToken = this.helper.generateToken(user, 'refresh');
+
+    // update the user's last login timestamp in the database
+    await this.repository.update(user.id, { lastLoginAt: new Date() });
+
+    // return the new refresh token
+    return newRefreshToken;
   }
 }

@@ -7,8 +7,10 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '@/api/user/user.entity';
 import * as bcrypt from 'bcryptjs';
+import { User } from '../user.entity';
+
+
 
 @Injectable()
 export class AuthHelper {
@@ -32,9 +34,11 @@ export class AuthHelper {
   }
 
   // Generate JWT Token
-  public generateToken(user: User): string {
-    return this.jwt.sign({ id: user.id, email: user.email });
-  }
+public generateToken(user: User, tokenType: string): string {
+  const expiresIn = tokenType === 'access' ? '1h' : '7d';
+  return this.jwt.sign({ id: user.id, email: user.email },  { expiresIn });
+}
+
 
   // Validate User's password
   public isPasswordValid(password: string, userPassword: string): boolean {
@@ -49,7 +53,8 @@ export class AuthHelper {
   }
 
   // Validate JWT Token, throw forbidden error if JWT Token is invalid
-  private async validate(token: string): Promise<boolean | never> {
+public async validate(token: string): Promise<User | never> {
+  try {
     const decoded: unknown = this.jwt.verify(token);
 
     if (!decoded) {
@@ -62,6 +67,10 @@ export class AuthHelper {
       throw new UnauthorizedException();
     }
 
-    return true;
+    return user;
+  } catch (error) {
+    throw new UnauthorizedException();
   }
+}
+
 }
