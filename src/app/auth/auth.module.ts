@@ -15,7 +15,6 @@ import { LoginComponent } from './pages/log-in-page';
 import { SignupComponent } from './pages/sign-up-page';
 import { authReducer, AUTH_FEATURE_KEY } from './store/auth.reducers';
 import { AuthEffects } from './store/auth.effects';
-import { AuthFacade } from './store/auth.facade';
 import { AuthRouteEnum } from './enums';
 
 const routes: Routes = [
@@ -34,7 +33,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [LoginComponent, SignupComponent],
   imports: [
-    CommonModule,
     SharedModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -49,8 +47,6 @@ const routes: Routes = [
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
-    AuthFacade,
-    AuthService,
   ],
 })
 export class AuthModule {}

@@ -8,7 +8,7 @@ import { totalPriceSelector, totalQuantitySelector } from './cart.selectors';
 import { CartItem } from '@shopping-cart/interface/cart.interface';
 import { selectCartItems } from './cart.reducers';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CartFacade {
   cartItems$: Observable<CartItem[]> = this.store.select(selectCartItems);
   totalPrice$: Observable<number> = this.store.pipe(select(totalPriceSelector));
