@@ -78,5 +78,23 @@ export class AuthService {
 
     // return the new refresh token
     return newRefreshToken;
+      access_token: this.helper.generateToken(user, "access"),
+    };
+  }
+
+  public async refresh(refreshDto: RefreshTokenDto): Promise<string> {
+    const user: User = await this.repository.findOne({
+      where: { id: refreshDto.userId }
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.helper.validateRefreshToken(refreshDto.refreshToken, user);
+
+    this.repository.update(user.id, { lastLoginAt: new Date() });
+
+    return this.helper.generateToken(user, 'refresh');
   }
 }

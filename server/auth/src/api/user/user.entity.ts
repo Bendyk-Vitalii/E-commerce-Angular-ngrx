@@ -17,5 +17,8 @@ export class User extends BaseEntity {
   public name: string | null;
 
   @Column({ type: 'timestamp', nullable: true, default: null })
-  public lastLoginAt?: Date | null;
+  public lastLoginAt: Date | null;
+
+  @Column({ type: 'varchar', nullable: true })
+  public refreshToken: string | null;
 }

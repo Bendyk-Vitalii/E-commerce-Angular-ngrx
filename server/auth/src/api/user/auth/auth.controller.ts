@@ -5,14 +5,14 @@ import {
   Post,
   ClassSerializerInterceptor,
   UseInterceptors,
-  UseGuards,
-  Req,
+  Res,
 } from '@nestjs/common';
 import { User } from '@/api/user/user.entity';
 import { Request } from 'express';
 import { LoginDto, RefreshTokenDto, RegisterDto } from '../auth/auth.dto';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { AuthService } from './auth.service'
+
 
 interface responseT {
   access_token: string;
@@ -39,4 +39,11 @@ export class AuthController {
   private refresh(@Req() { user }: Request): Promise<string | never> {
     return this.service.refresh(<RefreshTokenDto>user);
   }
+
+@Post('refresh')
+private async refresh(@Body() refreshDto: RefreshTokenDto, @Res() res: Response): Promise<string | never> {
+  const token = await this.service.refresh(refreshDto);
+  res.cookie('refresh_token', token, { httpOnly: true });
+  return token;
+}
 }

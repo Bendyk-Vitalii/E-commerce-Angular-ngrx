@@ -8,11 +8,13 @@ import { User } from '../src/api/user/user.entity';
 import { AppModule } from '../src/app.module';
 import { RefreshTokenDto } from '../src/api/user/auth/auth.dto';
 
+
 describe('RefreshController (e2e)', () => {
   let app: INestApplication;
   let jwtService: JwtService;
   let authService: AuthService;
   jest.setTimeout(30000);
+
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

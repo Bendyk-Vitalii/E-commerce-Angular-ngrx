@@ -10,6 +10,7 @@ import { JwtStrategy } from '../auth/auth.strategy';
 import { AuthService } from './auth.service';
 import { User } from '../user.entity';
 
+
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt', property: 'user' }),
