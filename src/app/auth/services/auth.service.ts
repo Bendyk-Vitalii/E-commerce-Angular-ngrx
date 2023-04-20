@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -9,12 +9,13 @@ import {
   AuthSuccessResponseI,
   SignUpSuccessResponseI,
 } from '../interface/server.interface';
-import { ConfigService } from './config.service';
 import { RefreshTokenActions } from '@auth/store/auth.actions';
 import * as AuthSelectors from '@auth/store/auth.selectors';
 import { TokenStorageService } from './token-storage.service';
 import { AuthState, TokenStatus } from '@auth/interface/auth-store.interface';
 import { User } from '@auth/interface';
+import { AuthModule } from '@auth/auth.module';
+import { AuthFacade } from '@auth/store';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -33,17 +34,17 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private tokenStorageService: TokenStorageService,
-    private configService: ConfigService,
     private jwtHelperService: JwtHelperService,
-    private store: Store
+    private store: Store,
+    private authFacade: AuthFacade
   ) {
-    this.hostUrl = this.configService.getAuthAPIUrl();
+    this.hostUrl = 'http://localhost:3000/'
   }
 
   init(): Promise<AuthState> {
     this.store.dispatch(RefreshTokenActions.request());
 
-    const authState$ = this.store.select(AuthSelectors.selectAuth).pipe(
+    const authState$ = this.authFacade.auth$.pipe(
       filter(
         (auth) =>
           auth.refreshTokenStatus === TokenStatus.INVALID ||
@@ -81,6 +82,5 @@ export class AuthService {
       this.jwtHelperService.decodeToken(access_token);
     const user: User = { email, id, exp, iat, access_token };
     localStorage.setItem('userData', JSON.stringify(user));
-    console.log(user);
   }
 }

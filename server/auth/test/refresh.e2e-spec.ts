@@ -2,16 +2,19 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { JwtService } from '@nestjs/jwt';
 import { INestApplication } from '@nestjs/common';
-import { RefreshTokenDto } from '../src/api/user/auth/auth.dto';
+
 import { AuthService } from '../src/api/user/auth/auth.service';
 import { User } from '../src/api/user/user.entity';
 import { AppModule } from '../src/app.module';
+import { RefreshTokenDto } from '../src/api/user/auth/auth.dto';
+
 
 describe('RefreshController (e2e)', () => {
   let app: INestApplication;
   let jwtService: JwtService;
   let authService: AuthService;
-  jest.setTimeout(30000); // Increase the timeout to 30 seconds
+  jest.setTimeout(30000);
+
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

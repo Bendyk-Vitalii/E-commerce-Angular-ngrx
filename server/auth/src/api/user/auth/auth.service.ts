@@ -1,6 +1,7 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 import { RegisterDto, LoginDto, RefreshTokenDto } from './auth.dto';
 import { AuthHelper } from './auth.helper';
 import { User } from '../user.entity';
@@ -52,15 +53,35 @@ export class AuthService {
 
     this.repository.update(user.id, { lastLoginAt: new Date() });
     return {
+      access_token: this.helper.generateToken(user, 'access')
+    };
+  }
+
+  public async refresh(refreshTokenDto: RefreshTokenDto): Promise<string> {
+    const refreshToken = refreshTokenDto.refreshToken;
+    const userId = refreshTokenDto.userId;
+
+    // check if the refresh token is valid and get the corresponding user
+    const user = await this.helper.validate(refreshToken);
+
+    // check if the user ID matches the ID in the refresh token
+    if (user.id !== userId) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    // generate new access and refresh tokens
+    const accessToken = this.helper.generateToken(user, 'access');
+    const newRefreshToken = this.helper.generateToken(user, 'refresh');
+
+    // update the user's last login timestamp in the database
+    await this.repository.update(user.id, { lastLoginAt: new Date() });
+
+    // return the new refresh token
+    return newRefreshToken;
       access_token: this.helper.generateToken(user, "access"),
     };
   }
 
-  // public refresh(user: User): string {
-  //   this.repository.update(user.id, { lastLoginAt: new Date() });
-
-  //   return this.helper.generateToken(user, 'refresh');
-  // }
   public async refresh(refreshDto: RefreshTokenDto): Promise<string> {
     const user: User = await this.repository.findOne({
       where: { id: refreshDto.userId }
@@ -76,6 +97,4 @@ export class AuthService {
 
     return this.helper.generateToken(user, 'refresh');
   }
-
-
 }

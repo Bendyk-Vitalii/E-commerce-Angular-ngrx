@@ -16,28 +16,57 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2020",
+    "target": "ES2022",
     "module": "es2020",
     "lib": [
       "es2020",
       "dom"
     ],
     "paths": {
-      "@layouts": ["./src/app/layouts"],
-      "@layouts/": ["./src/app/layouts/*"],
-      "@auth": ["./src/app/auth"],
-      "@auth/*": ["./src/app/auth/*"],
-      "@home": ["./src/app/home"],
-      "@home/*": ["./src/app/home/*"],
-      "@shopping-cart": ["./src/app/shopping-cart"],
-      "@shopping-cart/*": ["./src/app/shopping-cart/*"],
-      "@page-not-found": ["./src/app/page-not-found"],
-      "@shared": ["./src/app/shared"],
-      "@shared/*": ["./src/app/shared/*"],
-      "@services": ["src/app/shared/services"],
-      "@core/*": ["./src/app/core/*"],
-      "@core": ["./src/app/core"],
-    }
+      "@layouts": [
+        "./src/app/layouts"
+      ],
+      "@layouts/": [
+        "./src/app/layouts/*"
+      ],
+      "@auth": [
+        "./src/app/auth"
+      ],
+      "@auth/*": [
+        "./src/app/auth/*"
+      ],
+      "@home": [
+        "./src/app/home"
+      ],
+      "@home/*": [
+        "./src/app/home/*"
+      ],
+      "@shopping-cart": [
+        "./src/app/shopping-cart"
+      ],
+      "@shopping-cart/*": [
+        "./src/app/shopping-cart/*"
+      ],
+      "@page-not-found": [
+        "./src/app/page-not-found"
+      ],
+      "@shared": [
+        "./src/app/shared"
+      ],
+      "@shared/*": [
+        "./src/app/shared/*"
+      ],
+      "@services": [
+        "src/app/shared/services"
+      ],
+      "@core/*": [
+        "./src/app/core/*"
+      ],
+      "@core": [
+        "./src/app/core"
+      ]
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

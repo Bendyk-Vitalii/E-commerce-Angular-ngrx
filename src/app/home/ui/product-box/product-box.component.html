@@ -1,4 +1,4 @@
-<mat-card *ngIf="product"  class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow min-h-[55vh]">
+<mat-card *ngIf="product"  class="w-full flex flex-col justify-between bg-white border border-gray-200 rounded-lg shadow min-h-[55vh]">
   <div >
     <img
       class="mb-1 mx-auto max-h-40 max-w-auto object-cover img"
@@ -12,7 +12,7 @@
     >
     <h5>{{ product.category }}</h5>
 
-      <div class="px-5 pb-5">
+      <div class="px-5 pb-5 ">
         <p
           class="truncate hover:whitespace-normal"
           [ngClass]="{ truncate: !fullWidthMode }"

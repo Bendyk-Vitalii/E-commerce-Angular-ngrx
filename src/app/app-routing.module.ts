@@ -16,7 +16,7 @@ const routes: Routes = [
       },
       {
         path: AppRouteEnum.cart,
-        //canActivate: [AuthGuardService],
+        canActivate: [AuthGuardService],
         loadChildren: () =>
           import('./shopping-cart/page/cart.module').then(
             (mod) => mod.CartModule

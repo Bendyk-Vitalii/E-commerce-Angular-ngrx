@@ -8,9 +8,11 @@ import {
   Res,
 } from '@nestjs/common';
 import { User } from '@/api/user/user.entity';
-import { Response } from 'express';
-import { AuthService } from './auth.service';
-import { LoginDto, RefreshTokenDto, RegisterDto } from './auth.dto';
+import { Request } from 'express';
+import { LoginDto, RefreshTokenDto, RegisterDto } from '../auth/auth.dto';
+import { JwtAuthGuard } from '../auth/auth.guard';
+import { AuthService } from './auth.service'
+
 
 interface responseT {
   access_token: string;
@@ -30,6 +32,12 @@ export class AuthController {
   @Post('login')
   private login(@Body() body: LoginDto): Promise<responseT | never> {
     return this.service.login(body);
+  }
+
+  @Post('refresh')
+  @UseGuards(JwtAuthGuard)
+  private refresh(@Req() { user }: Request): Promise<string | never> {
+    return this.service.refresh(<RefreshTokenDto>user);
   }
 
 @Post('refresh')

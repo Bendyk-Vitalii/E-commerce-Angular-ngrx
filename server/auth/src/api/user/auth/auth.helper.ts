@@ -32,12 +32,10 @@ export class AuthHelper {
     return this.repository.findOne(decoded.id);
   }
 
-  // Generate JWT Token
-  public generateToken(user: User, type: 'access' | 'refresh'): string {
-    const payload: JwtPayload = { sub: user.id + '' };
-    const expiresIn = type === 'access' ? '15m' : '7d'; // change the expiration time based on the token type
-    return this.jwt.sign(payload, { expiresIn, secret: this.secretKey });
-  }
+public generateToken(user: User, tokenType: string): string {
+  const expiresIn = tokenType === 'access' ? '1h' : '7d';
+  return this.jwt.sign({ id: user.id, email: user.email },  { expiresIn });
+}
 
   // Validate User's password
   public isPasswordValid(password: string, userPassword: string): boolean {
@@ -52,7 +50,8 @@ export class AuthHelper {
   }
 
   // Validate JWT Token, throw forbidden error if JWT Token is invalid
-  private async validate(token: string): Promise<boolean | never> {
+public async validate(token: string): Promise<User | never> {
+  try {
     const decoded: unknown = this.jwt.verify(token);
 
     if (!decoded) {
@@ -65,7 +64,9 @@ export class AuthHelper {
       throw new UnauthorizedException();
     }
 
-    return true;
+    return user;
+  } catch (error) {
+    throw new UnauthorizedException();
   }
 
   public async validateRefreshToken(refreshToken: string, user: User): Promise<boolean | never> {
@@ -81,4 +82,6 @@ export class AuthHelper {
 
     return true;
   }
+}
+
 }
