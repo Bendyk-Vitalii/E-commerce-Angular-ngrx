@@ -17,7 +17,6 @@ import { DEFAULT_DURATION } from '@shared/constants';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  public screenWidth!: number;
   private message!: string;
   private showLoginError$ = this.authFacade.hasLoginError$;
   public signInValidation = signInValidationTypes;

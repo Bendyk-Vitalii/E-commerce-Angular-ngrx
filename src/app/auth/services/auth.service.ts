@@ -27,7 +27,7 @@ interface Credentials {
   password: string;
 }
 
-@Injectable({ providedIn: AuthModule })
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private hostUrl: string;
 

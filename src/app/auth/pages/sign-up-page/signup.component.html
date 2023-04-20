@@ -1,13 +1,13 @@
-<div class="grid gap-4 min-h-full place-content-center">
+<div class="grid gap-4 min-h-full place-content-center pb-8">
   <div class="container text-center pt-10">
-    <h1 class="mat-h1 ">Create account</h1>
+    <h1 class="mat-h1">Create account</h1>
     <p class="mt-2">
       Already have an account?
       <a class="text-cyan-500" [routerLink]="['/auth/login']">Sign in</a>
     </p>
     <form
       mat-form
-      class="flex-col mt-10"
+      class="flex-col mt-10 mx-auto md:w-[55vw] xl:lg:w-[50vw] 2xl:w-[50vw] w-[80vw]"
       [formGroup]="form"
       (ngSubmit)="submit()"
     >
@@ -25,8 +25,7 @@
         <ng-container *ngFor="let validation of ValidationTypes.userName">
           <mat-error
             *ngIf="
-              name.hasError(validation.type) &&
-              (name.dirty || name.touched)
+              name.hasError(validation.type) && (name.dirty || name.touched)
             "
             >{{ validation.message }}</mat-error
           >

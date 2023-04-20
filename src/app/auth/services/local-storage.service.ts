@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AuthModule } from '@auth/auth.module';
 
-@Injectable({ providedIn: AuthModule })
+@Injectable({ providedIn: 'root' })
 export class LocalStorageService {
   static readonly APP_PREFIX = 'NG-AUTH-';
 

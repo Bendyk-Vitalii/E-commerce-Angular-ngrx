@@ -5,10 +5,11 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { selectIsLoggedIn } from '@auth/store/auth.selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
+
+import { selectIsLoggedIn } from '@auth/store/auth.selectors';
 
 
 @Injectable({ providedIn: 'root' })

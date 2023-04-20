@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 
 import { CommonAuthActions, LoginActions } from './auth.actions';
 import * as AuthSelectors from './auth.selectors';
-import { AuthModule } from '@auth/auth.module';
 
 @Injectable({providedIn: 'root'})
 export class AuthFacade {
