@@ -13,15 +13,14 @@ import { Product } from '@shared/interface/product.interface';
   templateUrl: './product-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductBoxComponent implements OnInit {
+export class ProductBoxComponent{
   @Input() fullWidthMode = false;
   @Input() product: Product | undefined;
 
   @Output() addToCart = new EventEmitter();
 
-  constructor() {}
+  public showDescription: boolean = false;
 
-  ngOnInit(): void {}
   onAddToCart(): void {
     this.addToCart.emit(this.product);
   }
