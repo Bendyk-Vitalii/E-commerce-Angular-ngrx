@@ -16,6 +16,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { SharedModule } from '@shared';
 import { HomeComponent } from './home.component';
@@ -52,6 +53,7 @@ const routes: Routes = [
     MatButtonModule,
     MatExpansionModule,
     MatToolbarModule,
+    MatTooltipModule,
     MatIconModule,
     MatBadgeModule,
     MatCardModule,

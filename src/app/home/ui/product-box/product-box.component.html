@@ -1,32 +1,46 @@
-<mat-card *ngIf="product"  class="w-full flex flex-col justify-between bg-white border border-gray-200 rounded-lg shadow min-h-[55vh]">
-  <div >
+<mat-card
+  *ngIf="product"
+  class="w-full flex flex-col justify-between bg-white border border-gray-200 rounded-lg shadow"
+>
+  <div>
+    <button
+      mat-button
+      (mouseenter)="showDescription = true"
+      (mouseleave)="showDescription = false"
+      class="ml-12 cursor-none"
+    >
+      description
+      <mat-icon>info</mat-icon>
+    </button>
     <img
-      class="mb-1 mx-auto max-h-40 max-w-auto object-cover img"
+      mat-card-lg-image
+      class="mb-1 mx-auto max-w-auto img"
       src="{{ product.image }}"
     />
-    <div
-      class="w-full"
-      [ngClass]="{
-        'px-8 flex flex-col justify-between': fullWidthMode
-      }"
-    >
-    <h5>{{ product.category }}</h5>
-
-      <div class="px-5 pb-5 ">
-        <p
-          class="truncate hover:whitespace-normal"
-          [ngClass]="{ truncate: !fullWidthMode }"
-        >
+    <div class="w-full" class="'px-8 flex flex-col justify-between">
+      <h5 mat-card-subtitle>{{ product.category }}</h5>
+      <div>
+        <p class="truncate hover:whitespace-normal">
           {{ product.title }}
         </p>
-        <p *ngIf="fullWidthMode">{{ product.description }}</p>
       </div>
       <div class="flex justify-between">
-        <span class="text-2xl font-bold text-gray-700">{{ product.price | currency }} </span>
+        <span class="text-2xl font-bold text-gray-700"
+          >{{ product.price | currency }}
+        </span>
         <button (click)="onAddToCart()">
-          <mat-icon class="text-gray-500">shopping_cart</mat-icon>
+          <mat-icon class="text-gray-500 hover:text-sky-700"
+            >shopping_cart</mat-icon
+          >
         </button>
       </div>
     </div>
+  </div>
+
+  <div
+    class="hidden absolute top-12 right-1 px-3 py-2 text-sm text-white font-medium transition-all duration-400 bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
+    [ngStyle]="{ display: showDescription ? 'block' : 'none' }"
+  >
+    <p>{{ product.description }}</p>
   </div>
 </mat-card>
