@@ -17,7 +17,6 @@ export class ShoppingCartApiService {
         items: items,
       })
       .subscribe(async (res: any) => {
-        console.dir(res);
         let stripe = await loadStripe(environment.stripeApiKey);
         stripe?.redirectToCheckout({
           sessionId: res.id,

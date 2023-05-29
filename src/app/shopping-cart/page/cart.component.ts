@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Dictionary } from '@ngrx/entity';
 import { ShoppingCartApiService } from '@shopping-cart/service/CartApi.service';
 
 import { CartFacade } from '@shopping-cart/store/cart.facade';
