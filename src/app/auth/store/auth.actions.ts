@@ -1,12 +1,12 @@
 import { props, createActionGroup, emptyProps } from '@ngrx/store';
 
 import { AuthSuccessResponseI } from '@auth/interface/server.interface';
-import { User } from '@auth/interface/user.interface';
+import { Credentials, User } from '@auth/interface/user.interface';
 
 export const LoginActions = createActionGroup({
   source: 'Log In Page',
   events: {
-    'Log In Request': props<{ email: string; password: string }>(),
+    'Log In Request': props<{ credentials: Credentials }>(),
     'Log In Handler': props<{ response: AuthSuccessResponseI }>(),
     'Log In Success': props<{ access_token: string }>(),
     'Log In Failure': props<{ error: Error }>(),

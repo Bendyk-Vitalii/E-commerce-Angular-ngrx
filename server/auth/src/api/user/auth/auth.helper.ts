@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from 'jsonwebtoken';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -15,7 +14,6 @@ import { User } from '../user.entity';
 export class AuthHelper {
   @InjectRepository(User)
   private readonly repository: Repository<User>;
-  private readonly secretKey: string = process.env.JWT_KEY;
   private readonly jwt: JwtService;
 
   constructor(jwt: JwtService) {
@@ -32,10 +30,10 @@ export class AuthHelper {
     return this.repository.findOne(decoded.id);
   }
 
-public generateToken(user: User, tokenType: string): string {
-  const expiresIn = tokenType === 'access' ? '1h' : '7d';
-  return this.jwt.sign({ id: user.id, email: user.email },  { expiresIn });
-}
+  public generateToken(user: User, tokenType: string): string {
+    const expiresIn = tokenType === 'access' ? '1h' : '7d';
+    return this.jwt.sign({ id: user.id, email: user.email },  { expiresIn });
+  }
 
   // Validate User's password
   public isPasswordValid(password: string, userPassword: string): boolean {
@@ -50,28 +48,29 @@ public generateToken(user: User, tokenType: string): string {
   }
 
   // Validate JWT Token, throw forbidden error if JWT Token is invalid
-public async validate(token: string): Promise<User | never> {
-  try {
-    const decoded: unknown = this.jwt.verify(token);
+  public async validate(token: string): Promise<User | never> {
+    try {
+      const decoded: unknown = this.jwt.verify(token);
 
-    if (!decoded) {
-      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
-    }
+      if (!decoded) {
+        throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+      }
 
-    const user: User = await this.validateUser(decoded);
+      const user: User = await this.validateUser(decoded);
 
-    if (!user) {
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+
+      return user;
+    } catch (error) {
       throw new UnauthorizedException();
     }
-
-    return user;
-  } catch (error) {
-    throw new UnauthorizedException();
   }
 
-  public async validateRefreshToken(refreshToken: string, user: User): Promise<boolean | never> {
+  // Validate Refresh Token, throw forbidden error if Refresh Token is invalid
+  public async validateRefreshToken(refreshToken: string, user: User): Promise<boolean> {
     const decoded: unknown = this.jwt.verify(refreshToken);
-
     if (!decoded) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
@@ -82,6 +81,4 @@ public async validate(token: string): Promise<User | never> {
 
     return true;
   }
-}
-
 }

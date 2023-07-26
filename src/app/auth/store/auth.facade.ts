@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { CommonAuthActions, LoginActions } from './auth.actions';
 import * as AuthSelectors from './auth.selectors';
+import { Credentials } from '@auth/interface';
 
 @Injectable({providedIn: 'root'})
 export class AuthFacade {
@@ -13,9 +14,9 @@ export class AuthFacade {
 
   constructor(private store: Store) {}
 
-  login(email: string, password: string) {
-
-    this.store.dispatch(LoginActions.logInRequest({ email, password }));
+  login(credentials: Credentials) {
+    const payload = { credentials };
+    this.store.dispatch(LoginActions.logInRequest(payload));
   }
 
   logout() {

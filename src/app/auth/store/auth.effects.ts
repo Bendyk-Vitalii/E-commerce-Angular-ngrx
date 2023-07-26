@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, exhaustMap, tap } from 'rxjs/operators';
+import { map, exhaustMap, tap, catchError } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { Action } from '@ngrx/store';
 
 import {
   CommonAuthActions,
@@ -11,18 +13,21 @@ import {
 import { AuthService } from '@auth/services/auth.service';
 import { TokenStorageService } from '@auth/services/token-storage.service';
 
+
 @Injectable()
 export class AuthEffects {
-  login$ = createEffect(() => {
+  login$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
       ofType(LoginActions.logInRequest),
-      exhaustMap(({ email, password }) =>
-        this.authService.logIn({ email, password }).pipe(
-          map(({ access_token }) => {
-            this.tokenStorageService.saveAccessToken(access_token);
-            return LoginActions.logInSuccess({ access_token });
-          })
-        )
+      exhaustMap((action) =>
+        this.authService
+          .logIn(action.credentials)
+          .pipe(
+            map(({access_token}) => LoginActions.logInSuccess({ access_token})),
+            catchError((error) =>
+              of(LoginActions.logInFailure({ error }))
+            )
+          )
       )
     );
   });
@@ -39,7 +44,7 @@ export class AuthEffects {
         return CommonAuthActions.getAuthUserRequest();
       })
     );
-  });
+  },  { dispatch: false });
 
   // refreshToken$ = createEffect(() => {
   //   return this.actions$.pipe(

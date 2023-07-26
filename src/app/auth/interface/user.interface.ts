@@ -6,3 +6,9 @@ export class User {
   exp?: Date;
   iat?: number;
 }
+
+export interface Credentials {
+  email: string;
+  password: string;
+  name?: string;
+}

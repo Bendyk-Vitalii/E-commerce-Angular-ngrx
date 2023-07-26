@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,6 +7,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { forbiddenPasswordRegExp, signInValidationTypes } from '@auth/constants';
+import { Credentials } from '@auth/interface';
 import { AuthFacade } from '@auth/store';
 import { forbiddenValueValidator } from '@auth/utils/custom-validator/custom-validators.directive';
 import { DEFAULT_DURATION } from '@shared/constants';
@@ -20,6 +21,9 @@ export class LoginComponent {
   private message!: string;
   private showLoginError$ = this.authFacade.hasLoginError$;
   public signInValidation = signInValidationTypes;
+
+  @Output() submitted = new EventEmitter<Credentials>();
+
   public readonly form: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: [
@@ -39,7 +43,9 @@ export class LoginComponent {
   ) {}
 
   public submit(): void {
-    this.authFacade.login(this.email.value, this.password.value);
+    const credentials: Credentials = this.form.value;
+    console.log(credentials)
+    this.authFacade.login(credentials);
 
     this.form.reset();
 

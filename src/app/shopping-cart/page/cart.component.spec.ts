@@ -1,10 +1,12 @@
+import { of } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { ErrorPageLayoutComponent } from '@layouts';
 import { CartComponent } from './cart.component';
 import { CartFacade } from '@shopping-cart/store/cart.facade';
 import { CartItem } from '@shopping-cart/interface/cart.interface';
-import { of } from 'rxjs';
-import { provideHttpClient } from '@angular/common/http';
+
 
 describe('CartComponent', () => {
   let component: CartComponent;

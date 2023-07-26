@@ -5,7 +5,6 @@ import { JwtAuthGuard } from '../user/auth/auth.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import { UpdateNameDto } from './user.dto';
-import { JwtAuthGuard } from './auth/auth.guard';
 
 @Controller('user')
 export class UserController {

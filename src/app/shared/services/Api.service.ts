@@ -22,7 +22,7 @@ export class ApiService {
           category ? '/category/' + category : ''
         }?sort=${sort}&limit=${limit}`
       )
-      .pipe(map((products) => products));
+      .pipe(map((products: ReadonlyArray<Product>) => products));
   }
 
   public getCategories(): Observable<string[]> {
