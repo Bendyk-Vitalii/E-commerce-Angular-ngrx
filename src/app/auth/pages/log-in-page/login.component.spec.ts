@@ -6,7 +6,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { LoginComponent } from './login.component';
 import { AuthFacade } from '@auth/store';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('LoginComponent', () => {

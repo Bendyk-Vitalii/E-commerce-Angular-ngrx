@@ -1,4 +1,4 @@
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -7,16 +7,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatListModule } from '@angular/material/list';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
+
 
 import { SharedModule } from '@shared';
 import { HomeComponent } from './home.component';
@@ -29,6 +30,7 @@ import { CategoriesEffects } from '@home/store/categories/categories.effects';
 import { ProductEffects } from '@home/store/products/products.effects';
 import { ProductsFacade } from '@home/store/products/products.facade';
 import { CategoriesFacade } from '@home/store/categories/categories.facade';
+import { ProductModalComponent } from '@home/ui/product-modal/product-modal.component';
 
 const routes: Routes = [
   {
@@ -51,6 +53,7 @@ const routes: Routes = [
     MatMenuModule,
     MatGridListModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatExpansionModule,
     MatToolbarModule,
     MatTooltipModule,
@@ -60,6 +63,7 @@ const routes: Routes = [
     MatSnackBarModule,
     MatListModule,
     MatButtonToggleModule,
+    ProductModalComponent,
     RouterModule.forChild(routes),
     StoreModule.forFeature(PRODUCTS_FEATURE_KEY, productsReducer),
     StoreModule.forFeature(CATEGORIES_FEATURE_KEY, categoriesReducer),

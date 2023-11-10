@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 
 import { MenuService } from '@shared/services/open-menu.service';
 import { CartFacade } from '@shopping-cart/store/cart.facade';

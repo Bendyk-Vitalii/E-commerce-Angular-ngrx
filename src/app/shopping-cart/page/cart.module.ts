@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 import { SharedModule } from '@shared';
 import { CartComponent } from './cart.component';

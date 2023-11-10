@@ -9,16 +9,17 @@ import {
 import { debounceTime, of, Subscription, take } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { ProductsFacade } from '@home/store/products/products.facade';
 import { CategoriesFacade } from '@home/store/categories/categories.facade';
 import { CartFacade } from '@shopping-cart/store/cart.facade';
 import { Product } from '@shared/interface';
 import { DataSorterService } from '@shared/services/data-sorter.service';
-import { SearchFormValidators } from '@home/utils/search-input-validator.validator';
+import { SearchFormValidators } from '@shared/utils/search-input-validator.validator';
 import { DEFAULT_DURATION } from '@shared/constants';
 import { MenuService } from '@shared/services/open-menu.service';
+import { untilDestroyed } from '@ngneat/until-destroy';
 
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 
@@ -80,7 +81,7 @@ export class HomeComponent implements OnInit {
   onResize() {
     this.resizeSubscription = this.breakpointObserver$
       .observe(Breakpoints.XSmall)
-      .pipe(debounceTime(100))
+      .pipe(untilDestroyed(this), debounceTime(100))
       .subscribe((result) => {
         result.matches
           ? this.onColumnsCountChange(1)
@@ -134,7 +135,7 @@ export class HomeComponent implements OnInit {
   onSearch(): void {
     const searchForm = this.searchForm.get('search');
     const searchValue: string | null = this.searchForm.getRawValue().search;
-    let actualProductsArrray: ReadonlyArray<Product> = [];
+    let actualProductsArray: ReadonlyArray<Product> = [];
 
     if (!searchValue || searchForm!.invalid) {
       return;
@@ -142,10 +143,10 @@ export class HomeComponent implements OnInit {
     this.products$
       .pipe(take(1))
       .subscribe(
-        (products: ReadonlyArray<Product>) => (actualProductsArrray = products)
+        (products: ReadonlyArray<Product>) => (actualProductsArray = products)
       );
     const filteredArray = this.dataSorterService.filterForSearch(
-      actualProductsArrray,
+      actualProductsArray,
       searchValue
     );
 
@@ -174,3 +175,4 @@ export class HomeComponent implements OnInit {
     }
   }
 }
+
