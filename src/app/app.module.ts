@@ -3,13 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatMenuModule as MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule as MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule as MatSnackBarModule } from '@angular/material/snack-bar';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
@@ -30,14 +30,8 @@ import { HomeModule } from '@home/page/home.module';
 import { HeaderComponent, LayoutContainerComponent } from '@layouts';
 import { SpinnerInterceptor } from '@core/load-interceptor/load-overlay.interceptor';
 import { MenuService } from '@shared/services/open-menu.service';
-import { PlaceholderDirective } from '@shared/directives/placeholder.directive';
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    LayoutContainerComponent,
-    PlaceholderDirective,
-  ],
+  declarations: [AppComponent, HeaderComponent, LayoutContainerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
