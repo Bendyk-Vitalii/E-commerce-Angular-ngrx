@@ -1,12 +1,16 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 
-import { forbiddenPasswordRegExp, signInValidationTypes } from '@auth/constants';
+import {
+  forbiddenPasswordRegExp,
+  signInValidationTypes,
+} from '@auth/constants';
 import { Credentials } from '@auth/interface';
 import { AuthFacade } from '@auth/store';
 import { forbiddenValueValidator } from '@auth/utils/custom-validator/custom-validators.directive';
@@ -44,7 +48,7 @@ export class LoginComponent {
 
   public submit(): void {
     const credentials: Credentials = this.form.value;
-    console.log(credentials)
+    console.log(credentials);
     this.authFacade.login(credentials);
 
     this.form.reset();
