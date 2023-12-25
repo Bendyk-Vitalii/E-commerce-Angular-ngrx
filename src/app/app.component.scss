@@ -1,5 +1,12 @@
 :host ::ng-deep {
   outline: none;
+  button:disabled,
+  button[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+  }
 }
 .mat-list-item-content {
   padding: 0 !important;
@@ -11,7 +18,9 @@
   }
 }
 
-::ng-deep {.mat-menu-content .ng-tns-c53-1 {
-  min-width: 100%;
-  text-align: center;
-}}
+::ng-deep {
+  .mat-menu-content .ng-tns-c53-1 {
+    min-width: 100%;
+    text-align: center;
+  }
+}

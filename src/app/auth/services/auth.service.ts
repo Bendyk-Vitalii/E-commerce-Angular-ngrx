@@ -10,12 +10,11 @@ import {
   SignUpSuccessResponseI,
 } from '../interface/server.interface';
 import { RefreshTokenActions } from '@auth/store/auth.actions';
-import * as AuthSelectors from '@auth/store/auth.selectors';
 import { TokenStorageService } from './token-storage.service';
 import { AuthState, TokenStatus } from '@auth/interface/auth-store.interface';
 import { User } from '@auth/interface';
-import { AuthModule } from '@auth/auth.module';
 import { AuthFacade } from '@auth/store';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -29,7 +28,7 @@ interface Credentials {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private hostUrl: string;
+  private hostUrl = environment.authApiUrl;
 
   constructor(
     private http: HttpClient,
@@ -38,7 +37,6 @@ export class AuthService {
     private store: Store,
     private authFacade: AuthFacade
   ) {
-    this.hostUrl = 'http://localhost:3000/'
   }
 
   init(): Promise<AuthState> {
@@ -76,7 +74,7 @@ export class AuthService {
     );
   }
 
-  tokenHandler({ access_token }: any): void {
+  tokenHandler({ access_token }: { access_token: string }): void {
     this.tokenStorageService.saveTokens(access_token);
     const { email, exp, iat, id } =
       this.jwtHelperService.decodeToken(access_token);

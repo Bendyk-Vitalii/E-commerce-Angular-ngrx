@@ -3,11 +3,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { NO_ERRORS_SCHEMA } from '@angular/compiler';
-
 import { LoginComponent } from './login.component';
 import { AuthFacade } from '@auth/store';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule as MatSnackBarModule } from '@angular/material/snack-bar';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -16,36 +15,27 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginComponent ],
+      declarations: [LoginComponent],
       providers: [
-        { provide: AuthFacade, useValue: {attemptLogin: () => jasmine.createSpy()} },
+        {
+          provide: AuthFacade,
+          useValue: { attemptLogin: () => jasmine.createSpy() },
+        },
 
-        provideMockStore()
+        provideMockStore(),
       ],
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        MatSnackBarModule
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      imports: [RouterTestingModule, ReactiveFormsModule, MatSnackBarModule],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
     authFacade = TestBed.inject(AuthFacade);
-
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  })
-})
-
-
-
-
-
-
+  });
+});

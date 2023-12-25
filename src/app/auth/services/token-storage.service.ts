@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
-import { AuthModule } from '@auth/auth.module';
+
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TokenStorageService {

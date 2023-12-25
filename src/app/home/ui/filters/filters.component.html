@@ -3,11 +3,18 @@
     Categories
     <mat-icon>expand_more</mat-icon>
   </button>
-  <mat-menu #sortByCategories="matMenu">
+  <mat-menu
+    #sortByCategories="matMenu"
+    class="w-44 rounded-md bg-gray-100 shadow-sm"
+  >
     <div *ngFor="let category of categories">
-      <button (click)="onShowCategory(category)" mat-menu-item>
+      <mat-button
+        (click)="onShowCategory(category)"
+        mat-menu-item
+        class="min-w-full border-2 text-center"
+      >
         {{ category }}
-      </button>
+      </mat-button>
     </div>
   </mat-menu>
 </div>

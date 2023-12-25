@@ -1,21 +1,20 @@
 <mat-toolbar
   class="justify-between max-w-100 mx-auto border-x !text-slate-50 bg-slate-600 text-col"
 >
- <a routerLink="home" class="mat-h2">toolbar</a>
+  <a routerLink="home">home</a>
   <div>
-    <button mat-icon-button [matMenuTriggerFor]="menu"  #menuTrigger>
+    <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger>
       <mat-icon
         matBadgeColor="warn"
         [matBadge]="itemsQuantity"
         [matBadgeHidden]="!itemsQuantity"
+        class="aspect-square font-medium"
       >
         shopping_cart</mat-icon
       >
     </button>
-    <button mat-icon-button>
-      <a routerLink="auth/login">
-        <mat-icon class="font-medium mt-3"> person__icon </mat-icon>
-      </a>
+    <button mat-icon-button routerLink="auth/login">
+        <mat-icon class="aspect-square font-medium"> person__icon </mat-icon>
     </button>
   </div>
   <mat-menu #menu="matMenu">

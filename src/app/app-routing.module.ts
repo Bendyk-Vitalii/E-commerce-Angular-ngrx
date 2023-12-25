@@ -1,9 +1,9 @@
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
-
 import { AppRouteEnum } from '@shared/enums/router-enum';
 import { AuthGuardService } from './auth/guard';
+import { ProductModalComponent } from '@home/ui/product-modal/product-modal.component';
 
 const routes: Routes = [
   {
@@ -27,11 +27,13 @@ const routes: Routes = [
         redirectTo: AppRouteEnum.home,
         pathMatch: 'full',
       },
+      { path: 'product-info/:id', component: ProductModalComponent },
     ],
   },
   {
     path: AppRouteEnum.auth,
-    loadChildren: () => import('./auth/auth.module').then((mod) => mod.AuthModule),
+    loadChildren: () =>
+      import('./auth/auth.module').then((mod) => mod.AuthModule),
   },
   {
     path: '**',
@@ -43,11 +45,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled',
-    preloadingStrategy: PreloadAllModules,
-
-  })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+      preloadingStrategy: PreloadAllModules,
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

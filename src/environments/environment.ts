@@ -13,9 +13,7 @@ export const environment = {
   stripeApiKey: 'pk_test_51M69gQF9QwAxJD1i6qvyd5egsbkxaQbwr1qDQljh0VkYg0yHDZYsZpbBvsNXO3fRQDdWPIRbQg3It11p52AjypZI00ZW0jHdyI',
   settings: {
     auth: {
-      // Auth credentials
       clientId: 'fake-client-id',
-
       // keys to store tokens at local storage
       accessTokenKey: 'DoPS3ZrQjM',
       refreshTokenKey: 'nmlP8PW2nb',

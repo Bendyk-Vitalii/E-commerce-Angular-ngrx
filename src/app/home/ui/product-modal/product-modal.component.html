@@ -1,0 +1,132 @@
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none"
+>
+  <div class="relative mx-auto my-6 w-auto max-w-6xl">
+    <!--content-->
+    <div
+      class="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none"
+    >
+      <!--header-->
+      <div
+        class="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5"
+      >
+        <h3 class="text-3xl font-semibold">Product info</h3>
+        <mat-icon class="cursor-pointer" (click)="onClose()">close</mat-icon>
+      </div>
+      <!--body-->
+      <div class="relative flex-auto p-6">
+        <ng-container *ngIf="product$ | async as product; else noProduct">
+          <div class="overflow-hidden rounded-lg bg-white p-4 shadow-md">
+            <h2 class="text-xl font-semibold">{{ product?.title }}</h2>
+
+            <img
+              [src]="product?.image"
+              [alt]="product?.title"
+              class="w-20 object-cover object-center"
+            />
+            <div>
+              <p class="text-sm text-gray-500">{{ product?.category }}</p>
+              <p class="mt-2 text-sm text-gray-600">
+                {{ product?.description }}
+              </p>
+              <div class="mt-4 flex items-center justify-between">
+                <p class="text-primary text-xl font-semibold">
+                  {{ "$" + product?.price }}
+                </p>
+                <div class="flex items-center space-x-2">
+                  <!-- rating -->
+
+                  <div class="flex items-center space-x-1">
+                    <svg
+                      class="h-4 w-4 text-yellow-300"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path
+                        d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                      />
+                    </svg>
+                    <svg
+                      class="h-4 w-4 text-yellow-300"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path
+                        d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                      />
+                    </svg>
+                    <svg
+                      class="h-4 w-4 text-yellow-300"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path
+                        d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                      />
+                    </svg>
+                    <svg
+                      class="h-4 w-4 text-yellow-300"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path
+                        d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                      />
+                    </svg>
+
+                    <svg
+                      class="h-4 w-4 text-gray-300 dark:text-gray-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path
+                        d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                      />
+                    </svg>
+                  </div>
+
+                  <p class="text-gray-600">
+                    Rate:{{ product?.rating?.rate }} Count: ({{
+                      product?.rating?.count
+                    }})
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="mb-1 mr-1 rounded bg-emerald-500 px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-600"
+            type="button"
+            (click)="onAddToCart()"
+          >
+            buy
+          </button>
+          <button
+            class="background-transparent mb-1 mr-1 px-6 py-2 text-sm font-bold uppercase text-red-500 outline-none transition-all duration-150 ease-linear focus:outline-none"
+            type="button"
+            (click)="onClose()"
+          >
+            go back
+          </button>
+        </ng-container>
+        <ng-template #noProduct>
+          <p>Product is not available.</p>
+        </ng-template>
+      </div>
+      <!--footer-->
+      <div
+        class="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6"
+      ></div>
+    </div>
+  </div>
+</div>

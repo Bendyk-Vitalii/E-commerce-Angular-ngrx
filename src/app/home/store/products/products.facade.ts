@@ -7,7 +7,6 @@ import * as ProductsSelectors from './products.selectors';
 @Injectable()
 export class ProductsFacade {
    products$ = this.store.select(ProductsSelectors.productsSelector);
-
   constructor(private store: Store) {}
 
   getProducts(count: string, sort: string, category?: string) {
@@ -15,4 +14,7 @@ export class ProductsFacade {
       ProductsApiActions.productsListRequest({ count, sort, category })
     );
   }
+
+  selectProductById$ = (productId: number) =>
+    this.store.select(ProductsSelectors.selectProductById(productId));
 }
