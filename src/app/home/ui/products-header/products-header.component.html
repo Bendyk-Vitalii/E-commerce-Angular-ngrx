@@ -15,11 +15,13 @@
       <option value="price-low-high">Price Low to High</option>
       <option value="price-high-low">Price High to Low</option>
     </select>
-    <button mat-button [matMenuTriggerFor]="sortByMenu">{{ sort }}</button>
-    <mat-icon>expand_more</mat-icon>
+    <button mat-button [matMenuTriggerFor]="sortByMenu">
+      {{ sort }} <mat-icon>expand_more</mat-icon>
+    </button>
     <mat-menu #sortByMenu="matMenu">
       <button (click)="onSortUpdated('desc')" mat-menu-item>desc</button>
       <button (click)="onSortUpdated('asc')" mat-menu-item>asc</button>
+      <mat-icon>expand_more</mat-icon>
     </mat-menu>
   </div>
   <div class="flex items-center">
@@ -57,33 +59,26 @@
     </button>
     <mat-menu #mobileMenu="matMenu">
       <div class="min-w-full flex justify-between">
-      <button mat-button class="w-[50%]"  (click)="onSortUpdated('desc')">
-        desc
-      </button>
-      <button mat-button class="w-[50%]"  (click)="onSortUpdated('asc')">
-        asc
-      </button>
-    </div>
+        <button mat-button class="w-[50%]" (click)="onSortUpdated('desc')">
+          desc
+        </button>
+        <button mat-button class="w-[50%]" (click)="onSortUpdated('asc')">
+          asc
+        </button>
+      </div>
       <div class="min-w-full flex justify-between">
-      <button mat-button  (click)="onItemsUpdated(12)">
-        show 12
-      </button>
-      <button mat-button  (click)="onItemsUpdated(24)">
-        show 24
-      </button>
-      <button mat-button  (click)="onItemsUpdated(36)">
-        show 36
-      </button>
-    </div>
+        <button mat-button (click)="onItemsUpdated(12)">show 12</button>
+        <button mat-button (click)="onItemsUpdated(24)">show 24</button>
+        <button mat-button (click)="onItemsUpdated(36)">show 36</button>
+      </div>
       <div class="min-w-full flex justify-between">
-      <button mat-button  (click)="onSortByPrice('price-low-high')">
-        Price Low to High
-      </button>
-      <button mat-button  (click)="onSortByPrice('price-high-low')">
-        Price High to Low
-      </button>
-    </div>
+        <button mat-button (click)="onSortByPrice('price-low-high')">
+          Price Low to High
+        </button>
+        <button mat-button (click)="onSortByPrice('price-high-low')">
+          Price High to Low
+        </button>
+      </div>
     </mat-menu>
-
   </div>
 </ng-template>
