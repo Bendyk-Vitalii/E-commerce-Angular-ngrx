@@ -16,7 +16,6 @@ import { ProductsFacade } from '@home/store/products/products.facade';
 import { Product } from '@shared/interface';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-// import { AdDirective } from '@shared/directives/placeholder.directive';
 
 @Component({
   standalone: true,
@@ -29,10 +28,7 @@ export class ProductModalComponent implements OnInit, OnDestroy {
   public product$ = this.productSubject.asObservable();
   private ngUnsubscribe = new Subject();
   private routerSubscription: Subscription;
-  private browserRefresh = false;
   @Output() addToCart = new EventEmitter();
- // @ViewChild(AdDirective, { static: true }) adHost!: AdDirective;
-  //@Output() close = new EventEmitter<void>();
   vcr = inject(ViewContainerRef);
 
   constructor(

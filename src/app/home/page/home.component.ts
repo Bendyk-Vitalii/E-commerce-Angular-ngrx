@@ -1,15 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  OnInit,
-  Input,
-  ViewChild,
-} from '@angular/core';
-import { debounceTime, of, Subscription, take } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { of, Subscription, take } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 
 import { ProductsFacade } from '@home/store/products/products.facade';
 import { CategoriesFacade } from '@home/store/categories/categories.facade';
@@ -19,7 +11,7 @@ import { DataSorterService } from '@shared/services/data-sorter.service';
 import { SearchFormValidators } from '@shared/utils/search-input-validator.validator';
 import { DEFAULT_DURATION } from '@shared/constants';
 import { MenuService } from '@shared/services/open-menu.service';
-import { untilDestroyed } from '@ngneat/until-destroy';
+import { ResponsiveService } from '@shared/services/responsive.service';
 
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 
@@ -31,7 +23,7 @@ const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 export class HomeComponent implements OnInit {
   public sort = 'desc';
   public count = '12';
-  public cols: number = 3;
+  public cols!: number;
   public rowHeight = ROWS_HEIGHT[this.cols];
   private resizeSubscription!: Subscription;
 
@@ -50,8 +42,8 @@ export class HomeComponent implements OnInit {
   );
 
   constructor(
-    private breakpointObserver$: BreakpointObserver,
     private _snackBar: MatSnackBar,
+    private responsiveService: ResponsiveService,
     private menuService: MenuService,
     private productsFacade: ProductsFacade,
     private categoriesFacade: CategoriesFacade,
@@ -75,18 +67,7 @@ export class HomeComponent implements OnInit {
         this.categoriesFacade.getCategories();
       }
     });
-  }
-
-  @HostListener('window:resize')
-  onResize() {
-    this.resizeSubscription = this.breakpointObserver$
-      .observe(Breakpoints.XSmall)
-      .pipe(untilDestroyed(this), debounceTime(100))
-      .subscribe((result) => {
-        result.matches
-          ? this.onColumnsCountChange(1)
-          : this.onColumnsCountChange(3);
-      });
+    this.responsiveColumns();
   }
 
   private getProducts(
@@ -97,27 +78,45 @@ export class HomeComponent implements OnInit {
     this.productsFacade.getProducts(count, sortBy, category);
   }
 
-  onColumnsCountChange(colsNumber: number) {
+  private responsiveColumns(cols = this.cols): void {
+    this.responsiveService.getScreenWidth().subscribe((width) => {
+      updateColsBasedOnWidth(width);
+    });
+
+    function updateColsBasedOnWidth(width: number): void {
+      if (width < 600) {
+        cols = 1; // Phone screens
+      } else if (width < 900) {
+        cols = 2; // Tablets
+      } else {
+        cols = 3; // Laptops
+      }
+    }
+    console.log(cols)
+    this.onColumnsCountChange(cols);
+  }
+
+  public onColumnsCountChange(colsNumber: number) {
     this.cols = colsNumber;
     this.rowHeight = ROWS_HEIGHT[this.cols];
   }
 
-  onItemsCountChange(newCount: number): void {
+  public onItemsCountChange(newCount: number): void {
     this.count = newCount.toString();
     this.getProducts();
   }
 
-  onSortChange(newSort: string): void {
+  public onSortChange(newSort: string): void {
     this.sort = newSort;
     this.getProducts();
   }
 
-  onShowCategory(newCategory: string): void {
+  public onShowCategory(newCategory: string): void {
     this.category = newCategory;
     this.getProducts();
   }
 
-  onAddToCart(product: Product): void {
+  public onAddToCart(product: Product): void {
     const cartItem = {
       product: product.image,
       name: product.title,
@@ -132,7 +131,7 @@ export class HomeComponent implements OnInit {
     this.menuService.openMenu();
   }
 
-  onSearch(): void {
+  public onSearch(): void {
     const searchForm = this.searchForm.get('search');
     const searchValue: string | null = this.searchForm.getRawValue().search;
     let actualProductsArray: ReadonlyArray<Product> = [];
@@ -175,4 +174,3 @@ export class HomeComponent implements OnInit {
     }
   }
 }
-

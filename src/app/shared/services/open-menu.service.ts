@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
+import { MatMenuTrigger as MatMenuTrigger } from '@angular/material/menu';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MenuService {
   private menuTrigger!: MatMenuTrigger;
