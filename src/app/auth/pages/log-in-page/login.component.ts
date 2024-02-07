@@ -12,6 +12,7 @@ import {
   signInValidationTypes,
 } from '@auth/constants';
 import { Credentials } from '@auth/interface';
+import { ValidationMessageService } from '@auth/services/validation-message.service';
 import { AuthFacade } from '@auth/store';
 import { forbiddenValueValidator } from '@auth/utils/custom-validator/custom-validators.directive';
 import { DEFAULT_DURATION } from '@shared/constants';
@@ -43,17 +44,15 @@ export class LoginComponent {
   constructor(
     private authFacade: AuthFacade,
     private formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private validationMessagesService: ValidationMessageService
   ) {}
 
   public submit(): void {
     const credentials: Credentials = this.form.value;
-    console.log(credentials);
     this.authFacade.login(credentials);
-
     this.form.reset();
-
-    this.showLoginError$.subscribe((hasError) => {
+    this.showLoginError$.subscribe(hasError => {
       hasError
         ? (this.message = ' Ooops! The login details are incorrect.')
         : (this.message = 'Log In Success');
@@ -64,6 +63,37 @@ export class LoginComponent {
       this.message === 'Log In Success' ? 'Ok' : 'Error',
       { duration: DEFAULT_DURATION }
     );
+  }
+
+  // Helper method to retrieve validation messages for email
+  getEmailValidationMessage(): string {
+    const emailControl = this.email;
+    if (emailControl) {
+      const errors = emailControl.errors;
+
+      if (errors) {
+        const errorKey = Object.keys(errors)[0];
+        return this.validationMessagesService.emailValidationMessages[errorKey];
+      }
+    }
+
+    return '';
+  }
+
+  // Helper method to retrieve validation messages for password
+  getPasswordValidationMessage(): string {
+    if (this.password) {
+      const errors = this.password.errors;
+
+      if (errors) {
+        const errorKey = Object.keys(errors)[0];
+        return this.validationMessagesService.passwordValidationMessages[
+          errorKey
+        ];
+      }
+    }
+
+    return '';
   }
 
   get email() {

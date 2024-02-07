@@ -11,8 +11,7 @@
       mat-form
       class="flex-col mt-10 mx-auto md:w-[55vw] xl:lg:w-[50vw] 2xl:w-[50vw] w-[80vw]"
       (ngSubmit)="submit()"
-      [formGroup]="form"
-    >
+      [formGroup]="form">
       <h4 class="mat-h3 font-bold">Email</h4>
       <mat-form-field class="min-w-full" appearance="fill">
         <mat-label>Enter your email</mat-label>
@@ -21,16 +20,14 @@
           placeholder="pat@example.com"
           formControlName="email"
           autocomplete
-          required
-        />
+          required />
         <p *ngFor="let validation of signInValidation.email">
           <mat-error
             *ngIf="
               email.hasError(validation.type) && (email.dirty || email.touched)
-            "
-          >
-            {{ validation.message }}</mat-error
-          >
+            ">
+            {{ getEmailValidationMessage() }}
+          </mat-error>
         </p>
       </mat-form-field>
 
@@ -43,16 +40,15 @@
           type="password"
           placeholder="minimum 8 symbols"
           formControlName="password"
-          required
-        />
+          required />
         <p *ngFor="let validation of signInValidation.password">
           <mat-error
             *ngIf="
               password.hasError(validation.type) &&
               (password.dirty || password.touched)
-            "
-            >{{ validation.message }}</mat-error
-          >
+            ">
+            {{ getPasswordValidationMessage() }}
+          </mat-error>
         </p>
       </mat-form-field>
       <button
@@ -60,8 +56,7 @@
         class="bg-slate-600 !text-slate-50 !min-w-full text-center disabled:bg-slate-400"
         type="submit"
         (click)="submit()"
-        [disabled]="form.invalid"
-      >
+        [disabled]="form.invalid">
         Sign in
       </button>
     </form>

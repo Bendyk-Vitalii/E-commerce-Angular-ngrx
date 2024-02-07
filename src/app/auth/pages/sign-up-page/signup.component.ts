@@ -12,6 +12,7 @@ import {
 } from '@auth/constants';
 import { confirmPasswordValidator } from '@auth/utils/custom-validator/confirm-password.directive';
 import { forbiddenValueValidator } from '@auth/utils/custom-validator/custom-validators.directive';
+import { AuthRouteEnum } from '@auth/enums';
 
 @Component({
   selector: 'app-signup',
@@ -61,7 +62,7 @@ export class SignupComponent {
     const { email, password, name } = this.form.value;
     this.authService.signUp({ email, password, name }).subscribe({
       next: () => {
-        this.router.navigate(['auth/login']);
+        this.router.navigate(['auth', AuthRouteEnum.login]);
       },
       error: (err: { message: string | undefined }) => {
         !!err.message

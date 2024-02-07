@@ -5,7 +5,8 @@ import {
   LoginActions,
   RefreshTokenActions,
 } from './auth.actions';
-import { AuthState, TokenStatus } from '../interface/auth-store.interface';
+import { TokenStatus } from '@auth/enums/token-status.enum';
+import { AuthState } from '@auth/interface/auth-store.interface';
 
 export const AUTH_FEATURE_KEY = 'auth';
 

@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 
+import { AuthRouteEnum } from '@auth/enums/auth-route.enum';
 import { selectIsLoggedIn } from '@auth/store/auth.selectors';
 
 
@@ -24,7 +25,7 @@ export class AuthGuardService implements CanActivate {
       take(1),
       tap(isLoggedIn => {
         if (!isLoggedIn) {
-          this.router.navigate(['auth/login'], { queryParams: { returnUrl: state.url } });
+          this.router.navigate(['auth', AuthRouteEnum.login], { queryParams: { returnUrl: state.url } });
         }
       })
     );

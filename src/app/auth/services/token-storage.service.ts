@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
 
-import { environment } from 'src/environments/environment';
-
 @Injectable({ providedIn: 'root' })
 export class TokenStorageService {
   private accessTokenKey!: string;
