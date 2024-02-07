@@ -24,11 +24,11 @@ export class DataSorterService {
   ): ReadonlyArray<Product> {
     const arrayCopy = [...arrayForSort]
     const compareNumbers =  (a: Product, b: Product) =>  a.price - b.price
-    const sortededProductsArray = arrayCopy.sort(compareNumbers);
+    const sortedProductsArray = arrayCopy.sort(compareNumbers);
 
-    sortBy === 'price-high-low' ? sortededProductsArray.reverse() : null
+    sortBy === 'price-high-low' ? sortedProductsArray.reverse() : null
 
-   return sortededProductsArray as ReadonlyArray<Product>;
+   return sortedProductsArray as ReadonlyArray<Product>;
   }
 
 }

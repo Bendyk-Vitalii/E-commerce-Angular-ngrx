@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AppRouteEnum } from '@shared/enums';
 
 @Component({
   selector: 'app-error-page-layout',
@@ -33,6 +34,6 @@ export class ErrorPageLayoutComponent {
   }
 
   back(): void {
-    this.router.navigateByUrl('/home')
+    this.router.navigateByUrl('/' + AppRouteEnum.home)
   }
 }

@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { Product } from '@shared/interface/product.interface';
@@ -22,12 +22,26 @@ export class ApiService {
           category ? '/category/' + category : ''
         }?sort=${sort}&limit=${limit}`
       )
-      .pipe(map((products: ReadonlyArray<Product>) => products));
+      .pipe(map((products: ReadonlyArray<Product>) => products),
+      catchError(this.handleError)
+      );
   }
 
   public getCategories(): Observable<string[]> {
     return this.httpClient.get<string[]>(
       `${environment.fakeStoreApiUrl}/products/categories`
-    );
+    )
+    .pipe(catchError(this.handleError));
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'An unknown error occurred';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(errorMessage);
   }
 }
