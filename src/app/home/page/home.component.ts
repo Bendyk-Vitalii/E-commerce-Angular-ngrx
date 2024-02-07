@@ -55,21 +55,29 @@ export class HomeComponent implements OnInit {
     return this.searchForm.controls;
   }
 
-  ngOnInit(): void {
-    this.products$.pipe(take(1)).subscribe((products) => {
+  private initializeProducts(): void {
+    this.products$.pipe(take(1)).subscribe(products => {
       if (!products.length) {
         this.productsFacade.getProducts(this.count, this.sort);
       }
     });
-
-    this.categories$.subscribe((categories) => {
+  }
+  
+  private initializeCategories(): void {
+    this.categories$.subscribe(categories => {
       if (!categories.length) {
         this.categoriesFacade.getCategories();
       }
     });
+  }
+  
+  ngOnInit(): void {
+    this.initializeProducts();
+    this.initializeCategories();
     this.responsiveColumns();
   }
 
+  // Fetch products based on specified count, sort, and category
   private getProducts(
     count = this.count,
     sortBy = this.sort,
@@ -78,8 +86,9 @@ export class HomeComponent implements OnInit {
     this.productsFacade.getProducts(count, sortBy, category);
   }
 
+  // Adjust the number of columns based on screen width
   private responsiveColumns(cols = this.cols): void {
-    this.responsiveService.getScreenWidth().subscribe((width) => {
+    this.responsiveService.getScreenWidth().subscribe(width => {
       updateColsBasedOnWidth(width);
     });
 
@@ -92,25 +101,28 @@ export class HomeComponent implements OnInit {
         cols = 3; // Laptops
       }
     }
-    console.log(cols)
     this.onColumnsCountChange(cols);
   }
 
+  // Update the number of columns and row height
   public onColumnsCountChange(colsNumber: number) {
     this.cols = colsNumber;
     this.rowHeight = ROWS_HEIGHT[this.cols];
   }
 
+  // Update the item count and fetch products
   public onItemsCountChange(newCount: number): void {
     this.count = newCount.toString();
     this.getProducts();
   }
 
+  // Update the sort order and fetch products
   public onSortChange(newSort: string): void {
     this.sort = newSort;
     this.getProducts();
   }
-
+    
+  // Show products of a specific category
   public onShowCategory(newCategory: string): void {
     this.category = newCategory;
     this.getProducts();

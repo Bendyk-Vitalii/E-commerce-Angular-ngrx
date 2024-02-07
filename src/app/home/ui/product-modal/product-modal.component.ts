@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
   ViewContainerRef,
   inject,
 } from '@angular/core';
@@ -39,7 +38,6 @@ export class ProductModalComponent implements OnInit, OnDestroy {
   ) {
     this.routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        console.log('refresh');
         this.modalService.toggleModal(false); // Close the modal on route change
       }
     });

@@ -22,7 +22,6 @@ export class ProductBoxComponent{
   @Output() addToCart = new EventEmitter();
   vcr = inject(ViewContainerRef);
 
-  public showDescription = false;
   public targetItemId!: number;
   
   constructor(private router: Router) {}
